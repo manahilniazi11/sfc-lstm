@@ -1,0 +1,172 @@
+{
+  "generated_at": "2026-09-28T07:05:40+00:00",
+  "seed": 42,
+  "per_class_target": 300,
+  "split_ratios": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "totals": {
+    "train": 2343,
+    "validation": 502,
+    "test": 502,
+    "clips": 3347,
+    "unique_recordings": 3347,
+    "duration_s": 22261.4,
+    "rejected": 41
+  },
+  "classes": {
+    "Machinery Fault": {
+      "train": 210,
+      "validation": 45,
+      "test": 45,
+      "total": 300,
+      "unique_recordings": 300,
+      "duration_s": 3000.0,
+      "sources": {
+        "mimii": 300
+      },
+      "mandatory": true
+    },
+    "Glass Breaking": {
+      "train": 210,
+      "validation": 45,
+      "test": 45,
+      "total": 300,
+      "unique_recordings": 300,
+      "duration_s": 1276.5,
+      "sources": {
+        "esc50": 8,
+        "fsd50k": 292
+      },
+      "mandatory": true
+    },
+    "Alarm or Siren": {
+      "train": 210,
+      "validation": 45,
+      "test": 45,
+      "total": 300,
+      "unique_recordings": 300,
+      "duration_s": 2587.6,
+      "sources": {
+        "esc50": 10,
+        "fsd50k": 257,
+        "urbansound8k": 33
+      },
+      "mandatory": true
+    },
+    "Vehicle Horn": {
+      "train": 210,
+      "validation": 45,
+      "test": 45,
+      "total": 300,
+      "unique_recordings": 300,
+      "duration_s": 1956.0,
+      "sources": {
+        "esc50": 11,
+        "freesound": 131,
+        "fsd50k": 95,
+        "urbansound8k": 63
+      },
+      "mandatory": true
+    },
+    "Animal Sound": {
+      "train": 210,
+      "validation": 45,
+      "test": 45,
+      "total": 300,
+      "unique_recordings": 300,
+      "duration_s": 1157.5,
+      "sources": {
+        "esc50": 129,
+        "urbansound8k": 171
+      },
+      "mandatory": true
+    },
+    "Gunshot": {
+      "train": 210,
+      "validation": 45,
+      "test": 45,
+      "total": 300,
+      "unique_recordings": 300,
+      "duration_s": 1138.2,
+      "sources": {
+        "fsd50k": 245,
+        "urbansound8k": 55
+      },
+      "mandatory": true
+    },
+    "Panic Scream": {
+      "train": 210,
+      "validation": 45,
+      "test": 45,
+      "total": 300,
+      "unique_recordings": 300,
+      "duration_s": 1030.4,
+      "sources": {
+        "fsd50k": 174,
+        "nonspeech7k": 126
+      },
+      "mandatory": true
+    },
+    "Aggression": {
+      "train": 210,
+      "validation": 45,
+      "test": 45,
+      "total": 300,
+      "unique_recordings": 300,
+      "duration_s": 2352.8,
+      "sources": {
+        "fsd50k": 280,
+        "ravdess": 20
+      },
+      "mandatory": true
+    },
+    "Person Asking for Help": {
+      "train": 210,
+      "validation": 45,
+      "test": 45,
+      "total": 300,
+      "unique_recordings": 300,
+      "duration_s": 794.5,
+      "sources": {
+        "edge-tts": 300
+      },
+      "mandatory": true
+    },
+    "Background Noise": {
+      "train": 243,
+      "validation": 52,
+      "test": 52,
+      "total": 347,
+      "unique_recordings": 347,
+      "duration_s": 3968.0,
+      "sources": {
+        "esc50": 38,
+        "fsd50k": 255,
+        "urbansound8k": 7,
+        "edge-tts": 47
+      },
+      "mandatory": true
+    },
+    "Normal Machinery": {
+      "train": 210,
+      "validation": 45,
+      "test": 45,
+      "total": 300,
+      "unique_recordings": 300,
+      "duration_s": 3000.0,
+      "sources": {
+        "mimii": 300
+      },
+      "mandatory": false
+    }
+  },
+  "rejected_by_reason": {
+    "label conflict across sources": 23,
+    "silent": 1,
+    "too short": 17
+  },
+  "warnings": []
+}

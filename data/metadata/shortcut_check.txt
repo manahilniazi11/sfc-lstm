@@ -1,0 +1,20 @@
+
+raw clips
+  class from format only:  48.3%   (chance 11.1%)
+  Aggression           which dataset? 100.0%   (majority guess 66.7%)
+  Alarm or Siren       which dataset?  97.2%   (majority guess 54.8%)
+  Animal Sound         which dataset?  98.8%   (majority guess 50.0%)
+  Background Noise     which dataset?  68.1%   (majority guess 51.3%)
+  Gunshot              which dataset?  98.8%   (majority guess 50.0%)
+  Panic Scream         which dataset? 100.0%   (majority guess 50.0%)
+  Vehicle Horn         which dataset?  75.8%   (majority guess 33.3%)
+
+processed segments
+  class from format only:  32.2%   (chance 11.1%)
+  Aggression           which dataset?  70.6%   (majority guess 54.1%)
+  Alarm or Siren       which dataset?  38.3%   (majority guess 33.3%)
+  Animal Sound         which dataset?  62.5%   (majority guess 50.0%)
+  Background Noise     which dataset?  41.6%   (majority guess 38.8%)
+  Gunshot              which dataset?  60.0%   (majority guess 50.0%)
+  Panic Scream         which dataset?  57.5%   (majority guess 50.0%)
+  Vehicle Horn         which dataset?  28.6%   (majority guess 26.0%)

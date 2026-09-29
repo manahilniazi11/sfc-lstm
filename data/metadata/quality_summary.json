@@ -1,0 +1,73 @@
+{
+  "clips": 2700,
+  "grades": {
+    "Good": 2275,
+    "Acceptable": 277,
+    "Poor": 148,
+    "Unusable": 0
+  },
+  "per_class": {
+    "Aggression": {
+      "Good": 281,
+      "Acceptable": 10,
+      "Poor": 9,
+      "Unusable": 0
+    },
+    "Alarm or Siren": {
+      "Good": 252,
+      "Acceptable": 23,
+      "Poor": 25,
+      "Unusable": 0
+    },
+    "Animal Sound": {
+      "Good": 257,
+      "Acceptable": 28,
+      "Poor": 15,
+      "Unusable": 0
+    },
+    "Background Noise": {
+      "Good": 275,
+      "Acceptable": 18,
+      "Poor": 7,
+      "Unusable": 0
+    },
+    "Glass Breaking": {
+      "Good": 254,
+      "Acceptable": 29,
+      "Poor": 17,
+      "Unusable": 0
+    },
+    "Gunshot": {
+      "Good": 201,
+      "Acceptable": 51,
+      "Poor": 48,
+      "Unusable": 0
+    },
+    "Machinery Fault": {
+      "Good": 228,
+      "Acceptable": 72,
+      "Poor": 0,
+      "Unusable": 0
+    },
+    "Panic Scream": {
+      "Good": 254,
+      "Acceptable": 24,
+      "Poor": 22,
+      "Unusable": 0
+    },
+    "Vehicle Horn": {
+      "Good": 273,
+      "Acceptable": 22,
+      "Poor": 5,
+      "Unusable": 0
+    }
+  },
+  "issues": {
+    "clipping": 204,
+    "missing audio frames": 124,
+    "low signal strength": 97,
+    "low sample rate": 5,
+    "silence": 3,
+    "excessive noise": 1
+  }
+}
