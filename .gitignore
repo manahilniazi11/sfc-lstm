@@ -1,0 +1,41 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Datasets (large; stored under SONIC_DATA_DIR, see documentation/dataset.md)
+data/raw/
+data/audio_dataset/
+data/model_cache/
+.pytest_cache/
+
+# Machine-specific settings (data location, secrets)
+.env
+.env.*
+!.env.example
+
+# Web app: local database and collected static files
+database/*.sqlite3
+staticfiles/
+
+# Local runs, caches, and packaging work
+.claude/
+.sonic_data/
+sonic_data/
+submission/
+.report_render/
+.tmp_*
+*.log
+!reports/*.log
+
+# Editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

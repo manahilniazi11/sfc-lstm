@@ -1,0 +1,3 @@
+# Compatibility entry point for tooling that expects the SRS requirements.txt file.
+# uv is the primary project manager; use `uv sync --locked` for the pinned environment.
+-e .
