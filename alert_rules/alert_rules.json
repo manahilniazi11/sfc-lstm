@@ -1,0 +1,115 @@
+{
+  "_comment": "Alert rules (SRS Steps 15-17, FR xl-liii, deliverable 7). This file seeds the database the first time the web app runs; administrators then change rules and thresholds in the app, and can export them back to this format. Confidences are the Python model's calibrated probabilities (0-1).",
+
+  "settings": {
+    "min_confidence": 0.50,
+    "_min_confidence": "Below this the result is Low confidence: uncertain and routed to manual review (FR xxxv). Chosen from validation data: reports/threshold_study.md.",
+    "top_two_margin": 0.10,
+    "_top_two_margin": "If the best and second-best class are closer than this, the result is uncertain (FR xxxvi).",
+    "weak_match_difference": 0.30,
+    "_weak_match_difference": "Same class from both models but their top confidences differ by more than this: Weak Match instead of Acceptable Match.",
+    "overlap_threshold": 0.25,
+    "_overlap_threshold": "Two or more event classes each at or above this probability in one window: possible overlapping sounds (FR xxxix). Background Noise and Normal Machinery do not count.",
+    "unknown_confidence": 0.35,
+    "_unknown_confidence": "Below this the sound is reported as Unknown instead of a class (FR li).",
+    "repeat_window_seconds": 10,
+    "_repeat_window_seconds": "Live monitoring: detections of the same class within this many seconds count as repeated detections (Step 15)."
+  },
+
+  "rules": [
+    {
+      "category": "Gunshot", "critical": true, "alert": true, "severity": "Critical", "alert_type": "security",
+      "min_confidence": 0.50, "top_two_margin": 0.15, "consecutive_detections": 2,
+      "require_model_agreement": false, "min_quality": "Poor",
+      "recommended_action": "Treat as a possible firearm discharge: alert security, check cameras for the location, keep people away until cleared.",
+      "manual_review": "Always when the two models disagree or confirmation fails (possible fireworks or vehicle backfire).",
+      "escalate_after_minutes": 2
+    },
+    {
+      "category": "Glass Breaking", "critical": true, "alert": true, "severity": "High", "alert_type": "security",
+      "min_confidence": 0.50, "top_two_margin": 0.10, "consecutive_detections": 1,
+      "require_model_agreement": false, "min_quality": "Poor",
+      "recommended_action": "Possible break-in or accident: send security to inspect windows and doors in the area.",
+      "manual_review": "When confidence or margin is below the rule (possible metal impact).",
+      "escalate_after_minutes": 5
+    },
+    {
+      "category": "Panic Scream", "critical": true, "alert": true, "severity": "Critical", "alert_type": "security",
+      "min_confidence": 0.45, "top_two_margin": 0.10, "consecutive_detections": 1,
+      "require_model_agreement": false, "min_quality": "Poor",
+      "recommended_action": "Someone may be in danger: dispatch security or first aid to the location immediately.",
+      "manual_review": "When the models disagree (possible normal shouting or play).",
+      "escalate_after_minutes": 2
+    },
+    {
+      "category": "Aggression", "critical": true, "alert": true, "severity": "High", "alert_type": "security",
+      "min_confidence": 0.45, "top_two_margin": 0.10, "consecutive_detections": 1,
+      "require_model_agreement": false, "min_quality": "Poor",
+      "raise_to_critical": {"min_confidence": 0.85, "consecutive_detections": 3},
+      "recommended_action": "Possible violent conflict: security to monitor and intervene; call police if confirmed.",
+      "manual_review": "When the models disagree (possible loud normal conversation).",
+      "escalate_after_minutes": 5
+    },
+    {
+      "category": "Person Asking for Help", "critical": true, "alert": true, "severity": "Critical", "alert_type": "security",
+      "min_confidence": 0.50, "top_two_margin": 0.10, "consecutive_detections": 1,
+      "require_model_agreement": false, "min_quality": "Poor",
+      "recommended_action": "A person is calling for help: send the nearest staff member and first aid.",
+      "manual_review": "When the models disagree (possible ordinary speech).",
+      "escalate_after_minutes": 2
+    },
+    {
+      "category": "Alarm or Siren", "critical": false, "alert": true, "severity": "High", "alert_type": "attention",
+      "min_confidence": 0.55, "top_two_margin": 0.10, "consecutive_detections": 2,
+      "require_model_agreement": false, "min_quality": "Poor",
+      "recommended_action": "Check the fire/intrusion panel and follow the site's alarm procedure.",
+      "manual_review": "When confidence is low (possible vehicle horn).",
+      "escalate_after_minutes": 10
+    },
+    {
+      "category": "Machinery Fault", "critical": false, "alert": true, "severity": "High", "alert_type": "maintenance",
+      "min_confidence": 0.55, "top_two_margin": 0.10, "consecutive_detections": 2,
+      "require_model_agreement": false, "min_quality": "Acceptable",
+      "recommended_action": "Schedule an inspection of the machine; stop it if the sound continues or worsens.",
+      "manual_review": "When confidence is low (possible normal machinery).",
+      "escalate_after_minutes": 30
+    },
+    {
+      "category": "Vehicle Horn", "critical": false, "alert": false, "severity": "Low", "alert_type": "traffic",
+      "min_confidence": 0.50, "top_two_margin": 0.10, "consecutive_detections": 1,
+      "require_model_agreement": false, "min_quality": "Poor",
+      "recommended_action": "Stored as a traffic / environmental event; no action needed.",
+      "manual_review": "Only for the general uncertainty conditions."
+    },
+    {
+      "category": "Animal Sound", "critical": false, "alert": false, "severity": "Low", "alert_type": "environment",
+      "min_confidence": 0.50, "top_two_margin": 0.10, "consecutive_detections": 1,
+      "require_model_agreement": false, "min_quality": "Poor",
+      "recommended_action": "Stored as a non-critical event; check only if animals are not expected here.",
+      "manual_review": "Only for the general uncertainty conditions."
+    },
+    {
+      "category": "Normal Machinery", "critical": false, "alert": false, "severity": "Informational", "alert_type": "maintenance",
+      "min_confidence": 0.50, "top_two_margin": 0.10, "consecutive_detections": 1,
+      "require_model_agreement": false, "min_quality": "Poor",
+      "recommended_action": "Machine sounds normal; no action needed.",
+      "manual_review": "Only for the general uncertainty conditions."
+    },
+    {
+      "category": "Background Noise", "critical": false, "alert": false, "severity": "Informational", "alert_type": "environment",
+      "min_confidence": 0.50, "top_two_margin": 0.10, "consecutive_detections": 1,
+      "require_model_agreement": false, "min_quality": "Poor",
+      "noise_limit_dbfs": -20,
+      "above_noise_limit": {"severity": "Medium", "alert": true, "recommended_action": "Background noise is unusually loud: check for a nearby disturbance; detection accuracy may be reduced."},
+      "recommended_action": "No event detected.",
+      "manual_review": "Only for the general uncertainty conditions."
+    },
+    {
+      "category": "Unknown", "critical": false, "alert": false, "severity": "Informational", "alert_type": "environment",
+      "min_confidence": 0.0, "top_two_margin": 0.0, "consecutive_detections": 1,
+      "require_model_agreement": false, "min_quality": "Poor",
+      "recommended_action": "The sound could not be classified reliably: a reviewer should listen to it.",
+      "manual_review": "Always."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}System notices{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>System notices</h1>
+    <div class="text-sm text-ss-muted">Unusual activity the app noticed. Checked every minute while administrators use the app, or by <code>python manage.py check_anomalies</code>.</div>
+  </div>
+  {% if open %}
+  <form method="post" action="{% url 'settings:acknowledge_all' %}">{% csrf_token %}
+    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-check2-all"></i> Acknowledge all</button>
+  </form>
+  {% endif %}
+</div>
+
+<div class="card mb-4"><div class="card-body">
+  <h2 class="text-base font-semibold">Open</h2>
+  <ul class="list-none pl-0 mb-0">
+    {% for n in open %}
+    <li class="flex flex-wrap items-start gap-2 py-2 border-b border-ss-border">
+      <i class="bi bi-exclamation-triangle-fill text-amber-600 mt-1" aria-hidden="true"></i>
+      <div class="me-auto">
+        <div class="font-semibold">{{ n.get_kind_display }}</div>
+        <div>{{ n.message }}</div>
+        <div class="text-sm text-ss-muted">First seen {{ n.first_seen|date:"Y-m-d H:i" }} · last seen {{ n.last_seen|date:"Y-m-d H:i" }}{% if n.count > 1 %} · count {{ n.count }}{% endif %}</div>
+      </div>
+      <form method="post" action="{% url 'settings:acknowledge' n.pk %}">{% csrf_token %}<button class="btn btn-sm btn-outline-secondary">Acknowledge</button></form>
+    </li>
+    {% empty %}<li class="text-ss-muted">Nothing unusual right now.</li>{% endfor %}
+  </ul>
+</div></div>
+
+<div class="grid grid-cols-12 gap-4">
+  <div class="col-span-12 xl:col-span-7"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold">Acknowledged</h2>
+    <div class="table-wrap"><table class="table table-sm text-sm mb-0">
+      <thead><tr><th>Notice</th><th>Details</th><th>Acknowledged</th></tr></thead>
+      <tbody>{% for n in done %}
+        <tr><td>{{ n.get_kind_display }}</td><td>{{ n.message }}</td><td class="whitespace-nowrap">{{ n.acknowledged_at|date:"Y-m-d H:i" }} · {{ n.acknowledged_by.username|default:"—" }}</td></tr>
+      {% empty %}<tr><td colspan="3" class="text-ss-muted">None yet.</td></tr>{% endfor %}</tbody>
+    </table></div>
+  </div></div></div>
+  <div class="col-span-12 xl:col-span-5"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold">When a notice is raised</h2>
+    <ul class="text-sm mb-0">
+      <li><strong>Repeated failed uploads:</strong> one user, {{ limits.FAILED_UPLOADS.0 }}+ rejected uploads in {{ limits.FAILED_UPLOADS.1 }} minutes.</li>
+      <li><strong>Failed login attempts:</strong> {{ limits.FAILED_LOGINS.0 }}+ for one username or from one IP in {{ limits.FAILED_LOGINS.1 }} minutes.</li>
+      <li><strong>Duplicate files:</strong> one user, {{ limits.DUPLICATES.0 }}+ exact or near-duplicate uploads in {{ limits.DUPLICATES.1 }} minutes.</li>
+      <li><strong>Excessive critical alerts:</strong> {{ limits.CRITICAL_ALERTS.0 }}+ in {{ limits.CRITICAL_ALERTS.1 }} minutes.</li>
+      <li><strong>Low-confidence spike:</strong> at least {{ limits.LOW_CONFIDENCE_MIN_RESULTS }} results in the last hour, half or more Low confidence and at least twice the usual share.</li>
+      <li><strong>Model failure:</strong> any error from the Python model, or GTM giving no result {{ limits.GTM_FAILURES.0 }}+ times in {{ limits.GTM_FAILURES.1 }} minutes.</li>
+    </ul>
+  </div></div></div>
+</div>
+{% endblock %}

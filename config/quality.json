@@ -1,0 +1,32 @@
+{
+  "_comment": "Audio quality thresholds (SRS Step 13, FR xii-xiv, xxxvii). Each check gives a grade; the recording's grade is the worst one. Levels are dBFS (0 = digital full scale). Used for dataset clips, uploads and live windows.",
+
+  "min_duration_s": 0.3,
+  "max_duration_s": 600,
+  "_duration": "Shorter than 0.3 s is Unusable (nothing to classify); longer than 10 minutes is Poor for an upload.",
+
+  "silence_peak_dbfs": -60,
+  "mostly_silent_fraction": 0.95,
+  "_silence": "Peak below -60 dBFS is Unusable. If more than 95 % of frames are below -60 dBFS the recording is Poor (mostly silent).",
+
+  "low_signal_dbfs": {"acceptable": -48, "poor": -55},
+  "_level": "Level of the active (non-silent) part. Below about -48 dBFS little headroom is left above typical microphone self-noise; below -55 dBFS detail is lost even after normalization. (MIMII records at about -45 dBFS, which is quiet but clean on 16-bit audio.)",
+
+  "clip_level": 0.99,
+  "clip_run_samples": 3,
+  "clipped_fraction": {"acceptable": 0.001, "poor": 0.01},
+  "_clipping": "A sample counts as clipped when it sits at >= 0.99 of full scale for 3+ consecutive samples (one peak touching full scale is not clipping).",
+
+  "noise": {
+    "dynamic_range_db": {"acceptable": 6, "poor": 3},
+    "flatness": {"acceptable": 0.3, "poor": 0.5},
+    "_note": "Noise-dominated = the level barely changes over time (small gap between loud and quiet frames) AND the spectrum is noise-like (high flatness). Both are required, so a steady siren or hum (tonal, low flatness) is not called noisy. Skipped for the Background Noise class, which is noise by definition."
+  },
+
+  "dropout_ms": 20,
+  "dropouts": {"acceptable": 1, "poor": 3},
+  "_dropouts": "Runs of exact digital zeros of 20 ms or more in the middle of the recording are missing frames. Leading/trailing zeros are padding, not dropouts.",
+
+  "min_sample_rate": {"acceptable": 16000, "poor": 8000},
+  "_sample_rate": "Below 16 kHz the recording lacks part of the 0-8 kHz band the models use."
+}

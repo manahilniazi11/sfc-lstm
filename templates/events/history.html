@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load sonic_tags %}
+{% block title %}Event history{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Event history</h1>
+    <div class="text-sm text-ss-muted">{{ total }} event{{ total|pluralize }}{% if filters_active %} match {{ filters_active }} filter{{ filters_active|pluralize }}{% endif %}.</div>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <div class="btn-group" role="group" aria-label="View">
+      <a class="btn btn-sm btn-outline-secondary {% if view == 'table' %}active{% endif %}" href="?{% query view='' page='' %}"><i class="bi bi-table"></i> Table</a>
+      <a class="btn btn-sm btn-outline-secondary {% if view == 'timeline' %}active{% endif %}" href="?{% query view='timeline' page='' %}"><i class="bi bi-list-nested"></i> Timeline</a>
+    </div>
+    {% if can.administer %}
+    <div class="btn-group" role="group" aria-label="Export">
+      <a class="btn btn-sm btn-outline-secondary" href="{% url 'events:export' 'csv' %}?{% query view='' page='' %}"><i class="bi bi-filetype-csv"></i> CSV</a>
+      <a class="btn btn-sm btn-outline-secondary" href="{% url 'events:export' 'xlsx' %}?{% query view='' page='' %}"><i class="bi bi-file-earmark-excel"></i> Excel</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="card mb-4"><div class="card-body">
+  <form method="get" class="filter-form">
+    {% if view == "timeline" %}<input type="hidden" name="view" value="timeline">{% endif %}
+    <div class="grid grid-cols-12 gap-2">
+      {% for field in form %}
+      <div class="{% if field.name == 'q' %}col-span-12 md:col-span-6 xl:col-span-4{% else %}col-span-6 md:col-span-3 xl:col-span-2{% endif %}">
+        <label class="form-label text-sm mb-1" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% for error in field.errors %}<div class="invalid-feedback block">{{ error }}</div>{% endfor %}
+      </div>
+      {% endfor %}
+      <div class="col-span-12 xl:col-span-2 flex items-end gap-2">
+        <button class="btn btn-sm btn-primary" type="submit"><i class="bi bi-search"></i> Search</button>
+        {% if filters_active %}<a class="btn btn-sm btn-link" href="?{% if view == 'timeline' %}view=timeline{% endif %}">Clear</a>{% endif %}
+      </div>
+    </div>
+  </form>
+</div></div>
+
+{% if view == "timeline" %}
+<p class="text-sm text-ss-muted">Newest first. Critical and high-severity events stand out; open any event for its full analysis.</p>
+{% for day, events in days %}
+<div class="timeline-day">
+  <h2 class="text-base font-semibold timeline-date">{{ day|date:"l, j F Y" }}</h2>
+  <ol class="timeline list-none pl-0">
+    {% for e in events %}
+    <li class="timeline-item sev-border-{{ e.effective_severity|lower }}">
+      <span class="timeline-dot {{ e.effective_severity|sev }}" aria-hidden="true"></span>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="text-ss-muted text-sm font-mono">{{ e.created_at|time:"H:i:s" }}</span>
+        <a class="font-semibold" href="{% url 'events:detail' e.code %}">{{ e.effective_class }}</a>
+        <span class="badge {{ e.effective_severity|sev }}">{{ e.effective_severity }}</span>
+        {% if e.alert_status == "Alert generated" %}<i class="bi bi-bell-fill text-red-600" title="Alert raised"></i>{% endif %}
+        {% if e.awaiting_review %}<span class="badge text-bg-info">Needs review</span>{% endif %}
+        <span class="text-sm text-ss-muted">{{ e.code }} · {{ e.record.get_source_display }}{% if e.record.session %} {{ e.record.session.code }}{% endif %} · Python {{ e.python_confidence|pct }}{% if e.gtm_class %} · GTM {{ e.gtm_class }}{% endif %}</span>
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+</div>
+{% empty %}
+<div class="card"><div class="card-body text-ss-muted">No events match. <a href="{% url 'events:upload' %}">Analyse a recording</a> or clear the filters.</div></div>
+{% endfor %}
+{% else %}
+<div class="card"><div class="table-wrap">
+<table class="table table-hover align-middle mb-0">
+  <thead><tr><th>Event</th><th>Time</th><th>File</th><th>Final class</th><th>Python</th><th>GTM</th><th>Agreement</th><th>Severity</th><th>Quality</th><th>Status</th></tr></thead>
+  <tbody>
+  {% for e in page %}
+  <tr>
+    <td class="whitespace-nowrap"><a href="{% url 'events:detail' e.code %}">{{ e.code }}</a><div class="text-sm text-ss-muted">{{ e.record.code }}</div></td>
+    <td class="whitespace-nowrap text-sm">{{ e.created_at|date:"Y-m-d H:i" }}</td>
+    <td class="text-sm break-words">{{ e.record.original_filename|truncatechars:30 }}{% if can.view_all_events %}<div class="text-ss-muted">{{ e.record.owner.username }}</div>{% endif %}</td>
+    <td>{{ e.effective_class }}{% if e.reviewed_class and e.reviewed_class != e.final_class %}<div class="text-sm text-ss-muted">models: {{ e.final_class }}</div>{% endif %}</td>
+    <td class="text-sm">{{ e.python_class }} {{ e.python_confidence|pct }}</td>
+    <td class="text-sm">{{ e.gtm_class|default:"—" }}{% if e.gtm_confidence is not None %} {{ e.gtm_confidence|pct }}{% endif %}</td>
+    <td><span class="badge text-bg-{{ e.consistency|consistency_colour }}">{{ e.consistency }}</span></td>
+    <td><span class="badge {{ e.effective_severity|sev }}">{{ e.effective_severity }}</span></td>
+    <td><span class="badge text-bg-{{ e.record.quality_grade|quality_colour }}">{{ e.record.quality_grade }}</span></td>
+    <td><span class="badge text-bg-{{ e.status|status_colour }}">{{ e.status }}</span></td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="10" class="text-ss-muted">No events match. <a href="{% url 'events:upload' %}">Analyse a recording</a> or clear the filters.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div></div>
+{% endif %}
+{% include "partials/pagination.html" %}
+{% endblock %}

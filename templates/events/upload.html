@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Analyse audio{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Analyse audio</h1></div>
+<div class="grid grid-cols-12 gap-6">
+  <div class="col-span-12 xl:col-span-7">
+    <div class="card"><div class="card-body">
+      <form id="upload-form" method="post" action="{% url 'events:analyse' %}" enctype="multipart/form-data">{% csrf_token %}
+        <label id="drop-zone" class="drop-zone w-full" for="audio-input">
+          <i class="bi bi-cloud-arrow-up text-[2.5rem] text-ss-link"></i>
+          <span class="block font-semibold mt-2">Drop {% if batch %}audio files{% else %}an audio file{% endif %} here or click to choose</span>
+          <span class="block text-sm text-ss-muted">WAV, MP3, FLAC, OGG or M4A · up to {{ max_mb }} MB{% if batch %} each · several files = batch upload{% endif %}</span>
+        </label>
+        <input id="audio-input" class="sr-only" type="file" name="audio" accept=".wav,.mp3,.flac,.ogg,.m4a,audio/*" {% if batch %}multiple{% endif %} required>
+        <div class="preview-box hidden mt-4">
+          <div class="text-sm text-ss-muted mb-1">Preview (first file)</div>
+          <audio id="preview-player" controls preload="metadata" class="w-full"></audio>
+        </div>
+        <button id="upload-button" class="btn btn-primary mt-4" type="submit"><i class="bi bi-soundwave"></i> Analyse</button>
+      </form>
+      <ul id="upload-list" class="result-list mt-4"></ul>
+    </div></div>
+  </div>
+  <div class="col-span-12 xl:col-span-5">
+    <div class="card"><div class="card-body text-sm">
+      <h2 class="text-base font-semibold">What happens to your recording</h2>
+      <ol class="mb-4 ps-4">
+        <li><strong>Google Teachable Machine</strong> listens to it <em>in your browser</em> and produces its own scores.</li>
+        <li>The file and those scores are sent to the server, which checks the <strong>format, size, integrity, duration, sampling rate, channels</strong> and that it contains sound.</li>
+        <li>The <strong>Python model</strong> analyses every one-second window on the server.</li>
+        <li>The two results are compared and the alert rules decide severity, alerts and whether a person should review it.</li>
+      </ol>
+      <p class="mb-2">The two models never see each other's answer: GTM finishes before the upload starts.</p>
+      <div class="flex flex-wrap gap-2">
+        {% if gtm.available %}
+        <span class="badge text-bg-light"><i class="bi bi-cpu"></i> GTM {{ gtm.version }}</span>
+        {% else %}
+        <span class="badge text-bg-warning">GTM model not installed: results will need review</span>
+        {% endif %}
+      </div>
+    </div></div>
+  </div>
+</div>
+{{ upload_config|json_script:"upload-config" }}
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.4.0/dist/speech-commands.min.js"></script>
+<script src="{% static 'js/gtm.js' %}"></script>
+<script src="{% static 'js/upload.js' %}"></script>
+{% endblock %}

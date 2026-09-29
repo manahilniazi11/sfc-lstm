@@ -1,0 +1,12 @@
+{
+  "_comment": "Freesound searches used to top up classes that the public datasets leave short. A result is skipped when any 'exclude' term is one of its tags or a word in its name. Listen to a sample of what comes back before building.",
+
+  "Vehicle Horn": {
+    "queries": ["car horn", "car honk", "vehicle horn", "truck horn", "horn honking traffic", "bus horn"],
+    "exclude": ["music", "musical", "instrument", "trumpet", "trombone", "tuba", "french-horn",
+                "brass", "synth", "loop", "melody", "melodica", "song", "cucaracha", "imitation",
+                "toy", "clown", "bicycle", "bike", "party", "vuvuzela", "foghorn", "ship", "boat",
+                "train", "alarm", "siren", "vocal", "voice", "mouth", "beatbox"],
+    "max_sounds": 200
+  }
+}

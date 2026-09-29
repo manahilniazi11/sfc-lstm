@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% load sonic_tags %}
+{% block title %}{{ event.code }}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <div class="text-sm text-ss-muted">{{ event.code }} · Audio ID {{ record.code }} · {{ record.get_source_display }} · {{ event.created_at|date:"Y-m-d H:i:s" }}</div>
+    <h1 class="flex flex-wrap items-center gap-2">
+      {{ event.effective_class }}
+      <span class="badge {{ event.effective_severity|sev }}">{{ event.effective_severity }}</span>
+      <span class="badge text-bg-{{ event.status|status_colour }}">{{ event.status }}</span>
+    </h1>
+    {% if event.reviewed_class %}<div class="text-sm">Reviewer decision by {{ event.reviewed_by.username|default:"a reviewer" }}: <strong>{{ event.reviewed_class }}</strong>{% if event.reviewed_class != event.final_class %} (the automatic result was {{ event.final_class }}){% else %} (confirmed){% endif %}</div>{% endif %}
+  </div>
+  <div class="flex flex-wrap gap-2">
+    {% if review_form and event.awaiting_review %}<a class="btn btn-info btn-sm" href="#review"><i class="bi bi-person-check"></i> Review this event</a>{% endif %}
+    <a class="btn btn-outline-secondary btn-sm" href="{% url 'events:report' event.code %}"><i class="bi bi-file-earmark-pdf"></i> Download report</a>
+    <a class="btn btn-outline-secondary btn-sm" href="{% url 'events:history' %}"><i class="bi bi-clock-history"></i> History</a>
+    <a class="btn btn-primary btn-sm" href="{% url 'events:upload' %}"><i class="bi bi-plus-lg"></i> Analyse another</a>
+  </div>
+</div>
+
+<div class="card mb-4 summary-card"><div class="card-body">
+  <h2 class="text-base font-semibold"><i class="bi bi-chat-square-text"></i> What happened</h2>
+  <ul class="mb-4">{% for line in summary %}<li>{{ line }}</li>{% endfor %}</ul>
+  <div class="recommended"><i class="bi bi-lightbulb"></i> <strong>Recommended action:</strong> {{ event.effective_action|default:"—" }}{% if event.reviewed_action %} <span class="text-ss-muted">(set by the reviewer)</span>{% endif %}</div>
+</div></div>
+
+<div class="grid grid-cols-12 gap-4 mb-4">
+  <div class="col-span-12 sm:col-span-6 xl:col-span-3"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Final decision</div><div class="value text-xl">{{ event.final_class }}</div>
+    <div class="text-sm">Confidence <strong>{{ event.confidence_level }}</strong> · {{ event.python_confidence|pct }}</div>
+    <div class="text-sm text-ss-muted">{{ confidence_note|capfirst }}</div>
+  </div></div></div>
+  <div class="col-span-12 sm:col-span-6 xl:col-span-3"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Model agreement</div>
+    <div class="value text-xl"><span class="badge text-bg-{{ event.consistency|consistency_colour }}">{{ event.consistency }}</span></div>
+    <div class="text-sm">Python: {{ event.python_class }} · GTM: {{ event.gtm_class|default:"no result" }}</div>
+  </div></div></div>
+  <div class="col-span-12 sm:col-span-6 xl:col-span-3"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Alert</div><div class="value text-xl">{{ event.alert_status }}</div>
+    <div class="text-sm">{% if event.review_required %}<i class="bi bi-person-check"></i> Manual review required{% else %}No review needed{% endif %}</div>
+  </div></div></div>
+  <div class="col-span-12 sm:col-span-6 xl:col-span-3"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Audio quality</div>
+    <div class="value text-xl"><span class="badge text-bg-{{ record.quality_grade|quality_colour }}">{{ record.quality_grade }}</span></div>
+    <div class="text-sm">{{ record.quality_issues|join:"; "|default:"No problems found" }}</div>
+  </div></div></div>
+</div>
+
+<div class="card mb-4"><div class="card-body">
+  <h2 class="text-base font-semibold">Model comparison</h2>
+  <p class="text-sm text-ss-muted">Both models analysed the same recording independently: GTM in your browser before the upload, the Python model on the server. Neither saw the other's answer.</p>
+  <div class="grid grid-cols-12 gap-4">
+    <div class="col-span-12 lg:col-span-5">
+      <div class="table-wrap"><table class="table table-sm align-middle mb-2">
+        <thead><tr><th></th><th>Python model</th><th>Google Teachable Machine</th></tr></thead>
+        <tbody>
+          <tr><th class="font-normal text-ss-muted">Predicted class</th><td class="font-semibold">{{ event.python_class }}</td><td class="font-semibold">{{ event.gtm_class|default:"—" }}</td></tr>
+          <tr><th class="font-normal text-ss-muted">Top-class confidence</th><td>{{ event.python_confidence|pct:1 }}</td><td>{{ event.gtm_confidence|pct:1 }}</td></tr>
+          <tr><th class="font-normal text-ss-muted">Top-two margin</th><td>{{ event.python_margin|pct:1 }}</td><td>{{ event.gtm_margin|pct:1 }}</td></tr>
+          <tr><th class="font-normal text-ss-muted">Top 3</th>
+            <td class="text-sm">{% for name, p in python_top %}{{ forloop.counter }}. {{ name }} {{ p|pct:1 }}<br>{% endfor %}</td>
+            <td class="text-sm">{% for name, p in gtm_top %}{{ forloop.counter }}. {{ name }} {{ p|pct:1 }}<br>{% empty %}—{% endfor %}</td></tr>
+          <tr><th class="font-normal text-ss-muted">Model version</th><td class="text-sm">{{ event.python_model_version }}</td><td class="text-sm">{{ event.gtm_model_version|default:"—" }}</td></tr>
+          <tr><th class="font-normal text-ss-muted">Processing time</th><td class="text-sm">{{ event.processing_ms|floatformat:0 }} ms (server)</td><td class="text-sm">{% if event.windows.gtm_ms %}{{ event.windows.gtm_ms|floatformat:0 }} ms (browser){% else %}—{% endif %}</td></tr>
+        </tbody>
+      </table></div>
+      <dl class="grid grid-cols-12 text-sm mb-0 gap-x-3">
+        <dt class="col-span-6">Predicted classes match</dt>
+        <dd class="col-span-6">{% if event.gtm_class %}{% if event.class_match %}<span class="text-green-700 font-semibold">Yes</span>{% else %}<span class="text-red-600 font-semibold">No</span>{% endif %}{% else %}GTM gave no result{% endif %}</dd>
+        <dt class="col-span-6">Top-class confidence difference</dt>
+        <dd class="col-span-6">{% if event.confidence_difference is not None %}|{{ event.python_confidence|pct:1 }} − {{ event.gtm_confidence|pct:1 }}| = <strong>{{ event.confidence_difference|pct:1 }}</strong>{% else %}—{% endif %}</dd>
+        <dt class="col-span-6">Consistency status</dt>
+        <dd class="col-span-6"><span class="badge text-bg-{{ event.consistency|consistency_colour }}">{{ event.consistency }}</span><div class="text-ss-muted">{{ consistency_meaning|capfirst }}.</div></dd>
+      </dl>
+      {% if event.gtm_error %}<div class="alert alert-warning text-sm mt-2 mb-0">GTM: {{ event.gtm_error }}</div>{% endif %}
+    </div>
+    <div class="col-span-12 lg:col-span-7">
+      <div class="text-sm font-semibold mb-1">Confidence for every class</div>
+      <div class="table-wrap"><table class="table table-sm align-middle mb-0 whitespace-nowrap">
+        <thead><tr><th>Class</th><th>Python</th><th>GTM</th><th class="text-right">Difference</th></tr></thead>
+        <tbody>{% for row in comparison_rows %}
+          <tr>
+            <td>{{ row.name }}{% if row.python_top %} <span class="badge text-bg-primary">Python</span>{% endif %}{% if row.gtm_top %} <span class="badge text-bg-info">GTM</span>{% endif %}</td>
+            <td><div class="mini-bar"><div class="progress"><div class="progress-bar bg-ss-link" style="width: {{ row.python|width }}%"></div></div><span>{{ row.python|pct:1 }}</span></div></td>
+            <td><div class="mini-bar"><div class="progress"><div class="progress-bar bg-cyan-400" style="width: {{ row.gtm|width }}%"></div></div><span>{{ row.gtm|pct:1 }}</span></div></td>
+            <td class="text-right">{{ row.difference|pct:1 }}</td>
+          </tr>
+        {% endfor %}</tbody>
+      </table></div>
+    </div>
+  </div>
+</div></div>
+
+<div class="grid grid-cols-12 gap-4">
+  <div class="col-span-12 xl:col-span-8">
+    <div class="card mb-4"><div class="card-body">
+      <div class="flex flex-wrap items-center gap-2 mb-2">
+        <h2 class="text-base font-semibold m-0 me-auto">Recording</h2>
+        {% if record.stored_file %}<button class="btn btn-sm btn-outline-secondary" type="button" id="replay"><i class="bi bi-arrow-counterclockwise"></i> Replay</button>{% endif %}
+      </div>
+      {% if record.stored_file %}
+      <audio id="player" controls preload="metadata" class="w-full mb-4" src="{% url 'events:audio' event.code %}"></audio>
+      <div class="text-sm text-ss-muted mb-1">Waveform: shaded spans are windows where the Python model heard an event.</div>
+      <img class="max-w-full h-auto border border-ss-border rounded mb-4" src="{% url 'events:image' event.code 'waveform' %}" alt="Waveform of {{ record.original_filename }}">
+      <div class="text-sm text-ss-muted mb-1">Mel spectrogram (0–8 kHz, the range the models analyse): brighter means louder at that pitch.</div>
+      <img class="max-w-full h-auto border border-ss-border rounded" src="{% url 'events:image' event.code 'spectrogram' %}" alt="Mel spectrogram of {{ record.original_filename }}">
+      {% else %}
+      <p class="text-ss-muted mb-0">The audio of this record was not kept.</p>
+      {% endif %}
+    </div></div>
+
+    {% if prep %}
+    <div class="card mb-4"><div class="card-body">
+      <h2 class="text-base font-semibold">Preprocessing (Python model)</h2>
+      <ol class="text-sm mb-0 ps-4">
+        <li>{% if prep.channels_in > 1 %}Converted {{ prep.channels_in }} channels to mono{% else %}Already mono{% endif %}.</li>
+        <li>{% if prep.original_sample_rate != prep.sample_rate %}Resampled from {{ prep.original_sample_rate }} Hz to {{ prep.sample_rate }} Hz{% else %}Already at {{ prep.sample_rate }} Hz{% endif %}.</li>
+        <li>Removed any DC offset and trimmed silence more than {{ prep.trim_top_db|floatformat:0 }} dB below the peak: sound kept from {{ prep.content_start_s|floatformat:2 }} s to {{ prep.content_end_s|floatformat:2 }} s.</li>
+        <li>Noise reduction: {% if prep.noise_reduction %}applied{% else %}off (it would also erase quiet events; see documentation){% endif %}.</li>
+        <li>Cut into {{ prep.windows_total }} window{{ prep.windows_total|pluralize }} of {{ prep.segment_seconds|floatformat:1 }} s every {{ prep.hop_seconds|floatformat:1 }} s{% if prep.windows_padded %} ({{ prep.windows_padded }} padded to full length){% endif %}; {{ prep.windows_silent }} silent window{{ prep.windows_silent|pluralize }} skipped.</li>
+        <li>Each window normalised to {{ prep.target_rms_dbfs|floatformat:0 }} dBFS loudness, then 123 acoustic features and a mel spectrogram were extracted.</li>
+      </ol>
+    </div></div>
+    {% endif %}
+
+    <div class="card mb-4"><div class="card-body">
+      <h2 class="text-base font-semibold">Per-window detections</h2>
+      <p class="text-sm text-ss-muted">Each model scores one-second windows; the recording's result combines them (Python: the model's calibrated aggregation; GTM: the average).</p>
+      <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-12 md:col-span-6">
+          <div class="text-sm font-semibold mb-1">Python ({{ event.windows.python|length }} windows)</div>
+          <div class="table-wrap window-table"><table class="table table-sm mb-0">
+            <thead><tr><th>Time (s)</th><th>Top class</th><th class="text-right">Conf.</th></tr></thead>
+            <tbody>{% for w in event.windows.python %}{% with top=w.scores|top_class %}
+              <tr><td>{{ w.start|floatformat:1 }}–{{ w.end|floatformat:1 }}</td><td>{{ top }}</td><td class="text-right">{{ w.scores|get:top|pct }}</td></tr>
+            {% endwith %}{% endfor %}</tbody>
+          </table></div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+          <div class="text-sm font-semibold mb-1">GTM ({{ event.windows.gtm|length }} windows)</div>
+          <div class="table-wrap window-table"><table class="table table-sm mb-0">
+            <thead><tr><th>Time (s)</th><th>Top class</th><th class="text-right">Conf.</th></tr></thead>
+            <tbody>{% for w in event.windows.gtm %}{% with top=w.scores|top_class %}
+              <tr><td>{{ w.start|floatformat:1 }}–{{ w.end|floatformat:1 }}</td><td>{{ top }}</td><td class="text-right">{{ w.scores|get:top|pct }}</td></tr>
+            {% endwith %}{% empty %}<tr><td colspan="3" class="text-ss-muted">No GTM windows.</td></tr>{% endfor %}</tbody>
+          </table></div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="col-span-12 xl:col-span-4">
+    {% include "events/review_panel.html" %}
+
+    <div class="card mb-4"><div class="card-body">
+      <h2 class="text-base font-semibold">Decision checks</h2>
+      <dl class="grid grid-cols-12 text-sm mb-2 gap-x-3">
+        <dt class="col-span-7">Repeated detections</dt><dd class="col-span-5">{{ event.repeated_detections }} window{{ event.repeated_detections|pluralize }} in a row</dd>
+        <dt class="col-span-7">Overlapping sounds</dt><dd class="col-span-5">{{ event.overlapping_classes|join:", "|default:"None" }}</dd>
+      </dl>
+      {% if event.conditions %}
+      <div class="text-sm font-semibold">Alert conditions for {{ event.final_class }}</div>
+      <ul class="list-none pl-0 text-sm mb-2">
+        {% for name, ok in event.conditions.items %}<li><i class="bi {% if ok %}bi-check-circle-fill text-green-700{% else %}bi-x-circle-fill text-red-600{% endif %}"></i> {{ name|capfirst }}</li>{% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-sm text-ss-muted mb-2">{{ event.final_class }} has no alert rule to check.</p>
+      {% endif %}
+      <div class="text-sm font-semibold">Manual-review reasons</div>
+      <ul class="text-sm mb-0">{% for r in event.review_reasons %}<li>{{ r }}</li>{% empty %}<li class="text-ss-muted">None</li>{% endfor %}</ul>
+    </div></div>
+
+    <div class="card mb-4"><div class="card-body">
+      <h2 class="text-base font-semibold">Audio metadata</h2>
+      <dl class="grid grid-cols-12 text-sm mb-0 gap-x-3">
+        <dt class="col-span-5">Audio ID</dt><dd class="col-span-7 font-mono">{{ record.code }}</dd>
+        <dt class="col-span-5">File name</dt><dd class="col-span-7 break-words">{{ record.original_filename }}</dd>
+        <dt class="col-span-5">Format</dt><dd class="col-span-7">{{ record.format }}</dd>
+        <dt class="col-span-5">Duration</dt><dd class="col-span-7">{{ record.duration_s|floatformat:2 }} s</dd>
+        <dt class="col-span-5">Sampling rate</dt><dd class="col-span-7">{{ record.sample_rate }} Hz</dd>
+        <dt class="col-span-5">Channels</dt><dd class="col-span-7">{{ record.channels }}</dd>
+        <dt class="col-span-5">Bit depth</dt><dd class="col-span-7">{% if record.bit_depth %}{{ record.bit_depth }}-bit{% else %}n/a (compressed format){% endif %}</dd>
+        <dt class="col-span-5">File size</dt><dd class="col-span-7">{{ record.file_size|filesize }}</dd>
+        <dt class="col-span-5">Uploaded</dt><dd class="col-span-7">{{ record.uploaded_at|date:"Y-m-d H:i:s" }}</dd>
+        <dt class="col-span-5">By</dt><dd class="col-span-7">{{ record.owner.user_code }} {{ record.owner.username }}</dd>
+        <dt class="col-span-5">SHA-256</dt><dd class="col-span-7 font-mono truncate" title="{{ record.sha256 }}">{{ record.sha256|truncatechars:18 }}</dd>
+        <dt class="col-span-5">Duplicate</dt><dd class="col-span-7">
+          {% if record.duplicate_of %}Identical to <a href="{% url 'events:detail' record.duplicate_of.event.code %}">{{ record.duplicate_of.code }}</a>
+          {% elif record.near_duplicate_of %}Near-duplicate of <a href="{% url 'events:detail' record.near_duplicate_of.event.code %}">{{ record.near_duplicate_of.code }}</a> ({{ record.near_duplicate_score|pct }} similar)
+          {% else %}No{% endif %}</dd>
+        {% if can.view_all_events and record.reference_class %}
+        <dt class="col-span-5">Dataset label</dt><dd class="col-span-7">{{ record.reference_class }} <span class="text-ss-muted">({{ record.reference_audio_id }}, {{ record.reference_split }} split; for evaluation only, never used by the models)</span></dd>
+        {% endif %}
+      </dl>
+    </div></div>
+
+    <div class="card mb-4"><div class="card-body">
+      <h2 class="text-base font-semibold">Audio quality: <span class="badge text-bg-{{ record.quality_grade|quality_colour }}">{{ record.quality_grade }}</span></h2>
+      <ul class="text-sm mb-2">{% for issue in record.quality_issues %}<li>{{ issue|capfirst }}</li>{% empty %}<li class="text-ss-muted">No problems found.</li>{% endfor %}</ul>
+      {% with m=record.quality_metrics %}
+      <dl class="grid grid-cols-12 text-sm mb-0 gap-x-3">
+        <dt class="col-span-7">Peak level</dt><dd class="col-span-5">{% if m.peak_dbfs is not None %}{{ m.peak_dbfs }} dBFS{% else %}—{% endif %}</dd>
+        <dt class="col-span-7">Active (sound) level</dt><dd class="col-span-5">{% if m.active_level_dbfs is not None %}{{ m.active_level_dbfs }} dBFS{% else %}—{% endif %}</dd>
+        <dt class="col-span-7">Background noise estimate</dt><dd class="col-span-5">{% if m.noise_floor_dbfs is not None %}{{ m.noise_floor_dbfs }} dBFS{% else %}—{% endif %}</dd>
+        <dt class="col-span-7">Contrast above noise</dt><dd class="col-span-5">{% if m.dynamic_range_db is not None %}{{ m.dynamic_range_db }} dB{% else %}—{% endif %}</dd>
+        <dt class="col-span-7">Clipped samples</dt><dd class="col-span-5">{{ m.clipped_fraction|pct:2 }}</dd>
+        <dt class="col-span-7">Silent part</dt><dd class="col-span-5">{{ m.silent_fraction|pct }}</dd>
+        <dt class="col-span-7">Dropouts (missing frames)</dt><dd class="col-span-5">{{ m.dropouts|default:0 }}</dd>
+      </dl>
+      <div class="text-sm text-ss-muted mt-2">dBFS: decibels below digital full scale (0 dBFS is the loudest possible sample).</div>
+      {% endwith %}
+    </div></div>
+
+    {% if alerts %}
+    <div class="card mb-4"><div class="card-body">
+      <h2 class="text-base font-semibold">Alerts</h2>
+      <ul class="list-none pl-0 text-sm mb-0">{% for a in alerts %}
+        <li><span class="badge {{ a.severity|sev }}">{{ a.severity }}</span> <a href="{% url 'alerts:detail' a.code %}">{{ a.code }}</a> · <span class="badge text-bg-{{ a.status|alert_colour }}">{{ a.get_status_display }}</span> · {{ a.created_at|date:"H:i:s" }}</li>
+      {% endfor %}</ul>
+    </div></div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  (function () {
+    const player = document.getElementById("player"), replay = document.getElementById("replay");
+    if (player && replay) replay.addEventListener("click", () => { player.currentTime = 0; player.play(); });
+  })();
+</script>
+{% endblock %}

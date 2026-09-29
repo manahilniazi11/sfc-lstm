@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block auth_content %}
+<div class="card w-full max-w-[420px] shadow-sm">
+  <div class="card-body p-6">
+    <h1 class="mb-1 text-2xl"><i class="bi bi-soundwave text-ss-link"></i> SonicSentinel AI</h1>
+    <p class="mb-6 text-ss-muted">Sound-event detection and alerting</p>
+    <form method="post" novalidate>{% csrf_token %}
+      {% include "partials/form_fields.html" %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <button class="btn btn-primary w-full" type="submit">Log in</button>
+    </form>
+    <p class="mt-4 mb-0 text-center text-sm">No account? <a href="{% url 'accounts:register' %}">Register</a></p>
+  </div>
+</div>
+{% endblock %}

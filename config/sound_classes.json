@@ -1,0 +1,16 @@
+{
+  "_comment": "Single source of truth for sound classes. The Python model, the GTM project, the dataset builder and the Django app must all use these exact names. 'code' is used in Audio IDs, 'slug' in folder names. 'critical' marks the classes SRS NFR 4 requires >= 85% recall for. Normal Machinery is an optional SRS class, added so the models learn fault vs normal machine sound (SRS Step 14); it is last so earlier classes keep their Audio IDs.",
+  "classes": [
+    {"name": "Machinery Fault",         "slug": "machinery_fault",  "code": "MCH", "mandatory": true, "critical": false},
+    {"name": "Glass Breaking",          "slug": "glass_breaking",   "code": "GLS", "mandatory": true, "critical": true},
+    {"name": "Alarm or Siren",          "slug": "alarm_siren",      "code": "ALM", "mandatory": true, "critical": false},
+    {"name": "Vehicle Horn",            "slug": "vehicle_horn",     "code": "HRN", "mandatory": true, "critical": false},
+    {"name": "Animal Sound",            "slug": "animal_sound",     "code": "ANM", "mandatory": true, "critical": false},
+    {"name": "Gunshot",                 "slug": "gunshot",          "code": "GUN", "mandatory": true, "critical": true},
+    {"name": "Panic Scream",            "slug": "panic_scream",     "code": "SCR", "mandatory": true, "critical": true},
+    {"name": "Aggression",              "slug": "aggression",       "code": "AGR", "mandatory": true, "critical": true},
+    {"name": "Person Asking for Help",  "slug": "help_request",     "code": "HLP", "mandatory": true, "critical": true},
+    {"name": "Background Noise",        "slug": "background_noise", "code": "BGN", "mandatory": true, "critical": false},
+    {"name": "Normal Machinery",        "slug": "normal_machinery", "code": "NRM", "mandatory": false, "critical": false}
+  ]
+}

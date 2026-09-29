@@ -1,0 +1,85 @@
+{% load sonic_tags %}
+{% if review_form or reviews or event.review_required %}
+<div class="card mb-4 {% if event.awaiting_review %}border-cyan-400{% endif %}" id="review"><div class="card-body">
+  <h2 class="text-base font-semibold flex items-center gap-2">
+    <i class="bi bi-person-check"></i> Manual review
+    <span class="badge text-bg-{{ event.status|status_colour }} ms-auto">{{ event.status }}</span>
+  </h2>
+  {% if event.awaiting_review %}
+  <p class="text-sm mb-2">Waiting for a reviewer: {{ event.review_reasons|join:"; "|lower }}.</p>
+  {% elif event.reviewed_class %}
+  <p class="text-sm mb-2">Reviewed by <strong>{{ event.reviewed_by.username|default:"—" }}</strong> on {{ event.reviewed_at|date:"Y-m-d H:i" }}. The models' original outputs are unchanged above.</p>
+  {% endif %}
+
+  {% if review_form and event.status != "Closed" %}
+  {% if not record.stored_file %}<div class="alert alert-warning text-sm py-2">The audio was not kept, so decide from the scores and details on this page.</div>{% endif %}
+  <form method="post" action="{% url 'events:review' event.code %}" class="review-form">{% csrf_token %}
+    <div class="mb-2">
+      {% for radio in review_form.decision %}
+      <div class="form-check">{{ radio.tag }} <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}{% if forloop.first %}: <strong>{{ event.final_class }}</strong>{% endif %}</label></div>
+      {% endfor %}
+    </div>
+    <div class="mb-2">
+      <label class="form-label text-sm mb-1" for="{{ review_form.category.id_for_label }}">{{ review_form.category.label }}</label>
+      {{ review_form.category }}
+    </div>
+    <div class="grid grid-cols-12 gap-2 mb-2">
+      <div class="col-span-12">
+        <label class="form-label text-sm mb-1" for="{{ review_form.severity.id_for_label }}">{{ review_form.severity.label }}</label>
+        {{ review_form.severity }}
+        <div class="form-text">{{ review_form.severity.help_text }}</div>
+      </div>
+    </div>
+    <div class="mb-2">
+      <label class="form-label text-sm mb-1" for="{{ review_form.recommended_action.id_for_label }}">{{ review_form.recommended_action.label }}</label>
+      {{ review_form.recommended_action }}
+    </div>
+    <div class="mb-2">
+      <label class="form-label text-sm mb-1" for="{{ review_form.comment.id_for_label }}">{{ review_form.comment.label }}</label>
+      {{ review_form.comment }}
+    </div>
+    <div class="form-check mb-4">{{ review_form.close }} <label class="form-check-label text-sm" for="{{ review_form.close.id_for_label }}">{{ review_form.close.label }}</label></div>
+    <div class="flex flex-wrap gap-2">
+      <button class="btn btn-sm btn-primary" type="submit" name="then" value="stay"><i class="bi bi-check2"></i> Save decision</button>
+      {% if in_queue or event.awaiting_review %}<button class="btn btn-sm btn-outline-primary" type="submit" name="then" value="next">Save and review next <i class="bi bi-arrow-right"></i></button>{% endif %}
+    </div>
+  </form>
+  {% endif %}
+
+  {% if review_form %}
+  <div class="flex flex-wrap gap-2 mt-4">
+    {% if event.status == "Reviewed" %}
+    <form method="post" action="{% url 'events:review_status' event.code 'close' %}">{% csrf_token %}<button class="btn btn-sm btn-outline-secondary"><i class="bi bi-archive"></i> Close event</button></form>
+    {% endif %}
+    {% if event.status == "Reviewed" or event.status == "Closed" %}
+    <form method="post" action="{% url 'events:review_status' event.code 'reopen' %}">{% csrf_token %}<button class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-counterclockwise"></i> Reopen for review</button></form>
+    {% endif %}
+  </div>
+  <details class="mt-4">
+    <summary class="text-sm">Add a comment or recommended action</summary>
+    <form method="post" action="{% url 'events:comment' event.code %}" class="mt-2">{% csrf_token %}
+      <label class="form-label text-sm mb-1" for="{{ comment_form.comment.id_for_label }}">{{ comment_form.comment.label }}</label>
+      {{ comment_form.comment }}
+      <label class="form-label text-sm mb-1 mt-2" for="{{ comment_form.recommended_action.id_for_label }}">{{ comment_form.recommended_action.label }}</label>
+      {{ comment_form.recommended_action }}
+      <button class="btn btn-sm btn-outline-secondary mt-2">Add</button>
+    </form>
+  </details>
+  {% endif %}
+
+  {% if reviews %}
+  <div class="text-sm font-semibold mt-4 mb-1">Review history</div>
+  <ol class="list-none pl-0 text-sm mb-0 alert-history">
+    {% for r in reviews %}
+    <li>
+      <div><strong>{{ r.get_kind_display }}</strong>{% if r.new_class %}: {{ r.new_class }}{% endif %} · {{ r.reviewer.username|default:"—" }}</div>
+      <div class="text-ss-muted">{{ r.created_at|date:"Y-m-d H:i:s" }}{% if r.kind == "correct" %} · was {{ r.previous_class }}{% endif %}</div>
+      {% if r.severity %}<div>Severity: {{ r.severity }}</div>{% endif %}
+      {% if r.recommended_action %}<div>Recommended action: {{ r.recommended_action }}</div>{% endif %}
+      {% if r.comment %}<div>“{{ r.comment }}”</div>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+</div></div>
+{% endif %}

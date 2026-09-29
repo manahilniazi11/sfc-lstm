@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load static sonic_tags %}
+{% block title %}Analytics{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Analytics</h1>
+    <div class="text-sm text-ss-muted">{{ totals.total }} sound event{{ totals.total|pluralize }}{% if filters_active %} matching {{ filters_active }} filter{{ filters_active|pluralize }}{% endif %}. Classes and severities include reviewers' decisions.</div>
+  </div>
+  {% block report_buttons %}{% endblock %}
+</div>
+
+<form method="get" class="card mb-4"><div class="grid grid-cols-12 card-body gap-2 items-end">
+  {% for field in filter_fields %}
+  <div class="col-span-6 md:col-span-4 xl:col-span-2">
+    <label class="form-label text-sm mb-1" for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+    {% for error in field.errors %}<div class="invalid-feedback block">{{ error }}</div>{% endfor %}
+  </div>
+  {% endfor %}
+  <div class="col-span-12 xl:col-span-2 flex gap-2">
+    <button class="btn btn-sm btn-primary" type="submit">Apply</button>
+    {% if filters_active %}<a class="btn btn-sm btn-link" href="{% url 'analytics' %}">Clear</a>{% endif %}
+  </div>
+</div></form>
+
+<div class="grid grid-cols-12 gap-4 mb-4">
+  <div class="col-span-6 md:col-span-3"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Critical events</div><div class="value">{{ totals.critical }}</div>
+    <div class="text-sm text-ss-muted">{{ totals.critical_alerts }} critical alert{{ totals.critical_alerts|pluralize }}</div></div></div></div>
+  <div class="col-span-6 md:col-span-3"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Average confidence</div><div class="value">{{ totals.avg_confidence|pct }}</div>
+    <div class="text-sm text-ss-muted">Python model</div></div></div></div>
+  <div class="col-span-6 md:col-span-3"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Model disagreement</div><div class="value">{% if totals.disagreement_rate is not None %}{{ totals.disagreement_rate|pct }}{% else %}—{% endif %}</div>
+    <div class="text-sm text-ss-muted">{{ totals.disagreements }} of {{ totals.compared }} with a GTM result</div></div></div></div>
+  <div class="col-span-6 md:col-span-3"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Poor-quality recordings</div><div class="value">{{ totals.poor_quality }}</div>
+    <div class="text-sm text-ss-muted">graded Poor or Unusable</div></div></div></div>
+</div>
+
+<div class="grid grid-cols-12 gap-4">
+  <div class="col-span-12 xl:col-span-6"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold mb-0">Category frequency</h2>
+    <div class="text-sm text-ss-muted mb-2">Sound events per category</div>
+    {% if categories %}
+    <div class="chart-box" style="height: {{ categories|length|chart_height }}px"><canvas id="category-chart" role="img" aria-label="Bar chart of events per category"></canvas></div>
+    <details class="mt-2"><summary class="text-sm">Show as table</summary>
+      <table class="table table-sm text-sm mt-2 mb-0"><tbody>{% for name, n in categories %}<tr><td>{{ name }}</td><td class="text-right">{{ n }}</td></tr>{% endfor %}</tbody></table></details>
+    {% else %}<p class="text-sm text-ss-muted">No events.</p>{% endif %}
+  </div></div></div>
+
+  <div class="col-span-12 xl:col-span-6"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold mb-0">Critical-event frequency</h2>
+    <div class="text-sm text-ss-muted mb-2">Detections of each critical class, and the alerts they raised</div>
+    <div class="chart-box"><canvas id="critical-chart" role="img" aria-label="Bar chart of detections and alerts per critical class"></canvas></div>
+    <details class="mt-2"><summary class="text-sm">Show as table</summary>
+      <table class="table table-sm text-sm mt-2 mb-0"><thead><tr><th>Class</th><th class="text-right">Detections</th><th class="text-right">Alerts</th></tr></thead>
+      <tbody>{% for r in critical %}<tr><td>{{ r.category }}</td><td class="text-right">{{ r.events }}</td><td class="text-right">{{ r.alerts }}</td></tr>{% endfor %}</tbody></table></details>
+  </div></div></div>
+
+  <div class="col-span-12 xl:col-span-6"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold mb-0">Confidence distribution</h2>
+    <div class="text-sm text-ss-muted mb-2">How many results fall in each top-class confidence band, per model</div>
+    <div class="chart-box"><canvas id="confidence-chart" role="img" aria-label="Column chart of results per confidence band for the Python model and GTM"></canvas></div>
+    <details class="mt-2"><summary class="text-sm">Show as table</summary>
+      <table class="table table-sm text-sm mt-2 mb-0"><thead><tr><th>Confidence</th><th class="text-right">Python</th><th class="text-right">GTM</th></tr></thead>
+      <tbody>{% for label in confidence.labels %}<tr><td>{{ label }}</td><td class="text-right">{{ confidence.python|index:forloop.counter0 }}</td><td class="text-right">{{ confidence.gtm|index:forloop.counter0 }}</td></tr>{% endfor %}</tbody></table></details>
+  </div></div></div>
+
+  <div class="col-span-12 xl:col-span-6"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold mb-0">Detection trends</h2>
+    <div class="text-sm text-ss-muted mb-2">Sound events per day, last 30 days</div>
+    <div class="chart-box"><canvas id="trend-chart" role="img" aria-label="Line chart of events and critical events per day over the last 30 days"></canvas></div>
+    <details class="mt-2"><summary class="text-sm">Show as table</summary>
+      <table class="table table-sm text-sm mt-2 mb-0"><thead><tr><th>Day</th><th class="text-right">Events</th><th class="text-right">Critical</th></tr></thead>
+      <tbody>{% for label in trend.labels %}<tr><td>{{ label }}</td><td class="text-right">{{ trend.events|index:forloop.counter0 }}</td><td class="text-right">{{ trend.critical|index:forloop.counter0 }}</td></tr>{% endfor %}</tbody></table></details>
+  </div></div></div>
+
+  <div class="col-span-12 xl:col-span-6"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold mb-0">Model disagreement</h2>
+    <div class="text-sm text-ss-muted mb-2">Share of results per Python class where GTM predicted a different class</div>
+    {% if disagreement %}
+    <div class="chart-box" style="height: {{ disagreement|length|chart_height }}px"><canvas id="disagreement-chart" role="img" aria-label="Bar chart of the disagreement rate per class"></canvas></div>
+    <details class="mt-2"><summary class="text-sm">Show as table</summary>
+      <table class="table table-sm text-sm mt-2 mb-0"><thead><tr><th>Python class</th><th class="text-right">Compared</th><th class="text-right">GTM differed</th><th class="text-right">Rate</th></tr></thead>
+      <tbody>{% for r in disagreement %}<tr><td>{{ r.category }}</td><td class="text-right">{{ r.n }}</td><td class="text-right">{{ r.differ }}</td><td class="text-right">{{ r.rate|pct }}</td></tr>{% endfor %}</tbody></table></details>
+    {% else %}<p class="text-sm text-ss-muted">No results with a GTM prediction.</p>{% endif %}
+  </div></div></div>
+
+  <div class="col-span-12 xl:col-span-6"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold mb-0">Audio quality</h2>
+    <div class="text-sm text-ss-muted mb-2">Recordings per quality grade</div>
+    <div class="chart-box"><canvas id="quality-chart" role="img" aria-label="Column chart of recordings per quality grade"></canvas></div>
+    <details class="mt-2"><summary class="text-sm">Show as table</summary>
+      <table class="table table-sm text-sm mt-2 mb-0"><tbody>{% for grade, n in quality %}<tr><td>{{ grade }}</td><td class="text-right">{{ n }}</td></tr>{% endfor %}</tbody></table></details>
+  </div></div></div>
+
+  <div class="col-span-12"><div class="card"><div class="card-body">
+    <h2 class="text-base font-semibold mb-0">False positives and false negatives</h2>
+    <p class="text-sm text-ss-muted mb-2">Counted from three independent sources. <strong>Reviewers:</strong> a correction away from a class is a false positive for it, a correction to a class a false negative. <strong>Dismissed alerts:</strong> alerts a person dismissed as false alarms. <strong>Dataset labels:</strong> uploads identical to a labelled dataset clip, compared with each model's own prediction{% if errors.evaluation.n %} ({{ errors.evaluation.n }} clips: Python {{ errors.evaluation.python_accuracy|pct }} correct{% if errors.evaluation.gtm_n %}, GTM {{ errors.evaluation.gtm_accuracy|pct }} of {{ errors.evaluation.gtm_n }}{% endif %}){% else %} (none uploaded yet){% endif %}.</p>
+    <div class="table-wrap"><table class="table table-sm align-middle mb-0 text-sm">
+      <thead>
+        <tr><th rowspan="2">Class</th><th colspan="3" class="text-center border-l border-ss-border">Reviewers</th><th class="text-center border-l border-ss-border">Alerts</th><th colspan="4" class="text-center border-l border-ss-border">Dataset labels</th></tr>
+        <tr><th class="text-right border-l border-ss-border">Confirmed</th><th class="text-right">False pos.</th><th class="text-right">False neg.</th><th class="text-right border-l border-ss-border">Dismissed</th>
+            <th class="text-right border-l border-ss-border">Python FP</th><th class="text-right">Python FN</th><th class="text-right">GTM FP</th><th class="text-right">GTM FN</th></tr>
+      </thead>
+      <tbody>{% for r in errors.rows %}
+        <tr><td>{{ r.category }}</td><td class="text-right border-l border-ss-border">{{ r.confirmed }}</td><td class="text-right">{{ r.fp }}</td><td class="text-right">{{ r.fn }}</td>
+            <td class="text-right border-l border-ss-border">{{ r.dismissed }}</td><td class="text-right border-l border-ss-border">{{ r.py_fp }}</td><td class="text-right">{{ r.py_fn }}</td><td class="text-right">{{ r.gtm_fp }}</td><td class="text-right">{{ r.gtm_fn }}</td></tr>
+      {% endfor %}</tbody>
+    </table></div>
+  </div></div></div>
+
+  <div class="col-span-12"><div class="card"><div class="card-body">
+    <h2 class="text-base font-semibold mb-0">Alert response</h2>
+    <p class="text-sm text-ss-muted mb-2">How quickly a person first acted on each alert (acknowledged, escalated, dismissed or resolved), and how many were escalated automatically because nobody did.</p>
+    <div class="table-wrap"><table class="table table-sm align-middle mb-0 text-sm">
+      <thead><tr><th>Severity</th><th class="text-right">Alerts</th><th class="text-right">Handled by a person</th><th class="text-right">Median time to first action</th><th class="text-right">Escalated automatically</th><th class="text-right">Dismissed (false alarm)</th><th class="text-right">Still open</th></tr></thead>
+      <tbody>{% for r in response %}
+        <tr><td><span class="badge {{ r.severity|sev }}">{{ r.severity }}</span></td><td class="text-right">{{ r.alerts }}</td><td class="text-right">{{ r.handled }}</td>
+            <td class="text-right">{% if r.median_minutes is not None %}{{ r.median_minutes|floatformat:1 }} min{% else %}—{% endif %}</td>
+            <td class="text-right">{{ r.auto_escalated }}</td><td class="text-right">{{ r.dismissed }}</td><td class="text-right">{{ r.open }}</td></tr>
+      {% empty %}<tr><td colspan="7" class="text-ss-muted">No alerts.</td></tr>{% endfor %}</tbody>
+    </table></div>
+  </div></div></div>
+</div>
+{% endblock %}
+{% block scripts %}
+{{ category_chart|json_script:"category-data" }}
+{{ critical|json_script:"critical-data" }}
+{{ confidence|json_script:"confidence-data" }}
+{{ trend|json_script:"trend-data" }}
+{{ disagreement|json_script:"disagreement-data" }}
+{{ quality_chart|json_script:"quality-data" }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="{% static 'js/charts.js' %}"></script>
+<script>
+  (function () {
+    const d = SonicCharts.data;
+    const cats = d("category-data"), critical = d("critical-data"), conf = d("confidence-data");
+    const trend = d("trend-data"), disagree = d("disagreement-data"), quality = d("quality-data");
+    SonicCharts.bar("category-chart", cats.labels, [{ name: "Events", values: cats.values }], { horizontal: true });
+    SonicCharts.bar("critical-chart", critical.map((r) => r.category),
+      [{ name: "Detections", values: critical.map((r) => r.events) }, { name: "Alerts", values: critical.map((r) => r.alerts) }]);
+    SonicCharts.bar("confidence-chart", conf.labels, [{ name: "Python", values: conf.python }, { name: "GTM", values: conf.gtm }]);
+    SonicCharts.line("trend-chart", trend.labels, [{ name: "All events", values: trend.events }, { name: "Critical", values: trend.critical }]);
+    SonicCharts.bar("disagreement-chart", disagree.map((r) => r.category), [{ name: "Disagreement", values: disagree.map((r) => r.rate) }], { horizontal: true, percent: true });
+    SonicCharts.bar("quality-chart", quality.labels, [{ name: "Recordings", values: quality.values }]);
+  })();
+</script>
+{% endblock %}

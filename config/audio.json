@@ -1,0 +1,31 @@
+{
+  "_comment": "Audio preprocessing settings, shared by model training, GTM sample export and the Django app. Changing a value here changes all three; re-run 'python -m sonic.preprocessing build' afterwards.",
+
+  "sample_rate": 16000,
+  "_sample_rate": "16 kHz for every clip. MIMII is recorded at 16 kHz, so a higher rate would leave 8-16 kHz empty only for Machinery Fault: a shortcut the model could learn.",
+
+  "segment_seconds": 1.0,
+  "hop_seconds": 0.5,
+  "_segment": "1 s windows match Google Teachable Machine's audio input, so both models see the same segment. Live monitoring uses the same window.",
+
+  "trim_top_db": 40,
+  "_trim": "Leading/trailing audio more than 40 dB below the clip's peak is trimmed (removes ESC-50's digital-silence padding).",
+
+  "target_rms_dbfs": -20.0,
+  "peak_limit_dbfs": -1.0,
+  "silence_dbfs": -60.0,
+  "_loudness": "Each segment is scaled to -20 dBFS RMS (peak capped at -1 dBFS). Segments quieter than -60 dBFS are treated as silence and never amplified.",
+
+  "pad_noise_dbfs": -70.0,
+  "_padding": "A faint -70 dBFS noise floor is added under every clip, and clips shorter than one segment are padded with the same noise, so no segment contains digital silence (exact zeros), which some source datasets have and others do not.",
+
+  "event_window_db": 20.0,
+  "max_segments_per_clip": 5,
+  "_training": "Training keeps only windows within 20 dB of the clip's loudest window (where the event is), at most 5 per clip so long clips do not dominate.",
+
+  "noise_reduction": {
+    "enabled": false,
+    "prop_decrease": 0.6,
+    "_note": "Spectral-gating noise reduction (noisereduce). Off by default: it would also erase the Background Noise class and can smear short transients like gunshots. The noise-robustness experiments compare on vs off."
+  }
+}

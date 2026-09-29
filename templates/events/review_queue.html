@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load sonic_tags %}
+{% block title %}Review queue{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Review queue</h1>
+    <div class="text-sm text-ss-muted">{{ waiting }} event{{ waiting|pluralize }} waiting. Most severe first, then the one that has waited longest.</div>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <form class="flex flex-wrap gap-2" method="get">
+      <select class="form-select form-select-sm w-auto" name="reason" aria-label="Reason">
+        <option value="">Any reason</option>
+        {% for r in reasons %}<option {% if r == filters.reason %}selected{% endif %}>{{ r }}</option>{% endfor %}
+      </select>
+      <select class="form-select form-select-sm w-auto" name="severity" aria-label="Severity">
+        <option value="">Any severity</option>
+        {% for s in severities %}<option {% if s == filters.severity %}selected{% endif %}>{{ s }}</option>{% endfor %}
+      </select>
+      <select class="form-select form-select-sm w-auto" name="source" aria-label="Source">
+        <option value="">Any source</option>
+        {% for value, label in sources %}<option value="{{ value }}" {% if value == filters.source %}selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+      <button class="btn btn-sm btn-outline-secondary" type="submit">Filter</button>
+    </form>
+    {% if page.object_list %}<a class="btn btn-sm btn-primary" href="{% url 'events:detail' page.object_list.0.code %}?from=queue"><i class="bi bi-play-fill"></i> Start reviewing</a>{% endif %}
+  </div>
+</div>
+
+<div class="card"><div class="table-wrap">
+<table class="table table-hover align-middle mb-0">
+  <thead><tr><th>Event</th><th>Waiting</th><th>Detected</th><th>Python</th><th>GTM</th><th>Severity</th><th>Why it needs review</th><th>Audio</th></tr></thead>
+  <tbody>
+  {% for e in page %}
+  <tr>
+    <td class="whitespace-nowrap"><a href="{% url 'events:detail' e.code %}?from=queue">{{ e.code }}</a><div class="text-sm text-ss-muted">{{ e.record.get_source_display }}</div></td>
+    <td class="text-sm whitespace-nowrap">{{ e.created_at|timesince }}</td>
+    <td>{{ e.final_class }}<div class="text-sm"><span class="badge text-bg-{{ e.consistency|consistency_colour }}">{{ e.consistency }}</span></div></td>
+    <td class="text-sm">{{ e.python_class }} {{ e.python_confidence|pct }}</td>
+    <td class="text-sm">{{ e.gtm_class|default:"—" }}{% if e.gtm_confidence is not None %} {{ e.gtm_confidence|pct }}{% endif %}</td>
+    <td><span class="badge {{ e.severity|sev }}">{{ e.severity }}</span></td>
+    <td class="text-sm">{{ e.review_reasons|join:"; " }}</td>
+    <td>{% if e.record.stored_file %}<i class="bi bi-volume-up text-green-700" title="Audio kept"></i>{% else %}<i class="bi bi-volume-mute text-ss-muted" title="Audio not kept"></i>{% endif %}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="8" class="text-ss-muted">Nothing waiting for review.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div></div>
+{% include "partials/pagination.html" %}
+{% endblock %}

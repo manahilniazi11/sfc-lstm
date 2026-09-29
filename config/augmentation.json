@@ -1,0 +1,23 @@
+{
+  "_comment": "Offline augmentation of TRAINING segments only (SRS Hint: augmented audio stays in the original's split and never counts as a unique clip). Run 'python -m sonic.augmentation build' after 'python -m sonic.preprocessing build'.",
+
+  "target_train_segments_per_class": 1500,
+  "max_copies_per_segment": 5,
+  "_balance": "Each class is topped up with augmented copies until it has this many training segments (originals + copies), so small classes like Gunshot get more copies than Machinery Fault. Validation and test are never augmented.",
+
+  "transforms_per_copy": [2, 3],
+  "_chain": "Each copy applies a random chain of 2-3 transforms. Background noise is always one of them, so every class is heard over the same pool of backgrounds.",
+
+  "background_noise": {
+    "snr_db": [3, 20],
+    "_sources": "Training segments of Background Noise and Normal Machinery (MIMII factory recordings of machines working normally); never validation or test audio",
+    "_note": "Mixing factory noise into every class stops 'factory hum' from meaning Machinery Fault."
+  },
+  "time_shift_seconds": 0.3,
+  "pitch_shift_semitones": 2.0,
+  "time_stretch_rate": [0.85, 1.15],
+  "gain_db": [-6, 6],
+  "reverb": {"rt60_seconds": [0.2, 0.8], "wet": [0.1, 0.4]},
+  "distance": {"lowpass_hz": [2000, 6000], "extra_reverb_wet": [0.2, 0.5]},
+  "device": {"bandpass_hz": [[300, 3400], [100, 7000], [200, 5000]], "clip_level": [0.3, 0.8]}
+}

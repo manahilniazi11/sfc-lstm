@@ -1,0 +1,63 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}SonicSentinel AI{% endblock %} · SonicSentinel AI</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  {% include "partials/tailwind.html" %}
+  {% block head %}{% endblock %}
+</head>
+<body class="min-h-screen">
+{% if user.is_authenticated %}
+<header class="flex items-center justify-between bg-ss-sidebar px-4 py-2 text-white lg:hidden">
+  <button id="sidebar-open" class="btn btn-sm btn-outline-light" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open menu">
+    <i class="bi bi-list"></i>
+  </button>
+  <span class="text-lg font-semibold"><i class="bi bi-soundwave text-ss-accent"></i> SonicSentinel</span>
+  <span class="w-9"></span>
+</header>
+<div class="flex min-h-screen">
+  <div id="sidebar-backdrop" class="fixed inset-0 z-30 hidden bg-black/50 lg:hidden"></div>
+  <aside id="sidebar" aria-label="Main menu"
+         class="invisible fixed inset-y-0 left-0 z-40 flex w-[250px] -translate-x-full flex-col bg-ss-sidebar text-white transition-transform duration-200 lg:visible lg:sticky lg:top-0 lg:h-screen lg:shrink-0 lg:translate-x-0">
+    <div class="flex items-center justify-between px-5 py-3 lg:hidden">
+      <span class="text-lg font-bold"><i class="bi bi-soundwave text-ss-accent"></i> SonicSentinel</span>
+      <button id="sidebar-close" class="btn-close text-white" type="button" aria-label="Close menu"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <a class="hidden items-center gap-2 px-5 py-4 text-lg font-bold text-white no-underline hover:text-white lg:flex" href="{% url 'home' %}">
+      <i class="bi bi-soundwave text-2xl text-ss-accent"></i><span>SonicSentinel <small class="font-semibold text-blue-300">AI</small></span>
+    </a>
+    <nav class="flex flex-col gap-0.5 overflow-y-auto px-2 py-1">
+      {% block nav %}
+      <a class="side-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      {% include "partials/nav_items.html" %}
+      {% endblock %}
+    </nav>
+    <div class="mt-auto border-t border-white/10 px-5 py-4">
+      <div class="text-sm text-white/50">{{ user.user_code }} · {{ user.get_role_display }}</div>
+      <div class="truncate font-semibold">{{ user.get_full_name|default:user.username }}</div>
+      <div class="mt-2 flex gap-2">
+        <a class="btn btn-sm btn-outline-light" href="{% url 'accounts:profile' %}"><i class="bi bi-person"></i> Profile</a>
+        <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}
+          <button class="btn btn-sm btn-outline-light" type="submit"><i class="bi bi-box-arrow-right"></i> Log out</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+  <main class="min-w-0 flex-1 p-4 sm:p-6">
+    {% include "partials/messages.html" %}
+    {% block content %}{% endblock %}
+    <footer class="mt-8 text-xs text-slate-400">SonicSentinel AI is a competition prototype for controlled, ethical testing. It is not a certified emergency-response or law-enforcement system.</footer>
+  </main>
+</div>
+{% else %}
+<main class="flex min-h-screen flex-col items-center justify-center p-4">
+  {% include "partials/messages.html" %}
+  {% block auth_content %}{% endblock %}
+</main>
+{% endif %}
+<script src="{% static 'js/ui.js' %}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

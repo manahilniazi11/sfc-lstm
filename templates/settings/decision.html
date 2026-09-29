@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Detection settings{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Detection settings</h1>
+    <div class="text-sm text-ss-muted">Last changed {{ config.updated_at|date:"Y-m-d H:i" }}{% if config.updated_by %} by {{ config.updated_by.username }}{% endif %}. Every change is kept in the audit trail.</div>
+  </div>
+  <a class="btn btn-outline-secondary btn-sm" href="{% url 'settings:rules' %}"><i class="bi bi-list-check"></i> Alert rules</a>
+</div>
+
+<form method="post">{% csrf_token %}
+{% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+<div class="grid grid-cols-12 gap-4">
+  <div class="col-span-12 xl:col-span-6"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold">Decision thresholds</h2>
+    <p class="text-sm text-ss-muted">Probabilities from 0 to 1 (0.5 = 50%). The starting values came from the validation-data study in <code>reports/threshold_study.md</code>.</p>
+    {% for field in form %}{% if field.name in "min_confidence top_two_margin unknown_confidence weak_match_difference overlap_threshold repeat_window_seconds" %}
+    <div class="mb-4">
+      <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+      {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+      {% for error in field.errors %}<div class="invalid-feedback block">{{ error }}</div>{% endfor %}
+    </div>
+    {% endif %}{% endfor %}
+  </div></div></div>
+
+  <div class="col-span-12 xl:col-span-6">
+    <div class="card mb-4"><div class="card-body">
+      <h2 class="text-base font-semibold">Live monitoring and uploads</h2>
+      {% for field in form %}{% if field.name in "live_window_seconds max_upload_mb store_live_audio" %}
+      <div class="mb-4">
+        {% if field.name == "store_live_audio" %}
+        <div class="form-check">{{ field }} <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label></div>
+        {% else %}
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% endif %}
+        {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+        {% for error in field.errors %}<div class="invalid-feedback block">{{ error }}</div>{% endfor %}
+      </div>
+      {% endif %}{% endfor %}
+    </div></div>
+
+    <div class="card"><div class="card-body">
+      <h2 class="text-base font-semibold">Data retention</h2>
+      {% for field in form %}{% if field.name in "audio_retention_days event_retention_days" %}
+      <div class="mb-4">
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+        {% for error in field.errors %}<div class="invalid-feedback block">{{ error }}</div>{% endfor %}
+      </div>
+      {% endif %}{% endfor %}
+      <p class="text-sm mb-0">With the saved limits, applying retention now would delete <strong>{{ plan.audio_files }}</strong> audio file{{ plan.audio_files|pluralize }} (older than {{ plan.audio_before|date:"Y-m-d" }}) and <strong>{{ plan.event_records }}</strong> event record{{ plan.event_records|pluralize }} (older than {{ plan.events_before|date:"Y-m-d" }}).{% if plan.kept_open %} {{ plan.kept_open }} old record{{ plan.kept_open|pluralize }} would be kept because they still need review or have an open alert.{% endif %}</p>
+    </div></div>
+  </div>
+</div>
+<div class="mt-4"><button class="btn btn-primary" type="submit"><i class="bi bi-check2"></i> Save settings</button></div>
+</form>
+
+<form method="post" action="{% url 'settings:retention' %}" class="mt-6" onsubmit="return confirm('Delete {{ plan.audio_files }} audio file(s) and {{ plan.event_records }} event record(s) now? This cannot be undone.');">{% csrf_token %}
+  <button class="btn btn-outline-danger btn-sm" type="submit" {% if not plan.audio_files and not plan.event_records %}disabled{% endif %}><i class="bi bi-trash"></i> Apply retention now</button>
+  <span class="text-sm text-ss-muted ms-2">Or schedule <code>python manage.py apply_retention</code> daily.</span>
+</form>
+{% endblock %}

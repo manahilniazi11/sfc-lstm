@@ -1,0 +1,74 @@
+{
+  "_comment": "Maps each public dataset's own labels to our class names (config/sound_classes.json). A label that is missing or mapped to null is ignored. Edit this file, not the code, to change which source labels feed a class.",
+
+  "esc50": {
+    "dog": "Animal Sound", "rooster": "Animal Sound", "pig": "Animal Sound", "cow": "Animal Sound",
+    "frog": "Animal Sound", "cat": "Animal Sound", "hen": "Animal Sound", "sheep": "Animal Sound",
+    "crow": "Animal Sound", "insects": "Animal Sound",
+    "glass_breaking": "Glass Breaking",
+    "siren": "Alarm or Siren",
+    "car_horn": "Vehicle Horn",
+    "rain": "Background Noise", "sea_waves": "Background Noise", "wind": "Background Noise",
+    "crackling_fire": "Background Noise", "water_drops": "Background Noise",
+    "pouring_water": "Background Noise", "clock_tick": "Background Noise",
+    "keyboard_typing": "Background Noise"
+  },
+
+  "urbansound8k": {
+    "gun_shot": "Gunshot",
+    "car_horn": "Vehicle Horn",
+    "siren": "Alarm or Siren",
+    "dog_bark": "Animal Sound",
+    "air_conditioner": "Background Noise"
+  },
+
+  "fsd50k": {
+    "_exclude_if_present": ["Telephone", "Ringtone", "Doorbell", "Bicycle_bell"],
+    "_generic_labels": [
+      "Alarm", "Rain", "Raindrop", "Wind", "Stream", "Ocean", "Waves_and_surf",
+      "Traffic_noise_and_roadway_noise", "Mechanical_fan", "Crowd", "Chatter"
+    ],
+    "Rain": "Background Noise",
+    "Raindrop": "Background Noise",
+    "Wind": "Background Noise",
+    "Stream": "Background Noise",
+    "Ocean": "Background Noise",
+    "Waves_and_surf": "Background Noise",
+    "Traffic_noise_and_roadway_noise": "Background Noise",
+    "Mechanical_fan": "Background Noise",
+    "Crowd": "Background Noise",
+    "Chatter": "Background Noise",
+    "Gunshot_and_gunfire": "Gunshot",
+    "Shatter": "Glass Breaking",
+    "Siren": "Alarm or Siren",
+    "Alarm": "Alarm or Siren",
+    "Vehicle_horn_and_car_horn_and_honking": "Vehicle Horn",
+    "Screaming": "Panic Scream",
+    "Shout": "Aggression",
+    "Yell": "Aggression",
+    "Animal": "Animal Sound"
+  },
+
+  "mimii": {
+    "abnormal": "Machinery Fault",
+    "normal": "Normal Machinery"
+  },
+
+  "crema_d": {
+    "ANG": "Aggression"
+  },
+
+  "ravdess": {
+    "angry:strong": "Aggression",
+    "angry:normal": null
+  },
+
+  "nonspeech7k": {
+    "screaming": "Panic Scream"
+  },
+
+  "musan": {
+    "free-sound": "Background Noise",
+    "sound-bible": null
+  }
+}

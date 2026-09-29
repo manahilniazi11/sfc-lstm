@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static sonic_tags %}
+{% block title %}Live monitoring{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Live monitoring</h1>
+  <div class="flex items-center gap-2">Microphone <span id="mic-status" class="badge text-base text-bg-secondary">Checking…</span></div>
+</div>
+
+<div id="privacy-banner" class="hidden"><div class="alert alert-danger flex items-center gap-2" role="status">
+  <span class="rec-dot" aria-hidden="true"></span>
+  <strong>Microphone active.</strong> Audio is analysed in {{ window_seconds|floatformat:0 }}-second windows. Audio is only kept for windows that raise an alert or need review.
+</div></div>
+
+<div class="card mb-4"><div class="card-body flex flex-wrap gap-2 items-end">
+  {% csrf_token %}
+  <div class="grow" style="min-width: 220px">
+    <label class="form-label text-sm mb-1" for="device-select">Input device</label>
+    <select id="device-select" class="form-select"></select>
+  </div>
+  <button id="btn-start" class="btn btn-success" type="button"><i class="bi bi-mic-fill"></i> Start</button>
+  <button id="btn-pause" class="btn btn-outline-warning" type="button" disabled><i class="bi bi-pause-fill"></i> Pause</button>
+  <button id="btn-stop" class="btn btn-outline-danger" type="button" disabled><i class="bi bi-stop-fill"></i> Stop</button>
+  <div class="w-full text-sm text-ss-muted">Nothing is captured until you press Start. No microphone? Choose <strong>Stereo Mix</strong> and play recordings on this PC: the app hears them exactly like a microphone would.</div>
+</div></div>
+
+<div id="active-alert" class="hidden"></div>
+
+<div class="grid grid-cols-12 gap-4 mb-4">
+  <div class="col-span-12 lg:col-span-4"><div class="card h-full"><div class="card-body">
+    <div class="text-sm text-ss-muted">Current sound</div>
+    <div class="flex items-center gap-2 flex-wrap"><span id="current-sound" class="text-[1.75rem] font-bold">—</span><span id="current-severity" class="badge sev sev-informational">—</span></div>
+    <div id="current-meta" class="text-sm text-ss-muted mt-1">Press Start to begin.</div>
+    <div class="text-sm mt-2">Model agreement: <span id="agreement">—</span></div>
+  </div></div></div>
+  <div class="col-span-12 md:col-span-6 lg:col-span-4"><div class="card h-full"><div class="card-body">
+    <div class="text-sm text-ss-muted mb-1">Python model</div><div id="python-result">—</div>
+  </div></div></div>
+  <div class="col-span-12 md:col-span-6 lg:col-span-4"><div class="card h-full"><div class="card-body">
+    <div class="text-sm text-ss-muted mb-1">Google Teachable Machine</div><div id="gtm-result">—</div>
+  </div></div></div>
+</div>
+
+<div class="grid grid-cols-12 gap-4 mb-4">
+  <div class="col-span-12 lg:col-span-8"><div class="card h-full"><div class="card-body">
+    <div class="text-sm text-ss-muted mb-1">Live waveform</div>
+    <canvas id="wave-canvas" class="live-canvas" width="900" height="120"></canvas>
+    <div class="text-sm text-ss-muted mt-2 mb-1">Live spectrogram (0–8 kHz, newest on the right)</div>
+    <canvas id="spec-canvas" class="live-canvas" width="900" height="140"></canvas>
+  </div></div></div>
+  <div class="col-span-12 lg:col-span-4"><div class="card h-full"><div class="card-body">
+    <dl class="grid grid-cols-12 text-sm mb-2 gap-x-3">
+      <dt class="col-span-6">Session</dt><dd class="col-span-6 font-mono" id="session-code">—</dd>
+      <dt class="col-span-6">Running for</dt><dd class="col-span-6" id="session-elapsed">0:00</dd>
+      <dt class="col-span-6">Window length</dt><dd class="col-span-6">{{ window_seconds|floatformat:1 }} s</dd>
+      <dt class="col-span-6">Windows analysed</dt><dd class="col-span-6" id="session-windows">0</dd>
+      <dt class="col-span-6">Skipped (server busy)</dt><dd class="col-span-6" id="session-dropped">0</dd>
+      <dt class="col-span-6">Last result after</dt><dd class="col-span-6" id="latency">—</dd>
+    </dl>
+    <div class="text-sm text-ss-muted mb-1">Input level <span id="level-text"></span></div>
+    <div class="progress" style="height: .6rem"><div id="level-bar" class="progress-bar bg-green-600" style="width: 0%"></div></div>
+  </div></div></div>
+</div>
+
+<div class="card"><div class="card-body">
+  <h2 class="text-base font-semibold">Recent detections</h2>
+  <div class="table-wrap"><table class="table table-sm align-middle mb-0">
+    <thead><tr><th>Time</th><th>Event</th><th>Final</th><th>Python</th><th>GTM</th><th>Severity</th><th>Alert</th></tr></thead>
+    <tbody id="recent-body">
+      {% for e in recent %}
+      <tr><td>{{ e.created_at|date:"H:i:s" }}</td><td><a href="{% url 'events:detail' e.code %}">{{ e.code }}</a></td><td>{{ e.final_class }}</td>
+        <td class="text-sm">{{ e.python_class }} {{ e.python_confidence|pct }}</td><td class="text-sm">{{ e.gtm_class|default:"—" }} {% if e.gtm_confidence is not None %}{{ e.gtm_confidence|pct }}{% endif %}</td>
+        <td><span class="badge {{ e.severity|sev }}">{{ e.severity }}</span></td><td>{% if e.alert_status == "Alert generated" %}<i class="bi bi-bell-fill text-red-600"></i>{% endif %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+</div></div>
+{{ config|json_script:"monitor-config" }}
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.4.0/dist/speech-commands.min.js"></script>
+<script src="{% static 'js/gtm.js' %}"></script>
+<script src="{% static 'js/monitor.js' %}"></script>
+{% endblock %}

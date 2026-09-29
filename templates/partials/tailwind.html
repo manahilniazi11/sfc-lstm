@@ -1,0 +1,195 @@
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3"></script>
+<style type="text/tailwindcss">
+/*
+ * SonicSentinel AI styles: Tailwind CSS (browser build, compiled in the page).
+ *
+ * - @theme: the app's colours, and Bootstrap's screen widths (576/768/992/1200/1400 px)
+ *   so every page switches layout at the same widths as before the migration.
+ * - @layer base: Tailwind's reset removes all default styling; these rules restore
+ *   the readable defaults the pages rely on (paragraph spacing, list bullets,
+ *   headings, links, definition lists).
+ * - @layer components: the repeated building blocks (buttons, badges, cards, tables,
+ *   form fields, alerts...). Their names are used by Python (form widgets, colour
+ *   filters) and by the page scripts, so they are defined once here.
+ * - Everything else in the templates is plain Tailwind utility classes.
+ */
+@theme {
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1400px;
+
+  --color-ss-sidebar: #0f1b2d;
+  --color-ss-sidebar-hover: #1b2b44;
+  --color-ss-accent: #2f80ed;
+  --color-ss-bg: #f4f6fa;
+  --color-ss-border: #e1e6ef;
+  --color-ss-muted: #6c757d;
+  --color-ss-ink: #212529;
+  --color-ss-link: #0d6efd;
+
+  --color-sev-informational: #6c757d;
+  --color-sev-low: #198754;
+  --color-sev-medium: #d39e00;
+  --color-sev-high: #fd7e14;
+  --color-sev-critical: #dc3545;
+
+  --animate-pulse-dot: pulse-dot 1.2s infinite;
+  --animate-flash: flash 1s 3;
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+  @keyframes flash { 0%, 100% { background-color: #f8d7da; } 50% { background-color: #f1aeb5; } }
+}
+
+@layer base {
+  body { @apply bg-ss-bg text-ss-ink; }
+  h1, h2, h3, h4, h5, h6 { @apply mb-2 font-medium leading-tight; }
+  h1 { @apply text-4xl; } h2 { @apply text-3xl; } h3 { @apply text-2xl; }
+  h4 { @apply text-2xl; } h5 { @apply text-xl; } h6 { @apply text-base; }
+  p, dl { @apply mb-4; }
+  ul, ol { @apply mb-4 pl-8; }
+  ul { @apply list-disc; } ol { @apply list-decimal; }
+  li > ul, li > ol { @apply mb-0; }
+  dt { @apply font-bold; } dd { @apply mb-2; }
+  small { font-size: .875em; }
+  a { @apply text-ss-link underline; }
+  a:hover { @apply text-blue-800; }
+  code { @apply text-[.875em] text-pink-600; }
+  button:not(:disabled), [role="button"], summary, select { @apply cursor-pointer; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-ss-accent/60; }
+}
+
+@layer components {
+  /* Page frame */
+  .page-head { @apply mb-5 flex flex-wrap items-center justify-between gap-3; }
+  .page-head h1 { @apply m-0 text-2xl; }
+  .side-link { @apply flex items-center gap-2.5 rounded-md px-3 py-2 text-slate-300 no-underline hover:bg-ss-sidebar-hover hover:text-white; }
+  .side-link.active { @apply bg-ss-accent text-white; }
+  .side-link .badge { @apply ml-auto; }
+  .side-section { @apply px-3 pt-3.5 pb-1 text-[.72rem] uppercase tracking-wider text-slate-500; }
+
+  /* Buttons */
+  .btn { @apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-transparent px-3 py-1.5 text-base leading-normal font-normal whitespace-nowrap no-underline transition-colors select-none disabled:pointer-events-none disabled:opacity-60; }
+  .btn-sm { @apply px-2 py-1 text-sm; }
+  .btn-primary { @apply bg-ss-link text-white hover:bg-blue-700 hover:text-white; }
+  .btn-success { @apply bg-green-700 text-white hover:bg-green-800 hover:text-white; }
+  .btn-warning { @apply bg-amber-400 text-slate-900 hover:bg-amber-500; }
+  .btn-info { @apply bg-cyan-400 text-slate-900 hover:bg-cyan-500; }
+  .btn-dark { @apply bg-slate-800 text-white hover:bg-slate-900 hover:text-white; }
+  .btn-outline-primary { @apply border-ss-link text-ss-link hover:bg-ss-link hover:text-white; }
+  .btn-outline-secondary { @apply border-slate-500 text-slate-600 hover:bg-slate-500 hover:text-white; }
+  .btn-outline-warning { @apply border-amber-400 text-amber-600 hover:bg-amber-400 hover:text-slate-900; }
+  .btn-outline-danger { @apply border-red-600 text-red-600 hover:bg-red-600 hover:text-white; }
+  .btn-outline-light { @apply border-white/70 text-white hover:bg-white hover:text-slate-900; }
+  .btn-link { @apply text-ss-link underline hover:text-blue-800; }
+  .btn-group { @apply inline-flex; }
+  .btn-group > .btn { @apply rounded-none not-first:-ml-px first:rounded-l-md last:rounded-r-md; }
+  .btn-group > .btn.active { @apply z-10 bg-slate-500 text-white; }
+  .btn-close { @apply ml-auto inline-flex size-6 cursor-pointer items-center justify-center rounded text-lg leading-none opacity-60 hover:opacity-100; }
+
+  /* Badges; the text-bg-* names come from the colour filters in sonic_tags.py and the scripts */
+  .badge { @apply inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 align-middle text-[.75em] leading-none font-semibold whitespace-nowrap; }
+  .text-bg-primary { @apply bg-ss-link text-white; }
+  .text-bg-secondary { @apply bg-slate-500 text-white; }
+  .text-bg-success { @apply bg-green-700 text-white; }
+  .text-bg-danger { @apply bg-red-600 text-white; }
+  .text-bg-warning { @apply bg-amber-400 text-slate-900; }
+  .text-bg-info { @apply bg-cyan-400 text-slate-900; }
+  .text-bg-dark { @apply bg-slate-800 text-white; }
+  .text-bg-light { @apply border border-ss-border bg-slate-50 text-slate-800; }
+  .sev { @apply font-semibold text-white; }
+  .sev-informational { @apply bg-sev-informational; }
+  .sev-low { @apply bg-sev-low; }
+  .sev-medium { @apply bg-sev-medium text-slate-900; }
+  .sev-high { @apply bg-sev-high; }
+  .sev-critical { @apply bg-sev-critical; }
+
+  /* Cards */
+  .card { @apply min-w-0 rounded-lg border border-ss-border bg-white; }
+  .card-body { @apply p-4; }
+  .stat-card .label { @apply text-sm text-ss-muted; }
+  .stat-card .value { @apply text-[1.6rem] leading-tight font-bold; }
+
+  /* Tables; wrap wide ones in .table-wrap (relative: visually hidden labels stay inside the scrolling box) */
+  .table-wrap { @apply relative overflow-x-auto; }
+  .table { @apply mb-4 w-full border-collapse text-left align-middle; }
+  .table :where(th, td) { @apply border-b border-ss-border px-2 py-2 align-middle; }
+  .table thead th { @apply font-semibold; }
+  .table-sm :where(th, td) { @apply px-1 py-1; }
+  .table-hover tbody tr:hover { @apply bg-slate-50; }
+
+  /* Form fields; form-control, form-select and form-check-input are added by StyledFormMixin (accounts/forms.py) */
+  .form-label { @apply mb-1 inline-block; }
+  .form-control, .form-select { @apply block w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-base leading-normal focus:border-ss-accent focus:ring-3 focus:ring-ss-accent/25 focus:outline-none disabled:bg-slate-100; }
+  .form-control-sm, .form-select-sm { @apply px-2 py-1 text-sm; }
+  textarea.form-control { @apply min-h-16; }
+  .form-check { @apply flex items-center gap-2; }
+  .form-check-input { @apply size-4 shrink-0 accent-ss-link; }
+  .form-check-label { @apply cursor-pointer; }
+  .form-text { @apply mt-1 text-sm text-ss-muted; }
+  .invalid-feedback { @apply mt-1 text-sm text-red-600; }
+
+  /* Alerts and messages */
+  .alert { @apply mb-4 rounded-md border px-4 py-3; }
+  .alert-success { @apply border-green-200 bg-green-50 text-green-900; }
+  .alert-info { @apply border-cyan-200 bg-cyan-50 text-cyan-900; }
+  .alert-warning { @apply border-amber-200 bg-amber-50 text-amber-900; }
+  .alert-danger { @apply border-red-200 bg-red-50 text-red-900; }
+  .live-alert { @apply animate-flash border-l-[6px] border-l-sev-critical motion-reduce:animate-none; }
+
+  /* Tabs and pagination */
+  .tabs { @apply mb-4 flex list-none flex-wrap gap-1 border-b border-ss-border pl-0; }
+  .tab { @apply -mb-px rounded-t-md border border-transparent px-3 py-2 no-underline hover:border-ss-border; }
+  .tab.active { @apply border-ss-border border-b-white bg-white text-ss-ink; }
+  .pagination { @apply mt-4 flex list-none items-center gap-1 pl-0 text-sm; }
+  .page-link { @apply block rounded-md border border-ss-border bg-white px-2.5 py-1 no-underline hover:bg-slate-50; }
+  .page-link.disabled { @apply text-ss-muted hover:bg-white; }
+
+  /* Progress bars, spinners and result lists */
+  .progress { @apply flex h-4 overflow-hidden rounded bg-slate-200; }
+  .progress-bar { @apply h-full bg-ss-link transition-[width]; }
+  .spinner { @apply inline-block size-4 animate-spin rounded-full border-2 border-current border-r-transparent align-[-0.125em] motion-reduce:animate-none; }
+  .result-list { @apply mb-0 list-none divide-y divide-ss-border pl-0; }
+  .result-list > li { @apply flex flex-wrap items-center gap-2 py-2; }
+
+  /* Upload drop zone */
+  .drop-zone { @apply block cursor-pointer rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-8 text-center transition-colors hover:border-ss-accent hover:bg-blue-50; }
+  .drop-zone.dragging { @apply border-ss-accent bg-blue-50; }
+
+  /* Model score bars (live monitoring and the event page) */
+  .score-row { @apply mb-1.5 flex items-center gap-2 text-[.85rem]; }
+  .score-row .name { @apply w-[42%] truncate; }
+  .score-row .value { @apply w-14 text-right tabular-nums; }
+  .score-row .progress { @apply h-2 grow; }
+  .mini-bar { @apply flex min-w-30 items-center gap-1.5; }
+  .mini-bar .progress { @apply h-1.5 grow; }
+  .mini-bar span { @apply w-13 text-right text-[.8rem] tabular-nums; }
+  .window-table { @apply max-h-65 overflow-y-auto; }
+  .summary-card { @apply border-l-4 border-l-ss-accent; }
+  .recommended { @apply rounded-md bg-amber-50 px-3 py-2; }
+
+  /* Live monitoring */
+  .live-canvas { @apply block h-auto w-full rounded-md bg-ss-sidebar; }
+  .rec-dot { @apply size-3 shrink-0 animate-pulse-dot rounded-full bg-sev-critical motion-reduce:animate-none; }
+
+  /* Alert, review and event timelines */
+  .alert-history { @apply mb-0 list-none pl-0; }
+  .alert-history li { @apply relative ml-1 border-l-2 border-ss-border pb-3 pl-3; }
+  .alert-history li::before { content: ""; @apply absolute top-1.5 -left-[.35rem] size-2.5 rounded-full bg-ss-accent; }
+  .timeline-date { @apply sticky top-0 z-10 mt-4 mb-1 bg-ss-bg py-1.5; }
+  .timeline { @apply mb-0 ml-2 list-none border-l-2 border-ss-border pl-0; }
+  .timeline-item { @apply relative mb-1.5 ml-3.5 rounded-md border border-ss-border bg-white py-2 pr-3 pl-5; }
+  .timeline-dot { @apply absolute top-3 -left-[1.62rem] size-3 rounded-full border-2 border-white; }
+  .sev-border-critical { @apply border-l-4 border-l-sev-critical; }
+  .sev-border-high { @apply border-l-4 border-l-sev-high; }
+
+  /* Dashboards */
+  .chart-box { @apply relative h-65; }
+  .dash-list { @apply mb-2 list-none pl-0; }
+  .dash-list li { @apply border-b border-ss-border py-1.5 last:border-b-0; }
+
+  /* Definition lists shown as label | value rows */
+  .facts { @apply grid grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-x-3; }
+  .facts dd { @apply mb-2; }
+}
+</style>

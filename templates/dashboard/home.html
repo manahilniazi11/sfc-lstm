@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% load static sonic_tags %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Dashboard</h1>
+    <div class="text-sm text-ss-muted">{{ user.get_full_name|default:user.username }} · {{ user.get_role_display }} · {% if can.view_all_events %}all recordings{% else %}your recordings{% endif %}</div>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <a class="btn btn-primary btn-sm" href="{% url 'events:upload' %}"><i class="bi bi-cloud-arrow-up"></i> Analyse audio</a>
+    <a class="btn btn-outline-primary btn-sm" href="{% url 'monitoring:monitor' %}"><i class="bi bi-mic"></i> Live monitoring</a>
+    {% if can.analytics %}<a class="btn btn-outline-secondary btn-sm" href="{% url 'analytics' %}"><i class="bi bi-graph-up"></i> Analytics</a>{% endif %}
+  </div>
+</div>
+
+{% if notices %}
+<div class="alert alert-warning py-2">
+  <div class="flex flex-wrap items-center gap-2"><i class="bi bi-shield-exclamation"></i> <strong>{{ notices|length }} system notice{{ notices|length|pluralize }}</strong> for administrators
+    <a class="ms-auto" href="{% url 'settings:notices' %}">Review notices</a></div>
+  <ul class="text-sm mb-0 mt-1">{% for n in notices %}<li>{{ n.get_kind_display }}: {{ n.message }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+
+{% if live_session %}
+<div class="alert alert-info flex flex-wrap items-center gap-2 py-2">
+  <span class="rec-dot" aria-hidden="true"></span> Live monitoring session {{ live_session.code }} is open ({{ live_session.windows_analysed }} windows analysed).
+  <a class="ms-auto" href="{% url 'monitoring:monitor' %}">Go to live monitoring</a>
+</div>
+{% endif %}
+
+<div class="grid grid-cols-12 gap-4 mb-4">
+  <div class="col-span-6 md:col-span-4 xl:col-span-2"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Sound events</div><div class="value">{{ totals.total }}</div>
+    <div class="text-sm text-ss-muted">{{ totals.critical }} critical</div>
+  </div></div></div>
+  <div class="col-span-6 md:col-span-4 xl:col-span-2"><a class="card stat-card h-full text-inherit no-underline" href="{% url 'alerts:list' %}"><div class="card-body">
+    <div class="label">Alerts needing attention</div><div class="value {% if totals.open_alerts %}text-red-600{% endif %}">{{ totals.open_alerts }}</div>
+    <div class="text-sm text-ss-muted">{{ totals.critical_alerts }} critical alert{{ totals.critical_alerts|pluralize }} in total</div>
+  </div></a></div>
+  <div class="col-span-6 md:col-span-4 xl:col-span-2"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Waiting for review</div><div class="value">{{ totals.waiting }}</div>
+    <div class="text-sm text-ss-muted">uncertain or conflicting</div>
+  </div></div></div>
+  <div class="col-span-6 md:col-span-4 xl:col-span-2"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Average confidence</div><div class="value">{{ totals.avg_confidence|pct }}</div>
+    <div class="text-sm text-ss-muted">Python model, all results</div>
+  </div></div></div>
+  <div class="col-span-6 md:col-span-4 xl:col-span-2"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Model disagreements</div><div class="value">{{ totals.disagreements }}</div>
+    <div class="text-sm text-ss-muted">{% if totals.disagreement_rate is not None %}{{ totals.disagreement_rate|pct }} of {{ totals.compared }} compared{% else %}no GTM results yet{% endif %}</div>
+  </div></div></div>
+  <div class="col-span-6 md:col-span-4 xl:col-span-2"><div class="card stat-card h-full"><div class="card-body">
+    <div class="label">Poor-quality recordings</div><div class="value">{{ totals.poor_quality }}</div>
+    <div class="text-sm text-ss-muted">graded Poor or Unusable</div>
+  </div></div></div>
+</div>
+
+{% if trend %}
+<div class="grid grid-cols-12 gap-4 mb-4">
+  <div class="col-span-12 xl:col-span-8"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold mb-0">Detection trends</h2>
+    <div class="text-sm text-ss-muted mb-2">Sound events per day, last 14 days</div>
+    <div class="chart-box"><canvas id="trend-chart" role="img" aria-label="Line chart of sound events and critical events per day over the last 14 days"></canvas></div>
+    <details class="mt-2"><summary class="text-sm">Show as table</summary>
+      <table class="table table-sm text-sm mt-2 mb-0"><thead><tr><th>Day</th><th class="text-right">Events</th><th class="text-right">Critical</th></tr></thead>
+      <tbody>{% for label in trend.labels %}<tr><td>{{ label }}</td><td class="text-right">{{ trend.events|index:forloop.counter0 }}</td><td class="text-right">{{ trend.critical|index:forloop.counter0 }}</td></tr>{% endfor %}</tbody></table>
+    </details>
+  </div></div></div>
+  <div class="col-span-12 xl:col-span-4"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold mb-0">Events by category</h2>
+    <div class="text-sm text-ss-muted mb-2">All time, after review decisions</div>
+    {% if categories %}
+    <div class="chart-box" style="height: {{ categories|length|chart_height }}px"><canvas id="category-chart" role="img" aria-label="Bar chart of sound events per category"></canvas></div>
+    <details class="mt-2"><summary class="text-sm">Show as table</summary>
+      <table class="table table-sm text-sm mt-2 mb-0"><tbody>{% for name, n in categories %}<tr><td>{{ name }}</td><td class="text-right">{{ n }}</td></tr>{% endfor %}</tbody></table>
+    </details>
+    {% else %}<p class="text-ss-muted text-sm">No events yet.</p>{% endif %}
+  </div></div></div>
+</div>
+{% endif %}
+
+<div class="grid grid-cols-12 gap-4">
+  <div class="col-span-12 lg:col-span-6 2xl:col-span-4"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold"><i class="bi bi-exclamation-octagon text-red-600"></i> Critical events</h2>
+    <div class="text-sm text-ss-muted mb-2">Latest critical and high-severity detections</div>
+    <ol class="list-none pl-0 mb-0 dash-list">
+      {% for e in critical %}
+      <li><span class="text-ss-muted text-sm font-mono">{{ e.created_at|date:"d M H:i" }}</span>
+        <a href="{% url 'events:detail' e.code %}">{{ e.effective_class }}</a>
+        <span class="badge {{ e.effective_severity|sev }}">{{ e.effective_severity }}</span>
+        <span class="text-sm text-ss-muted">{{ e.record.get_source_display }}</span></li>
+      {% empty %}<li class="text-ss-muted text-sm">None.</li>{% endfor %}
+    </ol>
+    <a class="text-sm" href="{% url 'events:history' %}?view=timeline&amp;severity=Critical">Critical-event timeline</a>
+  </div></div></div>
+
+  <div class="col-span-12 lg:col-span-6 2xl:col-span-4"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold"><i class="bi bi-bell"></i> Open alerts</h2>
+    <div class="text-sm text-ss-muted mb-2">Active, escalated or being handled</div>
+    <ol class="list-none pl-0 mb-0 dash-list">
+      {% for a in open_alerts_list %}
+      <li><a href="{% url 'alerts:detail' a.code %}">{{ a.code }}</a> {{ a.category }}
+        <span class="badge {{ a.severity|sev }}">{{ a.severity }}</span>
+        <span class="badge text-bg-{{ a.status|alert_colour }}">{{ a.get_status_display }}</span>
+        <span class="text-sm text-ss-muted">{{ a.created_at|timesince }} ago</span></li>
+      {% empty %}<li class="text-ss-muted text-sm">No open alerts.</li>{% endfor %}
+    </ol>
+    <a class="text-sm" href="{% url 'alerts:list' %}">All alerts</a>
+  </div></div></div>
+
+  <div class="col-span-12 lg:col-span-6 2xl:col-span-4"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold"><i class="bi bi-person-check"></i> Manual review</h2>
+    <div class="text-sm text-ss-muted mb-2">Uncertain or conflicting results waiting for a reviewer</div>
+    <ol class="list-none pl-0 mb-0 dash-list">
+      {% for e in waiting %}
+      <li><a href="{% url 'events:detail' e.code %}{% if can.review %}?from=queue{% endif %}">{{ e.code }}</a> {{ e.final_class }}
+        <span class="text-sm text-ss-muted">{{ e.review_reasons|first }}</span></li>
+      {% empty %}<li class="text-ss-muted text-sm">Nothing waiting.</li>{% endfor %}
+    </ol>
+    {% if can.review %}<a class="text-sm" href="{% url 'events:review_queue' %}">Review queue</a>{% else %}<a class="text-sm" href="{% url 'events:history' %}?review=waiting">All waiting</a>{% endif %}
+  </div></div></div>
+
+  <div class="col-span-12 lg:col-span-6 2xl:col-span-4"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold"><i class="bi bi-activity"></i> Latest detections</h2>
+    <ol class="list-none pl-0 mb-0 dash-list">
+      {% for e in latest %}
+      <li><span class="text-ss-muted text-sm font-mono">{{ e.created_at|date:"d M H:i" }}</span>
+        <a href="{% url 'events:detail' e.code %}">{{ e.effective_class }}</a>
+        <span class="text-sm">{{ e.python_confidence|pct }}</span>
+        <span class="badge text-bg-{{ e.consistency|consistency_colour }}">{{ e.consistency }}</span></li>
+      {% empty %}<li class="text-ss-muted text-sm">No detections yet.</li>{% endfor %}
+    </ol>
+  </div></div></div>
+
+  <div class="col-span-12 lg:col-span-6 2xl:col-span-4"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold"><i class="bi bi-cloud-arrow-up"></i> Recent uploads</h2>
+    <ol class="list-none pl-0 mb-0 dash-list">
+      {% for r in recent_uploads %}
+      <li><span class="text-ss-muted text-sm font-mono">{{ r.uploaded_at|date:"d M H:i" }}</span>
+        <a href="{% url 'events:detail' r.event.code %}" class="break-words">{{ r.original_filename|truncatechars:34 }}</a>
+        <span class="text-sm text-ss-muted">{{ r.event.effective_class }}</span></li>
+      {% empty %}<li class="text-ss-muted text-sm">No uploads yet. <a href="{% url 'events:upload' %}">Analyse a recording</a>.</li>{% endfor %}
+    </ol>
+  </div></div></div>
+
+  <div class="col-span-12 lg:col-span-6 2xl:col-span-4"><div class="card h-full"><div class="card-body">
+    <h2 class="text-base font-semibold"><i class="bi bi-soundwave"></i> Audio-quality warnings</h2>
+    <ol class="list-none pl-0 mb-0 dash-list">
+      {% for r in quality_warnings %}
+      <li><a href="{% url 'events:detail' r.event.code %}">{{ r.code }}</a>
+        <span class="badge text-bg-{{ r.quality_grade|quality_colour }}">{{ r.quality_grade }}</span>
+        <span class="text-sm text-ss-muted">{{ r.quality_issues|first|default:"" }}</span></li>
+      {% empty %}<li class="text-ss-muted text-sm">No poor-quality recordings.</li>{% endfor %}
+    </ol>
+    <a class="text-sm" href="{% url 'events:history' %}?quality=Poor">All poor-quality recordings</a>
+  </div></div></div>
+</div>
+{% endblock %}
+{% block scripts %}
+{% if trend %}
+{{ trend|json_script:"trend-data" }}
+{{ category_chart|json_script:"category-data" }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="{% static 'js/charts.js' %}"></script>
+<script>
+  (function () {
+    const trend = SonicCharts.data("trend-data"), cats = SonicCharts.data("category-data");
+    SonicCharts.line("trend-chart", trend.labels, [{ name: "All events", values: trend.events }, { name: "Critical", values: trend.critical }]);
+    SonicCharts.bar("category-chart", cats.labels, [{ name: "Events", values: cats.values }], { horizontal: true });
+  })();
+</script>
+{% endif %}
+{% endblock %}

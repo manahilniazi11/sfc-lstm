@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load sonic_tags %}
+{% block title %}Alert rules{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Alert rules</h1>
+    <div class="text-sm text-ss-muted">What each sound category does when it is detected. Changes apply to the next analysis; earlier results keep the decision they were given.</div>
+  </div>
+  <div class="flex gap-2">
+    <a class="btn btn-outline-secondary btn-sm" href="{% url 'settings:decision' %}"><i class="bi bi-sliders"></i> Detection settings</a>
+    <a class="btn btn-outline-secondary btn-sm" href="{% url 'settings:rules_export' %}"><i class="bi bi-filetype-json"></i> Export as JSON</a>
+  </div>
+</div>
+<div class="card"><div class="table-wrap">
+<table class="table table-hover align-middle mb-0">
+  <thead><tr><th>Category</th><th>Critical</th><th>Alert</th><th>Severity</th><th class="text-right">Min. confidence</th><th class="text-right">Top-two margin</th><th class="text-right">Detections needed</th><th>Models must agree</th><th>Worst quality</th><th class="text-right">Escalate after</th></tr></thead>
+  <tbody>
+  {% for r in rules %}
+  <tr class="{% if not r.enabled %}text-ss-muted{% endif %}">
+    <td><a href="{% url 'settings:rule' r.category %}">{{ r.category }}</a>{% if not r.enabled %} <span class="badge text-bg-light">disabled</span>{% endif %}</td>
+    <td>{% if r.critical %}<i class="bi bi-check-lg" aria-label="Yes"></i>{% endif %}</td>
+    <td>{% if r.alert %}<i class="bi bi-bell-fill text-red-600" aria-label="Raises an alert"></i>{% else %}<span class="text-sm text-ss-muted">stored only</span>{% endif %}</td>
+    <td><span class="badge {{ r.severity|sev }}">{{ r.severity }}</span></td>
+    <td class="text-right">{{ r.min_confidence|pct }}</td>
+    <td class="text-right">{{ r.top_two_margin|pct }}</td>
+    <td class="text-right">{{ r.consecutive_detections }}</td>
+    <td>{% if r.require_model_agreement %}Yes{% else %}No{% endif %}</td>
+    <td>{{ r.min_quality }}</td>
+    <td class="text-right">{% if r.escalate_after_minutes %}{{ r.escalate_after_minutes|floatformat:"-1" }} min{% else %}—{% endif %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div></div>
+{% endblock %}

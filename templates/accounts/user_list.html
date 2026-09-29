@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Users and roles{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Users and roles</h1>
+  <form class="flex gap-2" method="get">
+    <input class="form-control form-control-sm" type="search" name="q" value="{{ query }}" placeholder="User ID, name or email" aria-label="Search users">
+    <button class="btn btn-sm btn-outline-secondary" type="submit">Search</button>
+  </form>
+</div>
+<div class="card"><div class="table-wrap">
+<table class="table table-hover mb-0">
+  <thead><tr><th>User ID</th><th>Username</th><th>Email</th><th>Requested</th><th>Role</th><th>Active</th><th></th></tr></thead>
+  <tbody>
+  {% for u in page %}
+  <tr>
+    <td class="font-mono">{{ u.user_code }}</td>
+    <td>{{ u.username }}<div class="text-sm text-ss-muted">{{ u.get_full_name }}</div></td>
+    <td>{{ u.email }}</td>
+    <td class="text-sm">{{ u.requested_role|default:"—" }}</td>
+    <td colspan="3">
+      <form class="flex items-center gap-2" method="post" action="{% url 'accounts:user_update' u.pk %}">{% csrf_token %}
+        <select class="form-select form-select-sm w-auto" name="role" aria-label="Role of {{ u.username }}" {% if u == user %}disabled{% endif %}>
+          {% for value, label in role_choices %}
+          <option value="{{ value }}" {% if u.role == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="is_active" id="active-{{ u.pk }}" {% if u.is_active %}checked{% endif %} {% if u == user %}disabled{% endif %}>
+          <label class="sr-only" for="active-{{ u.pk }}">Active</label>
+        </div>
+        <button class="btn btn-sm btn-outline-primary" type="submit" {% if u == user %}disabled{% endif %}>Save</button>
+      </form>
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="7" class="text-ss-muted">No users found.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div></div>
+{% include "partials/pagination.html" %}
+{% endblock %}

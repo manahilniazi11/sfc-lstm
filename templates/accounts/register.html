@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block auth_content %}
+<div class="card w-full max-w-[560px] shadow-sm">
+  <div class="card-body p-6">
+    <h1 class="mb-1 text-2xl">Create an account</h1>
+    <p class="mb-6 text-ss-muted">You will receive a unique User ID. New accounts start as <em>Normal user</em>; an administrator approves other roles.</p>
+    <form method="post" novalidate>{% csrf_token %}
+      {% include "partials/form_fields.html" %}
+      <button class="btn btn-primary w-full" type="submit">Register</button>
+    </form>
+    <p class="mt-4 mb-0 text-center text-sm">Already registered? <a href="{% url 'accounts:login' %}">Log in</a></p>
+  </div>
+</div>
+{% endblock %}

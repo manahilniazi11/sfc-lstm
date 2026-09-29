@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load sonic_tags %}
+{% block title %}Alerts{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Alerts</h1>
+  <form class="flex flex-wrap gap-2" method="get">
+    <input type="hidden" name="tab" value="{{ tab }}">
+    <select class="form-select form-select-sm w-auto" name="severity" aria-label="Severity">
+      <option value="">Any severity</option>
+      {% for s in severities %}<option {% if s == filters.severity %}selected{% endif %}>{{ s }}</option>{% endfor %}
+    </select>
+    <select class="form-select form-select-sm w-auto" name="category" aria-label="Sound">
+      <option value="">Any sound</option>
+      {% for c in categories %}<option {% if c == filters.category %}selected{% endif %}>{{ c }}</option>{% endfor %}
+    </select>
+    <select class="form-select form-select-sm w-auto" name="alert_type" aria-label="Alert type">
+      <option value="">Any type</option>
+      {% for t in alert_types %}<option value="{{ t }}" {% if t == filters.alert_type %}selected{% endif %}>{{ t|capfirst }}</option>{% endfor %}
+    </select>
+    <button class="btn btn-sm btn-outline-secondary" type="submit">Filter</button>
+  </form>
+</div>
+
+<ul class="tabs">
+  {% for key, label, count in tabs %}
+  <li><a class="tab {% if key == tab %}active{% endif %}" href="?tab={{ key }}" {% if key == tab %}aria-current="page"{% endif %}>{{ label }} <span class="badge text-bg-{% if key == 'attention' and count %}danger{% else %}light{% endif %}">{{ count }}</span></a></li>
+  {% endfor %}
+</ul>
+{% if tab == "attention" %}<p class="text-sm text-ss-muted">Most severe first. An alert nobody acknowledges is escalated automatically after the time set in its alert rule.</p>{% endif %}
+
+<div class="card"><div class="table-wrap">
+<table class="table table-hover align-middle mb-0">
+  <thead><tr><th>Alert</th><th>Raised</th><th>Sound</th><th>Severity</th><th>Type</th><th>Source</th><th>Status</th><th>Handled by</th></tr></thead>
+  <tbody>
+  {% for a in page %}
+  <tr>
+    <td class="whitespace-nowrap"><a href="{% url 'alerts:detail' a.code %}">{{ a.code }}</a></td>
+    <td class="whitespace-nowrap text-sm">{{ a.created_at|date:"Y-m-d H:i:s" }}<div class="text-ss-muted">{{ a.created_at|timesince }} ago</div></td>
+    <td>{{ a.category }}{% if a.event.reviewed_class and a.event.reviewed_class != a.category %}<div class="text-sm text-red-600">Reviewer: {{ a.event.reviewed_class }}</div>{% endif %}</td>
+    <td><span class="badge {{ a.severity|sev }}">{{ a.severity }}</span></td>
+    <td class="text-sm">{{ a.alert_type|capfirst }}</td>
+    <td class="text-sm">{{ a.event.record.get_source_display }}{% if a.event.record.session %} · {{ a.event.record.session.code }}{% endif %}</td>
+    <td><span class="badge text-bg-{{ a.status|alert_colour }}">{{ a.get_status_display }}</span></td>
+    <td class="text-sm">{{ a.handled_by.username|default:"—" }}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="8" class="text-ss-muted">No alerts here.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div></div>
+{% include "partials/pagination.html" %}
+{% endblock %}

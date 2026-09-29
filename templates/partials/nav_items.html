@@ -1,0 +1,22 @@
+{% with name=request.resolver_match.url_name ns=request.resolver_match.namespace %}
+<div class="side-section">Detection</div>
+<a class="side-link {% if ns == 'events' and name == 'upload' %}active{% endif %}" href="{% url 'events:upload' %}"><i class="bi bi-cloud-arrow-up"></i> Analyse audio</a>
+<a class="side-link {% if ns == 'monitoring' %}active{% endif %}" href="{% url 'monitoring:monitor' %}"><i class="bi bi-mic"></i> Live monitoring</a>
+<a class="side-link {% if ns == 'events' and name == 'history' %}active{% endif %}" href="{% url 'events:history' %}"><i class="bi bi-clock-history"></i> Event history</a>
+<div class="side-section">Response</div>
+<a class="side-link {% if ns == 'alerts' %}active{% endif %}" href="{% url 'alerts:list' %}"><i class="bi bi-bell"></i> Alerts{% if open_alerts %} <span class="badge text-bg-danger" title="Alerts that need attention">{{ open_alerts }}</span>{% endif %}</a>
+{% if can.review %}
+<a class="side-link {% if ns == 'events' and name == 'review_queue' %}active{% endif %}" href="{% url 'events:review_queue' %}"><i class="bi bi-person-check"></i> Review queue{% if review_waiting %} <span class="badge text-bg-info" title="Events waiting for review">{{ review_waiting }}</span>{% endif %}</a>
+{% endif %}
+{% if can.analytics %}
+<a class="side-link {% if name == 'analytics' %}active{% endif %}" href="{% url 'analytics' %}"><i class="bi bi-graph-up"></i> Analytics</a>
+{% endif %}
+{% if can.administer %}
+<div class="side-section">Administration</div>
+<a class="side-link {% if ns == 'settings' and name == 'notices' %}active{% endif %}" href="{% url 'settings:notices' %}"><i class="bi bi-shield-exclamation"></i> System notices{% if open_notices %} <span class="badge text-bg-warning" title="Notices not yet acknowledged">{{ open_notices }}</span>{% endif %}</a>
+<a class="side-link {% if name == 'users' %}active{% endif %}" href="{% url 'accounts:users' %}"><i class="bi bi-people"></i> Users and roles</a>
+<a class="side-link {% if ns == 'settings' and name == 'decision' %}active{% endif %}" href="{% url 'settings:decision' %}"><i class="bi bi-sliders"></i> Detection settings</a>
+<a class="side-link {% if ns == 'settings' and name == 'rules' or name == 'rule' %}active{% endif %}" href="{% url 'settings:rules' %}"><i class="bi bi-list-check"></i> Alert rules</a>
+<a class="side-link {% if name == 'audit' %}active{% endif %}" href="{% url 'accounts:audit' %}"><i class="bi bi-journal-text"></i> Audit trail</a>
+{% endif %}
+{% endwith %}

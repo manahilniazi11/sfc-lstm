@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load sonic_tags %}
+{% block title %}{{ alert.code }}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <div class="text-sm text-ss-muted">{{ alert.code }} · raised {{ alert.created_at|date:"Y-m-d H:i:s" }} ({{ alert.created_at|timesince }} ago) · {{ alert.alert_type|capfirst }} alert</div>
+    <h1 class="flex flex-wrap items-center gap-2">
+      {{ alert.category }}
+      <span class="badge {{ alert.severity|sev }}">{{ alert.severity }}</span>
+      <span class="badge text-bg-{{ alert.status|alert_colour }}">{{ alert.get_status_display }}</span>
+    </h1>
+  </div>
+  <div class="flex gap-2">
+    <a class="btn btn-outline-secondary btn-sm" href="{% url 'alerts:list' %}"><i class="bi bi-bell"></i> All alerts</a>
+    <a class="btn btn-outline-primary btn-sm" href="{% url 'events:detail' event.code %}"><i class="bi bi-file-earmark-music"></i> Full analysis ({{ event.code }})</a>
+  </div>
+</div>
+
+<div class="grid grid-cols-12 gap-4">
+  <div class="col-span-12 xl:col-span-8">
+    <div class="card mb-4 summary-card"><div class="card-body">
+      <h2 class="text-base font-semibold"><i class="bi bi-exclamation-triangle"></i> {{ alert.message }}</h2>
+      <ul class="text-sm mb-4">
+        <li>Python model: <strong>{{ event.python_class }}</strong> {{ event.python_confidence|pct }} · GTM: <strong>{{ event.gtm_class|default:"no result" }}</strong>{% if event.gtm_confidence is not None %} {{ event.gtm_confidence|pct }}{% endif %} · <span class="badge text-bg-{{ event.consistency|consistency_colour }}">{{ event.consistency }}</span></li>
+        <li>Heard in {{ event.repeated_detections }} window{{ event.repeated_detections|pluralize }}{% if detections > 1 %}; this sound was detected {{ detections }} times in total while the alert was open{% endif %}.</li>
+        <li>Audio quality: <span class="badge text-bg-{{ record.quality_grade|quality_colour }}">{{ record.quality_grade }}</span>{% if record.session %} · live session {{ record.session.code }} ({{ record.session.device_label|default:"microphone" }}){% else %} · file {{ record.original_filename }}{% endif %}</li>
+        {% if event.reviewed_class %}<li class="text-red-600">A reviewer decided this was <strong>{{ event.reviewed_class }}</strong>.</li>{% endif %}
+      </ul>
+      <div class="recommended"><i class="bi bi-lightbulb"></i> <strong>Recommended action:</strong> {{ event.effective_action|default:alert.recommended_action }}</div>
+    </div></div>
+
+    <div class="card mb-4"><div class="card-body">
+      <h2 class="text-base font-semibold">Listen</h2>
+      {% if record.stored_file %}
+      <audio controls preload="metadata" class="w-full mb-2" src="{% url 'events:audio' event.code %}"></audio>
+      <img class="max-w-full h-auto border border-ss-border rounded" src="{% url 'events:image' event.code 'spectrogram' %}" alt="Spectrogram of the alert's audio">
+      {% else %}
+      <p class="text-ss-muted mb-0">The audio of this detection was not kept (storing live audio is switched off).</p>
+      {% endif %}
+    </div></div>
+  </div>
+
+  <div class="col-span-12 xl:col-span-4">
+    {% if available or can.handle_alerts %}
+    <div class="card mb-4"><div class="card-body">
+      <h2 class="text-base font-semibold">Handle this alert</h2>
+      {% if available %}
+      <form method="post" id="alert-form">{% csrf_token %}
+        <label class="form-label text-sm" for="note">Note <span class="text-ss-muted">(required to dismiss)</span></label>
+        <textarea class="form-control form-control-sm mb-2" id="note" name="note" rows="3" placeholder="What you did or found"></textarea>
+        <div class="flex flex-wrap gap-2">
+          {% if "acknowledge" in available %}<button class="btn btn-sm btn-warning" formaction="{% url 'alerts:action' alert.code 'acknowledge' %}"><i class="bi bi-hand-thumbs-up"></i> Acknowledge</button>{% endif %}
+          {% if "resolve" in available %}<button class="btn btn-sm btn-success" formaction="{% url 'alerts:action' alert.code 'resolve' %}"><i class="bi bi-check2-circle"></i> Resolve</button>{% endif %}
+          {% if "escalate" in available %}<button class="btn btn-sm btn-dark" formaction="{% url 'alerts:action' alert.code 'escalate' %}"><i class="bi bi-arrow-up-circle"></i> Escalate</button>{% endif %}
+          {% if "dismiss" in available %}<button class="btn btn-sm btn-outline-secondary" formaction="{% url 'alerts:action' alert.code 'dismiss' %}"><i class="bi bi-x-circle"></i> Dismiss (false alarm)</button>{% endif %}
+          <button class="btn btn-sm btn-link" formaction="{% url 'alerts:action' alert.code 'note' %}">Add note only</button>
+        </div>
+      </form>
+      {% else %}
+      <p class="text-sm text-ss-muted mb-2">This alert is {{ alert.get_status_display|lower }}.</p>
+      <form method="post" action="{% url 'alerts:action' alert.code 'note' %}">{% csrf_token %}
+        <textarea class="form-control form-control-sm mb-2" name="note" rows="2" placeholder="Add a note" aria-label="Note"></textarea>
+        <button class="btn btn-sm btn-outline-secondary">Add note</button>
+      </form>
+      {% endif %}
+    </div></div>
+    {% endif %}
+
+    <div class="card mb-4"><div class="card-body">
+      <h2 class="text-base font-semibold">History</h2>
+      <ol class="list-none pl-0 text-sm mb-0 alert-history">
+        {% for a in actions %}
+        <li>
+          <div><strong>{{ a.get_kind_display }}</strong> · {{ a.user.username|default:"system" }}</div>
+          <div class="text-ss-muted">{{ a.created_at|date:"Y-m-d H:i:s" }}</div>
+          {% if a.note %}<div>{{ a.note }}</div>{% endif %}
+        </li>
+        {% endfor %}
+      </ol>
+    </div></div>
+  </div>
+</div>
+{% endblock %}

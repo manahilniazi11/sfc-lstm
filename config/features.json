@@ -1,0 +1,18 @@
+{
+  "_comment": "Feature extraction settings (SRS Step 6, FR xx), shared by training and the web app. Changing them requires re-running 'python -m sonic.features build' and retraining.",
+
+  "n_fft": 512,
+  "hop_length": 256,
+  "_frames": "512-sample (32 ms) frames every 256 samples (16 ms) at 16 kHz: about 63 frames per 1 s segment.",
+
+  "n_mels": 64,
+  "fmin": 20,
+  "fmax": 8000,
+  "_mel": "64 mel bands from 20 Hz to 8 kHz (the 16 kHz Nyquist limit). The log-mel spectrogram is the CNN input.",
+
+  "n_mfcc": 20,
+  "mel_summary_bands": 16,
+  "_summary": "For the classical models each frame-level feature is summarised over the segment (mean, standard deviation, and max where it helps). The 64 mel bands are averaged into 16 coarse bands.",
+
+  "_tempo": "Tempo is not extracted: a 1 s segment holds at most one or two beats, so a tempo estimate would be noise. The SRS asks for tempo 'where relevant'."
+}
