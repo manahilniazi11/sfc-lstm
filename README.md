@@ -57,6 +57,7 @@ The saved GTM export has **ten labels** and does not include Person Asking for H
 | [`tests/`](tests/) | Automated tests. |
 | [`documentation/`](documentation/) | Project report, development log, data dictionary, and pipeline guides. |
 | [`documentation/technical_blog.html`](documentation/technical_blog.html) | Standalone technical blog covering the SRS topics, results, and lessons learned. |
+| [`documentation/technical_blog_blogger.html`](documentation/technical_blog_blogger.html) | Paste-ready version for Blogger's HTML post editor; see the [publishing instructions](documentation/blogger_publishing.md). |
 | [`sample_audio/`](sample_audio/) | A small CC0 demo subset with provenance; not the full dataset. |
 
 The project uses **uv for Python project management**. Dependencies are declared in [`pyproject.toml`](pyproject.toml), pinned in [`uv.lock`](uv.lock), and the intended Python version is in [`.python-version`](.python-version). Use `uv sync` to create `.venv` and `uv run` for project commands; manual activation is optional. The SRS-requested [`requirements.txt`](requirements.txt) is a compatibility pointer to the project, while `uv.lock` is the reproducible environment specification.
@@ -134,7 +135,7 @@ The current Python ensemble includes all 11 registry labels. The saved GTM expor
 
 The recorded dataset has **3,347 unique original clips** across the ten mandatory classes and Normal Machinery, with 2,343 train, 502 validation, and 502 test clips. Its metadata and counts are in [`data/metadata/`](data/metadata/). The complete audio dataset is stored outside this source checkout and is not recreated by installing dependencies. The [dataset guide](documentation/dataset.md) explains ethical sourcing, collection, group-aware splitting, and rebuilding. The [sample audio](sample_audio/) folder contains only a limited set of clips whose metadata records CC0 licensing; other classes need source-specific permission or attribution before public redistribution.
 
-The [development log](documentation/development_log.md), [AI usage declaration](AI_USAGE.md), [model evidence](reports/comparison.md), [project report](documentation/project_report.md), and [technical blog](documentation/technical_blog.html) describe the work and its limitations. This checkout did not contain its earlier Git history, so the documented competition-day work cannot be reconstructed as historical Git commits. A deployment URL and demo video have not been supplied in this repository.
+The [development log](documentation/development_log.md), [AI usage declaration](AI_USAGE.md), [model evidence](reports/comparison.md), [project report](documentation/project_report.md), and [technical blog](documentation/technical_blog.html) describe the work and its limitations. A [Blogger-ready HTML copy](documentation/technical_blog_blogger.html) is available for the post editor. This checkout did not contain its earlier Git history, so the documented competition-day work cannot be reconstructed as historical Git commits. A deployment URL and demo video have not been supplied in this repository.
 
 ## Tests and data pipeline
 

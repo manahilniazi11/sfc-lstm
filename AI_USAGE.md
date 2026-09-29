@@ -181,8 +181,8 @@ Note: YAMNet (Google, Apache 2.0) is a pretrained network used only to turn audi
 |---|---|
 | Tool name | OpenAI Codex |
 | Purpose | Prepare the SRS technical-blog deliverable and clearly list the four team members |
-| Assistance requested | Drafted a standalone HTML article from the project code, dataset metadata, report, and saved evaluation; linked supporting files; updated the GitHub README and contribution record |
-| Files affected | `documentation/technical_blog.html`, `documentation/team_contributions.md`, `CONTRIBUTORS.md`, `README.md`, `AI_USAGE.md` |
+| Assistance requested | Drafted a standalone HTML article from the project code, dataset metadata, report, and saved evaluation; adapted the article for Blogger's HTML post editor with absolute evidence links; updated the GitHub README and contribution record |
+| Files affected | `documentation/technical_blog.html`, `documentation/technical_blog_blogger.html`, `documentation/blogger_publishing.md`, `documentation/team_contributions.md`, `CONTRIBUTORS.md`, `README.md`, `AI_USAGE.md` |
 | Student modifications | Team review and any edits after this draft should be recorded by the team |
-| Testing completed | HTML structure, internal links, required SRS topics, and article word count checked before publication |
+| Testing completed | Standalone HTML structure, internal links, required SRS topics, and article word count checked; Blogger fragment verified to contain 3,323 words, no document shell or scripts, absolute external references, and all four team names |
 | Verifying team members | To be confirmed by Saeed Ahmed, Manahil Khan, Muhammad Kaif, and Sahil Karim Lakahni |
