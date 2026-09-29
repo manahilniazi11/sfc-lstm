@@ -1,0 +1,4 @@
+{
+ "python_model": "ensemble-20260928-1",
+ "rule": "(fixed before the test set was scored, uses validation only):\n1. Eligible: models whose validation clip recall is >= 85 % for every\n   critical class present. If no model qualifies, all models stay eligible.\n2. Rank by validation clip macro F1.\n3. Within 0.01 of the best: prefer higher mean critical recall, then faster\n   inference."
+}

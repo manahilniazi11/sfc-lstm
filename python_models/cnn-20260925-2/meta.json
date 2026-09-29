@@ -1,0 +1,442 @@
+{
+  "name": "cnn",
+  "version": "cnn-20260925-2",
+  "classes": [
+    "Machinery Fault",
+    "Glass Breaking",
+    "Alarm or Siren",
+    "Vehicle Horn",
+    "Animal Sound",
+    "Gunshot",
+    "Panic Scream",
+    "Aggression",
+    "Background Noise",
+    "Normal Machinery"
+  ],
+  "critical_classes": [
+    "Glass Breaking",
+    "Gunshot",
+    "Panic Scream",
+    "Aggression",
+    "Person Asking for Help"
+  ],
+  "fingerprint": "28e1efb604fe",
+  "params": {
+    "width": 32,
+    "dropout": 0.1,
+    "mixup": 0.2,
+    "epochs_max": 40,
+    "batch": 64,
+    "parameters": 1241514
+  },
+  "temperature": 0.6458,
+  "clip_temperature": 0.6091,
+  "aggregation": "max",
+  "aggregation_macro_f1": {
+    "mean": 0.8108,
+    "max": 0.8207,
+    "top3": 0.8194
+  },
+  "validation": {
+    "segment": {
+      "accuracy": 0.7918,
+      "macro_precision": 0.7807,
+      "macro_recall": 0.7777,
+      "macro_f1": 0.7745,
+      "per_class": {
+        "Machinery Fault": {
+          "precision": 0.9362,
+          "recall": 0.9778,
+          "f1": 0.9565,
+          "support": 225
+        },
+        "Glass Breaking": {
+          "precision": 0.9333,
+          "recall": 0.8235,
+          "f1": 0.875,
+          "support": 85
+        },
+        "Alarm or Siren": {
+          "precision": 0.8594,
+          "recall": 0.7006,
+          "f1": 0.7719,
+          "support": 157
+        },
+        "Vehicle Horn": {
+          "precision": 0.7545,
+          "recall": 0.6803,
+          "f1": 0.7155,
+          "support": 122
+        },
+        "Animal Sound": {
+          "precision": 0.5607,
+          "recall": 0.7405,
+          "f1": 0.6382,
+          "support": 131
+        },
+        "Gunshot": {
+          "precision": 0.6863,
+          "recall": 0.8974,
+          "f1": 0.7778,
+          "support": 78
+        },
+        "Panic Scream": {
+          "precision": 0.6413,
+          "recall": 0.6705,
+          "f1": 0.6556,
+          "support": 88
+        },
+        "Aggression": {
+          "precision": 0.7656,
+          "recall": 0.6447,
+          "f1": 0.7,
+          "support": 152
+        },
+        "Background Noise": {
+          "precision": 0.6842,
+          "recall": 0.7079,
+          "f1": 0.6959,
+          "support": 202
+        },
+        "Normal Machinery": {
+          "precision": 0.9859,
+          "recall": 0.9333,
+          "f1": 0.9589,
+          "support": 225
+        }
+      },
+      "critical_recall": {
+        "Glass Breaking": 0.8235,
+        "Gunshot": 0.8974,
+        "Panic Scream": 0.6705,
+        "Aggression": 0.6447
+      },
+      "confusion_matrix": [
+        [
+          220,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          3
+        ],
+        [
+          0,
+          70,
+          0,
+          0,
+          0,
+          7,
+          0,
+          0,
+          8,
+          0
+        ],
+        [
+          0,
+          1,
+          110,
+          5,
+          16,
+          6,
+          5,
+          2,
+          12,
+          0
+        ],
+        [
+          0,
+          0,
+          8,
+          83,
+          3,
+          4,
+          1,
+          2,
+          21,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          8,
+          97,
+          4,
+          4,
+          5,
+          11,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          1,
+          70,
+          0,
+          0,
+          4,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          3,
+          9,
+          0,
+          59,
+          10,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          4,
+          17,
+          0,
+          23,
+          98,
+          7,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          7,
+          30,
+          10,
+          0,
+          11,
+          143,
+          0
+        ],
+        [
+          15,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          210
+        ]
+      ],
+      "ece": 0.019,
+      "n": 1465
+    },
+    "clip": {
+      "accuracy": 0.82,
+      "macro_precision": 0.8326,
+      "macro_recall": 0.82,
+      "macro_f1": 0.8207,
+      "per_class": {
+        "Machinery Fault": {
+          "precision": 0.9574,
+          "recall": 1.0,
+          "f1": 0.9783,
+          "support": 45
+        },
+        "Glass Breaking": {
+          "precision": 0.9767,
+          "recall": 0.9333,
+          "f1": 0.9545,
+          "support": 45
+        },
+        "Alarm or Siren": {
+          "precision": 0.8421,
+          "recall": 0.7111,
+          "f1": 0.7711,
+          "support": 45
+        },
+        "Vehicle Horn": {
+          "precision": 0.8372,
+          "recall": 0.8,
+          "f1": 0.8182,
+          "support": 45
+        },
+        "Animal Sound": {
+          "precision": 0.5522,
+          "recall": 0.8222,
+          "f1": 0.6607,
+          "support": 45
+        },
+        "Gunshot": {
+          "precision": 0.8148,
+          "recall": 0.9778,
+          "f1": 0.8889,
+          "support": 45
+        },
+        "Panic Scream": {
+          "precision": 0.7949,
+          "recall": 0.6889,
+          "f1": 0.7381,
+          "support": 45
+        },
+        "Aggression": {
+          "precision": 0.8205,
+          "recall": 0.7111,
+          "f1": 0.7619,
+          "support": 45
+        },
+        "Background Noise": {
+          "precision": 0.7297,
+          "recall": 0.6,
+          "f1": 0.6585,
+          "support": 45
+        },
+        "Normal Machinery": {
+          "precision": 1.0,
+          "recall": 0.9556,
+          "f1": 0.9773,
+          "support": 45
+        }
+      },
+      "critical_recall": {
+        "Glass Breaking": 0.9333,
+        "Gunshot": 0.9778,
+        "Panic Scream": 0.6889,
+        "Aggression": 0.7111
+      },
+      "confusion_matrix": [
+        [
+          45,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          42,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          32,
+          1,
+          7,
+          2,
+          0,
+          1,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          36,
+          1,
+          1,
+          1,
+          1,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          37,
+          1,
+          2,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          44,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          1,
+          6,
+          0,
+          31,
+          3,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          6,
+          0,
+          5,
+          32,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          10,
+          4,
+          0,
+          2,
+          27,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          43
+        ]
+      ],
+      "ece": 0.1069,
+      "n": 450
+    }
+  },
+  "inference_ms_per_window": 1.71,
+  "train_segments": 15000,
+  "train_seconds": 4056.7,
+  "saved_at": "2026-09-25T08:57:08+00:00"
+}
