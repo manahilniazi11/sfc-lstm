@@ -1,0 +1,95 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790585533.075109   15972 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790585535.170971   15972 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1790585536.012077   15972 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+[svm-20260928-1] test set
+[xgboost-20260928-1] test set
+[yamnet-20260928-1] test set
+[cnn-20260928-1] test set
+[ensemble-20260928-1] test set
+hidden-test simulator:
+  noise_20dB  svm 0.669  xgboost 0.697  yamnet 0.755  cnn 0.817  ensemble 0.840
+  noise_10dB  svm 0.647  xgboost 0.656  yamnet 0.689  cnn 0.767  ensemble 0.794
+  noise_5dB   svm 0.567  xgboost 0.594  yamnet 0.617  cnn 0.717  ensemble 0.735
+  noise_0dB   svm 0.435  xgboost 0.468  yamnet 0.499  cnn 0.607  ensemble 0.624
+  echo        svm 0.716  xgboost 0.738  yamnet 0.656  cnn 0.816  ensemble 0.829
+  low_volume  svm 0.347  xgboost 0.407  yamnet 0.484  cnn 0.490  ensemble 0.492
+  phone       svm 0.641  xgboost 0.662  yamnet 0.658  cnn 0.785  ensemble 0.803
+  distant     svm 0.510  xgboost 0.464  yamnet 0.501  cnn 0.747  ensemble 0.707
+  partial     svm 0.656  xgboost 0.703  yamnet 0.744  cnn 0.791  ensemble 0.821
+  mp3_64k     svm 0.636  xgboost 0.633  yamnet 0.731  cnn 0.842  ensemble 0.873
+
+svm-20260928-1: TEST, per clip: accuracy 74.3%, macro F1 0.741, ECE 0.080 (n=502)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.79    0.93   0.86    45
+  Glass Breaking             0.80    0.87   0.83    45  critical OK
+  Alarm or Siren             0.70    0.58   0.63    45
+  Vehicle Horn               0.63    0.69   0.66    45
+  Animal Sound               0.67    0.64   0.66    45
+  Gunshot                    0.86    0.80   0.83    45  critical BELOW 85%
+  Panic Scream               0.72    0.69   0.70    45  critical BELOW 85%
+  Aggression                 0.65    0.69   0.67    45  critical BELOW 85%
+  Person Asking for Help     0.75    0.98   0.85    45  critical OK
+  Background Noise           0.69    0.56   0.62    52
+  Normal Machinery           0.95    0.78   0.85    45
+
+xgboost-20260928-1: TEST, per clip: accuracy 78.7%, macro F1 0.784, ECE 0.036 (n=502)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.94    0.98   0.96    45
+  Glass Breaking             0.73    0.89   0.80    45  critical OK
+  Alarm or Siren             0.76    0.58   0.66    45
+  Vehicle Horn               0.71    0.64   0.67    45
+  Animal Sound               0.76    0.71   0.74    45
+  Gunshot                    0.72    0.84   0.78    45  critical BELOW 85%
+  Panic Scream               0.80    0.78   0.79    45  critical BELOW 85%
+  Aggression                 0.69    0.69   0.69    45  critical BELOW 85%
+  Person Asking for Help     0.85    0.98   0.91    45  critical OK
+  Background Noise           0.73    0.63   0.68    52
+  Normal Machinery           0.98    0.96   0.97    45
+
+yamnet-20260928-1: TEST, per clip: accuracy 80.5%, macro F1 0.804, ECE 0.075 (n=502)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.65    0.71   0.68    45
+  Glass Breaking             0.95    0.89   0.92    45  critical OK
+  Alarm or Siren             0.85    0.73   0.79    45
+  Vehicle Horn               0.87    0.87   0.87    45
+  Animal Sound               0.81    0.93   0.87    45
+  Gunshot                    0.84    0.93   0.88    45  critical OK
+  Panic Scream               0.79    0.84   0.82    45  critical BELOW 85%
+  Aggression                 0.80    0.73   0.77    45  critical BELOW 85%
+  Person Asking for Help     0.81    0.96   0.88    45  critical OK
+  Background Noise           0.85    0.56   0.67    52
+  Normal Machinery           0.67    0.73   0.70    45
+
+cnn-20260928-1: TEST, per clip: accuracy 84.5%, macro F1 0.847, ECE 0.025 (n=502)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.98    1.00   0.99    45
+  Glass Breaking             0.91    0.91   0.91    45  critical OK
+  Alarm or Siren             0.86    0.67   0.75    45
+  Vehicle Horn               0.85    0.73   0.79    45
+  Animal Sound               0.83    0.84   0.84    45
+  Gunshot                    0.93    0.89   0.91    45  critical OK
+  Panic Scream               0.70    0.71   0.70    45  critical BELOW 85%
+  Aggression                 0.70    0.78   0.74    45  critical BELOW 85%
+  Person Asking for Help     1.00    1.00   1.00    45  critical OK
+  Background Noise           0.67    0.79   0.73    52
+  Normal Machinery           0.96    0.98   0.97    45
+
+ensemble-20260928-1: TEST, per clip: accuracy 87.6%, macro F1 0.877, ECE 0.037 (n=502)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.94    1.00   0.97    45
+  Glass Breaking             0.89    0.91   0.90    45  critical OK
+  Alarm or Siren             0.91    0.71   0.80    45
+  Vehicle Horn               0.88    0.80   0.84    45
+  Animal Sound               0.86    0.93   0.89    45
+  Gunshot                    0.89    0.93   0.91    45  critical OK
+  Panic Scream               0.77    0.89   0.82    45  critical OK
+  Aggression                 0.80    0.80   0.80    45  critical BELOW 85%
+  Person Asking for Help     0.96    1.00   0.98    45  critical OK
+  Background Noise           0.78    0.73   0.75    52
+  Normal Machinery           1.00    0.96   0.98    45
+
+selected: ensemble-20260928-1 (no model reached 85 % on every critical class, so all were eligible)

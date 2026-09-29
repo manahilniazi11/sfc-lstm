@@ -1,0 +1,3133 @@
+{
+ "selected": "ensemble-20260928-1",
+ "selection_note": "no model reached 85 % on every critical class, so all were eligible",
+ "classes": [
+  "Machinery Fault",
+  "Glass Breaking",
+  "Alarm or Siren",
+  "Vehicle Horn",
+  "Animal Sound",
+  "Gunshot",
+  "Panic Scream",
+  "Aggression",
+  "Person Asking for Help",
+  "Background Noise",
+  "Normal Machinery"
+ ],
+ "critical": [
+  "Glass Breaking",
+  "Gunshot",
+  "Panic Scream",
+  "Aggression",
+  "Person Asking for Help"
+ ],
+ "models": {
+  "svm-20260928-1": {
+   "name": "svm",
+   "test_clip": {
+    "accuracy": 0.743,
+    "macro_precision": 0.7458,
+    "macro_recall": 0.7456,
+    "macro_f1": 0.7414,
+    "per_class": {
+     "Machinery Fault": {
+      "precision": 0.7925,
+      "recall": 0.9333,
+      "f1": 0.8571,
+      "support": 45
+     },
+     "Glass Breaking": {
+      "precision": 0.7959,
+      "recall": 0.8667,
+      "f1": 0.8298,
+      "support": 45
+     },
+     "Alarm or Siren": {
+      "precision": 0.7027,
+      "recall": 0.5778,
+      "f1": 0.6341,
+      "support": 45
+     },
+     "Vehicle Horn": {
+      "precision": 0.6327,
+      "recall": 0.6889,
+      "f1": 0.6596,
+      "support": 45
+     },
+     "Animal Sound": {
+      "precision": 0.6744,
+      "recall": 0.6444,
+      "f1": 0.6591,
+      "support": 45
+     },
+     "Gunshot": {
+      "precision": 0.8571,
+      "recall": 0.8,
+      "f1": 0.8276,
+      "support": 45
+     },
+     "Panic Scream": {
+      "precision": 0.7209,
+      "recall": 0.6889,
+      "f1": 0.7045,
+      "support": 45
+     },
+     "Aggression": {
+      "precision": 0.6458,
+      "recall": 0.6889,
+      "f1": 0.6667,
+      "support": 45
+     },
+     "Person Asking for Help": {
+      "precision": 0.7458,
+      "recall": 0.9778,
+      "f1": 0.8462,
+      "support": 45
+     },
+     "Background Noise": {
+      "precision": 0.6905,
+      "recall": 0.5577,
+      "f1": 0.617,
+      "support": 52
+     },
+     "Normal Machinery": {
+      "precision": 0.9459,
+      "recall": 0.7778,
+      "f1": 0.8537,
+      "support": 45
+     }
+    },
+    "critical_recall": {
+     "Glass Breaking": 0.8667,
+     "Gunshot": 0.8,
+     "Panic Scream": 0.6889,
+     "Aggression": 0.6889,
+     "Person Asking for Help": 0.9778
+    },
+    "confusion_matrix": [
+     [
+      42,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2
+     ],
+     [
+      0,
+      39,
+      0,
+      1,
+      0,
+      2,
+      0,
+      1,
+      0,
+      2,
+      0
+     ],
+     [
+      1,
+      1,
+      26,
+      10,
+      1,
+      0,
+      3,
+      1,
+      1,
+      1,
+      0
+     ],
+     [
+      0,
+      0,
+      2,
+      31,
+      3,
+      1,
+      0,
+      3,
+      0,
+      5,
+      0
+     ],
+     [
+      0,
+      0,
+      4,
+      2,
+      29,
+      0,
+      4,
+      1,
+      3,
+      2,
+      0
+     ],
+     [
+      0,
+      4,
+      0,
+      1,
+      2,
+      36,
+      0,
+      1,
+      0,
+      1,
+      0
+     ],
+     [
+      0,
+      0,
+      3,
+      2,
+      4,
+      0,
+      31,
+      5,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      2,
+      1,
+      2,
+      0,
+      4,
+      31,
+      3,
+      2,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      44,
+      0,
+      0
+     ],
+     [
+      0,
+      4,
+      0,
+      1,
+      1,
+      3,
+      1,
+      5,
+      8,
+      29,
+      0
+     ],
+     [
+      10,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      35
+     ]
+    ],
+    "ece": 0.0801,
+    "n": 502
+   },
+   "test_segment": {
+    "accuracy": 0.6986,
+    "macro_precision": 0.6644,
+    "macro_recall": 0.6965,
+    "macro_f1": 0.6697,
+    "per_class": {
+     "Machinery Fault": {
+      "precision": 0.9041,
+      "recall": 0.88,
+      "f1": 0.8919,
+      "support": 225
+     },
+     "Glass Breaking": {
+      "precision": 0.5806,
+      "recall": 0.72,
+      "f1": 0.6429,
+      "support": 75
+     },
+     "Alarm or Siren": {
+      "precision": 0.6667,
+      "recall": 0.5526,
+      "f1": 0.6043,
+      "support": 152
+     },
+     "Vehicle Horn": {
+      "precision": 0.5726,
+      "recall": 0.542,
+      "f1": 0.5569,
+      "support": 131
+     },
+     "Animal Sound": {
+      "precision": 0.6966,
+      "recall": 0.496,
+      "f1": 0.5794,
+      "support": 125
+     },
+     "Gunshot": {
+      "precision": 0.6706,
+      "recall": 0.76,
+      "f1": 0.7125,
+      "support": 75
+     },
+     "Panic Scream": {
+      "precision": 0.5686,
+      "recall": 0.6237,
+      "f1": 0.5949,
+      "support": 93
+     },
+     "Aggression": {
+      "precision": 0.6438,
+      "recall": 0.6144,
+      "f1": 0.6288,
+      "support": 153
+     },
+     "Person Asking for Help": {
+      "precision": 0.47,
+      "recall": 0.9592,
+      "f1": 0.6309,
+      "support": 49
+     },
+     "Background Noise": {
+      "precision": 0.6378,
+      "recall": 0.625,
+      "f1": 0.6313,
+      "support": 200
+     },
+     "Normal Machinery": {
+      "precision": 0.8969,
+      "recall": 0.8889,
+      "f1": 0.8929,
+      "support": 225
+     }
+    },
+    "critical_recall": {
+     "Glass Breaking": 0.72,
+     "Gunshot": 0.76,
+     "Panic Scream": 0.6237,
+     "Aggression": 0.6144,
+     "Person Asking for Help": 0.9592
+    },
+    "confusion_matrix": [
+     [
+      198,
+      6,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      19
+     ],
+     [
+      0,
+      54,
+      1,
+      1,
+      0,
+      6,
+      1,
+      4,
+      0,
+      8,
+      0
+     ],
+     [
+      0,
+      3,
+      84,
+      31,
+      5,
+      4,
+      12,
+      3,
+      3,
+      7,
+      0
+     ],
+     [
+      0,
+      1,
+      8,
+      71,
+      7,
+      3,
+      2,
+      9,
+      6,
+      24,
+      0
+     ],
+     [
+      0,
+      3,
+      7,
+      8,
+      62,
+      0,
+      11,
+      10,
+      10,
+      13,
+      1
+     ],
+     [
+      0,
+      6,
+      1,
+      1,
+      2,
+      57,
+      1,
+      0,
+      0,
+      7,
+      0
+     ],
+     [
+      0,
+      1,
+      12,
+      5,
+      4,
+      1,
+      58,
+      11,
+      1,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      10,
+      5,
+      5,
+      1,
+      14,
+      94,
+      12,
+      12,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      47,
+      0,
+      0
+     ],
+     [
+      0,
+      19,
+      3,
+      2,
+      2,
+      11,
+      1,
+      15,
+      19,
+      125,
+      3
+     ],
+     [
+      21,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      2,
+      0,
+      200
+     ]
+    ],
+    "ece": 0.1238,
+    "n": 1503
+   },
+   "per_source_accuracy": {
+    "edge-tts": {
+     "clips": 52,
+     "accuracy": 0.8462
+    },
+    "esc50": {
+     "clips": 19,
+     "accuracy": 0.6316
+    },
+    "freesound": {
+     "clips": 13,
+     "accuracy": 0.6154
+    },
+    "fsd50k": {
+     "clips": 252,
+     "accuracy": 0.6984
+    },
+    "mimii": {
+     "clips": 90,
+     "accuracy": 0.8556
+    },
+    "nonspeech7k": {
+     "clips": 16,
+     "accuracy": 0.8125
+    },
+    "ravdess": {
+     "clips": 2,
+     "accuracy": 0.5
+    },
+    "urbansound8k": {
+     "clips": 58,
+     "accuracy": 0.7241
+    }
+   },
+   "validation_clip_macro_f1": 0.7562,
+   "ms_per_window": 1.86,
+   "upload_30s_ms": 3212.8,
+   "robustness": {
+    "noise_20dB": {
+     "accuracy": 0.6693,
+     "macro_f1": 0.6688,
+     "critical_recall": {
+      "Glass Breaking": 0.6667,
+      "Gunshot": 0.6889,
+      "Panic Scream": 0.5778,
+      "Aggression": 0.5556,
+      "Person Asking for Help": 0.9111
+     }
+    },
+    "noise_10dB": {
+     "accuracy": 0.6454,
+     "macro_f1": 0.6468,
+     "critical_recall": {
+      "Glass Breaking": 0.4889,
+      "Gunshot": 0.4889,
+      "Panic Scream": 0.6222,
+      "Aggression": 0.5778,
+      "Person Asking for Help": 0.8667
+     }
+    },
+    "noise_5dB": {
+     "accuracy": 0.5637,
+     "macro_f1": 0.5672,
+     "critical_recall": {
+      "Glass Breaking": 0.4222,
+      "Gunshot": 0.4444,
+      "Panic Scream": 0.5556,
+      "Aggression": 0.4444,
+      "Person Asking for Help": 0.8222
+     }
+    },
+    "noise_0dB": {
+     "accuracy": 0.4323,
+     "macro_f1": 0.4348,
+     "critical_recall": {
+      "Glass Breaking": 0.2889,
+      "Gunshot": 0.4,
+      "Panic Scream": 0.4,
+      "Aggression": 0.2667,
+      "Person Asking for Help": 0.6889
+     }
+    },
+    "echo": {
+     "accuracy": 0.7171,
+     "macro_f1": 0.7158,
+     "critical_recall": {
+      "Glass Breaking": 0.8444,
+      "Gunshot": 0.8667,
+      "Panic Scream": 0.7111,
+      "Aggression": 0.6,
+      "Person Asking for Help": 0.8
+     }
+    },
+    "low_volume": {
+     "accuracy": 0.3765,
+     "macro_f1": 0.3473,
+     "critical_recall": {
+      "Glass Breaking": 0.3778,
+      "Gunshot": 0.7778,
+      "Panic Scream": 0.7333,
+      "Aggression": 0.2222,
+      "Person Asking for Help": 1.0
+     }
+    },
+    "phone": {
+     "accuracy": 0.6474,
+     "macro_f1": 0.6406,
+     "critical_recall": {
+      "Glass Breaking": 0.6889,
+      "Gunshot": 0.7778,
+      "Panic Scream": 0.6667,
+      "Aggression": 0.6444,
+      "Person Asking for Help": 0.9556
+     }
+    },
+    "distant": {
+     "accuracy": 0.5339,
+     "macro_f1": 0.5098,
+     "critical_recall": {
+      "Glass Breaking": 0.2667,
+      "Gunshot": 0.8,
+      "Panic Scream": 0.5333,
+      "Aggression": 0.4,
+      "Person Asking for Help": 0.8667
+     }
+    },
+    "partial": {
+     "accuracy": 0.6594,
+     "macro_f1": 0.6558,
+     "critical_recall": {
+      "Glass Breaking": 0.6889,
+      "Gunshot": 0.8,
+      "Panic Scream": 0.5333,
+      "Aggression": 0.6222,
+      "Person Asking for Help": 0.7556
+     }
+    },
+    "mp3_64k": {
+     "accuracy": 0.6434,
+     "macro_f1": 0.6361,
+     "critical_recall": {
+      "Glass Breaking": 0.8,
+      "Gunshot": 0.7333,
+      "Panic Scream": 0.7111,
+      "Aggression": 0.6667,
+      "Person Asking for Help": 1.0
+     }
+    }
+   },
+   "robustness_mean_macro_f1": 0.5823,
+   "robustness_retained": 0.7854,
+   "factory_test": {
+    "clips": 60,
+    "predicted": {
+     "Machinery Fault": 14,
+     "Normal Machinery": 46
+    },
+    "called_machinery_fault": 0.2333,
+    "flagged": true
+   }
+  },
+  "xgboost-20260928-1": {
+   "name": "xgboost",
+   "test_clip": {
+    "accuracy": 0.7869,
+    "macro_precision": 0.7869,
+    "macro_recall": 0.789,
+    "macro_f1": 0.7845,
+    "per_class": {
+     "Machinery Fault": {
+      "precision": 0.9362,
+      "recall": 0.9778,
+      "f1": 0.9565,
+      "support": 45
+     },
+     "Glass Breaking": {
+      "precision": 0.7273,
+      "recall": 0.8889,
+      "f1": 0.8,
+      "support": 45
+     },
+     "Alarm or Siren": {
+      "precision": 0.7647,
+      "recall": 0.5778,
+      "f1": 0.6582,
+      "support": 45
+     },
+     "Vehicle Horn": {
+      "precision": 0.7073,
+      "recall": 0.6444,
+      "f1": 0.6744,
+      "support": 45
+     },
+     "Animal Sound": {
+      "precision": 0.7619,
+      "recall": 0.7111,
+      "f1": 0.7356,
+      "support": 45
+     },
+     "Gunshot": {
+      "precision": 0.717,
+      "recall": 0.8444,
+      "f1": 0.7755,
+      "support": 45
+     },
+     "Panic Scream": {
+      "precision": 0.7955,
+      "recall": 0.7778,
+      "f1": 0.7865,
+      "support": 45
+     },
+     "Aggression": {
+      "precision": 0.6889,
+      "recall": 0.6889,
+      "f1": 0.6889,
+      "support": 45
+     },
+     "Person Asking for Help": {
+      "precision": 0.8462,
+      "recall": 0.9778,
+      "f1": 0.9072,
+      "support": 45
+     },
+     "Background Noise": {
+      "precision": 0.7333,
+      "recall": 0.6346,
+      "f1": 0.6804,
+      "support": 52
+     },
+     "Normal Machinery": {
+      "precision": 0.9773,
+      "recall": 0.9556,
+      "f1": 0.9663,
+      "support": 45
+     }
+    },
+    "critical_recall": {
+     "Glass Breaking": 0.8889,
+     "Gunshot": 0.8444,
+     "Panic Scream": 0.7778,
+     "Aggression": 0.6889,
+     "Person Asking for Help": 0.9778
+    },
+    "confusion_matrix": [
+     [
+      44,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+     ],
+     [
+      0,
+      40,
+      0,
+      0,
+      0,
+      3,
+      0,
+      1,
+      0,
+      1,
+      0
+     ],
+     [
+      1,
+      1,
+      26,
+      7,
+      1,
+      3,
+      3,
+      1,
+      1,
+      1,
+      0
+     ],
+     [
+      0,
+      2,
+      2,
+      29,
+      2,
+      1,
+      0,
+      4,
+      0,
+      5,
+      0
+     ],
+     [
+      0,
+      0,
+      4,
+      2,
+      32,
+      1,
+      2,
+      1,
+      1,
+      2,
+      0
+     ],
+     [
+      0,
+      5,
+      0,
+      0,
+      2,
+      38,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      1,
+      2,
+      3,
+      0,
+      35,
+      4,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      2,
+      1,
+      0,
+      1,
+      1,
+      3,
+      31,
+      3,
+      3,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      44,
+      0,
+      0
+     ],
+     [
+      0,
+      5,
+      0,
+      1,
+      1,
+      5,
+      1,
+      3,
+      3,
+      33,
+      0
+     ],
+     [
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      43
+     ]
+    ],
+    "ece": 0.036,
+    "n": 502
+   },
+   "test_segment": {
+    "accuracy": 0.7265,
+    "macro_precision": 0.6952,
+    "macro_recall": 0.7334,
+    "macro_f1": 0.7073,
+    "per_class": {
+     "Machinery Fault": {
+      "precision": 0.9136,
+      "recall": 0.8933,
+      "f1": 0.9034,
+      "support": 225
+     },
+     "Glass Breaking": {
+      "precision": 0.5588,
+      "recall": 0.76,
+      "f1": 0.6441,
+      "support": 75
+     },
+     "Alarm or Siren": {
+      "precision": 0.7521,
+      "recall": 0.5789,
+      "f1": 0.6543,
+      "support": 152
+     },
+     "Vehicle Horn": {
+      "precision": 0.5556,
+      "recall": 0.4962,
+      "f1": 0.5242,
+      "support": 131
+     },
+     "Animal Sound": {
+      "precision": 0.681,
+      "recall": 0.632,
+      "f1": 0.6556,
+      "support": 125
+     },
+     "Gunshot": {
+      "precision": 0.6458,
+      "recall": 0.8267,
+      "f1": 0.7251,
+      "support": 75
+     },
+     "Panic Scream": {
+      "precision": 0.6216,
+      "recall": 0.7419,
+      "f1": 0.6765,
+      "support": 93
+     },
+     "Aggression": {
+      "precision": 0.6497,
+      "recall": 0.6667,
+      "f1": 0.6581,
+      "support": 153
+     },
+     "Person Asking for Help": {
+      "precision": 0.6761,
+      "recall": 0.9796,
+      "f1": 0.8,
+      "support": 49
+     },
+     "Background Noise": {
+      "precision": 0.6821,
+      "recall": 0.59,
+      "f1": 0.6327,
+      "support": 200
+     },
+     "Normal Machinery": {
+      "precision": 0.9103,
+      "recall": 0.9022,
+      "f1": 0.9062,
+      "support": 225
+     }
+    },
+    "critical_recall": {
+     "Glass Breaking": 0.76,
+     "Gunshot": 0.8267,
+     "Panic Scream": 0.7419,
+     "Aggression": 0.6667,
+     "Person Asking for Help": 0.9796
+    },
+    "confusion_matrix": [
+     [
+      201,
+      3,
+      0,
+      0,
+      1,
+      0,
+      2,
+      0,
+      0,
+      0,
+      18
+     ],
+     [
+      0,
+      57,
+      0,
+      3,
+      0,
+      6,
+      2,
+      3,
+      0,
+      4,
+      0
+     ],
+     [
+      0,
+      6,
+      88,
+      28,
+      5,
+      4,
+      13,
+      1,
+      4,
+      3,
+      0
+     ],
+     [
+      0,
+      1,
+      9,
+      65,
+      7,
+      1,
+      4,
+      15,
+      3,
+      26,
+      0
+     ],
+     [
+      0,
+      3,
+      8,
+      10,
+      79,
+      3,
+      5,
+      6,
+      2,
+      9,
+      0
+     ],
+     [
+      0,
+      8,
+      0,
+      0,
+      2,
+      62,
+      0,
+      0,
+      0,
+      3,
+      0
+     ],
+     [
+      0,
+      1,
+      1,
+      1,
+      5,
+      1,
+      69,
+      14,
+      1,
+      0,
+      0
+     ],
+     [
+      0,
+      2,
+      7,
+      5,
+      5,
+      1,
+      14,
+      102,
+      7,
+      10,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      48,
+      0,
+      0
+     ],
+     [
+      0,
+      21,
+      4,
+      5,
+      11,
+      15,
+      2,
+      16,
+      6,
+      118,
+      2
+     ],
+     [
+      19,
+      0,
+      0,
+      0,
+      1,
+      2,
+      0,
+      0,
+      0,
+      0,
+      203
+     ]
+    ],
+    "ece": 0.0212,
+    "n": 1503
+   },
+   "per_source_accuracy": {
+    "edge-tts": {
+     "clips": 52,
+     "accuracy": 0.9808
+    },
+    "esc50": {
+     "clips": 19,
+     "accuracy": 0.6316
+    },
+    "freesound": {
+     "clips": 13,
+     "accuracy": 0.6154
+    },
+    "fsd50k": {
+     "clips": 252,
+     "accuracy": 0.6944
+    },
+    "mimii": {
+     "clips": 90,
+     "accuracy": 0.9667
+    },
+    "nonspeech7k": {
+     "clips": 16,
+     "accuracy": 0.875
+    },
+    "ravdess": {
+     "clips": 2,
+     "accuracy": 1.0
+    },
+    "urbansound8k": {
+     "clips": 58,
+     "accuracy": 0.7931
+    }
+   },
+   "validation_clip_macro_f1": 0.792,
+   "ms_per_window": 0.02,
+   "upload_30s_ms": 407.6,
+   "robustness": {
+    "noise_20dB": {
+     "accuracy": 0.6972,
+     "macro_f1": 0.6965,
+     "critical_recall": {
+      "Glass Breaking": 0.7333,
+      "Gunshot": 0.6889,
+      "Panic Scream": 0.7556,
+      "Aggression": 0.6444,
+      "Person Asking for Help": 0.8
+     }
+    },
+    "noise_10dB": {
+     "accuracy": 0.6574,
+     "macro_f1": 0.6564,
+     "critical_recall": {
+      "Glass Breaking": 0.6,
+      "Gunshot": 0.6,
+      "Panic Scream": 0.6889,
+      "Aggression": 0.5778,
+      "Person Asking for Help": 0.8
+     }
+    },
+    "noise_5dB": {
+     "accuracy": 0.5916,
+     "macro_f1": 0.5943,
+     "critical_recall": {
+      "Glass Breaking": 0.5333,
+      "Gunshot": 0.5556,
+      "Panic Scream": 0.6667,
+      "Aggression": 0.5333,
+      "Person Asking for Help": 0.7556
+     }
+    },
+    "noise_0dB": {
+     "accuracy": 0.4482,
+     "macro_f1": 0.4675,
+     "critical_recall": {
+      "Glass Breaking": 0.3111,
+      "Gunshot": 0.6,
+      "Panic Scream": 0.4667,
+      "Aggression": 0.3556,
+      "Person Asking for Help": 0.3778
+     }
+    },
+    "echo": {
+     "accuracy": 0.743,
+     "macro_f1": 0.7379,
+     "critical_recall": {
+      "Glass Breaking": 0.8667,
+      "Gunshot": 0.9111,
+      "Panic Scream": 0.8,
+      "Aggression": 0.6222,
+      "Person Asking for Help": 0.8889
+     }
+    },
+    "low_volume": {
+     "accuracy": 0.4402,
+     "macro_f1": 0.4067,
+     "critical_recall": {
+      "Glass Breaking": 0.3333,
+      "Gunshot": 0.7556,
+      "Panic Scream": 0.7778,
+      "Aggression": 0.3333,
+      "Person Asking for Help": 0.9111
+     }
+    },
+    "phone": {
+     "accuracy": 0.6653,
+     "macro_f1": 0.6617,
+     "critical_recall": {
+      "Glass Breaking": 0.7778,
+      "Gunshot": 0.8667,
+      "Panic Scream": 0.7556,
+      "Aggression": 0.7111,
+      "Person Asking for Help": 1.0
+     }
+    },
+    "distant": {
+     "accuracy": 0.498,
+     "macro_f1": 0.4638,
+     "critical_recall": {
+      "Glass Breaking": 0.2444,
+      "Gunshot": 0.8889,
+      "Panic Scream": 0.5333,
+      "Aggression": 0.2,
+      "Person Asking for Help": 0.8667
+     }
+    },
+    "partial": {
+     "accuracy": 0.7072,
+     "macro_f1": 0.7028,
+     "critical_recall": {
+      "Glass Breaking": 0.7111,
+      "Gunshot": 0.8444,
+      "Panic Scream": 0.6667,
+      "Aggression": 0.7111,
+      "Person Asking for Help": 0.7778
+     }
+    },
+    "mp3_64k": {
+     "accuracy": 0.6454,
+     "macro_f1": 0.6327,
+     "critical_recall": {
+      "Glass Breaking": 0.9333,
+      "Gunshot": 0.7111,
+      "Panic Scream": 0.8222,
+      "Aggression": 0.7111,
+      "Person Asking for Help": 0.9778
+     }
+    }
+   },
+   "robustness_mean_macro_f1": 0.602,
+   "robustness_retained": 0.7674,
+   "factory_test": {
+    "clips": 60,
+    "predicted": {
+     "Machinery Fault": 5,
+     "Normal Machinery": 55
+    },
+    "called_machinery_fault": 0.0833,
+    "flagged": false
+   }
+  },
+  "yamnet-20260928-1": {
+   "name": "yamnet",
+   "test_clip": {
+    "accuracy": 0.8048,
+    "macro_precision": 0.8091,
+    "macro_recall": 0.8083,
+    "macro_f1": 0.8038,
+    "per_class": {
+     "Machinery Fault": {
+      "precision": 0.6531,
+      "recall": 0.7111,
+      "f1": 0.6809,
+      "support": 45
+     },
+     "Glass Breaking": {
+      "precision": 0.9524,
+      "recall": 0.8889,
+      "f1": 0.9195,
+      "support": 45
+     },
+     "Alarm or Siren": {
+      "precision": 0.8462,
+      "recall": 0.7333,
+      "f1": 0.7857,
+      "support": 45
+     },
+     "Vehicle Horn": {
+      "precision": 0.8667,
+      "recall": 0.8667,
+      "f1": 0.8667,
+      "support": 45
+     },
+     "Animal Sound": {
+      "precision": 0.8077,
+      "recall": 0.9333,
+      "f1": 0.866,
+      "support": 45
+     },
+     "Gunshot": {
+      "precision": 0.84,
+      "recall": 0.9333,
+      "f1": 0.8842,
+      "support": 45
+     },
+     "Panic Scream": {
+      "precision": 0.7917,
+      "recall": 0.8444,
+      "f1": 0.8172,
+      "support": 45
+     },
+     "Aggression": {
+      "precision": 0.8049,
+      "recall": 0.7333,
+      "f1": 0.7674,
+      "support": 45
+     },
+     "Person Asking for Help": {
+      "precision": 0.8113,
+      "recall": 0.9556,
+      "f1": 0.8776,
+      "support": 45
+     },
+     "Background Noise": {
+      "precision": 0.8529,
+      "recall": 0.5577,
+      "f1": 0.6744,
+      "support": 52
+     },
+     "Normal Machinery": {
+      "precision": 0.6735,
+      "recall": 0.7333,
+      "f1": 0.7021,
+      "support": 45
+     }
+    },
+    "critical_recall": {
+     "Glass Breaking": 0.8889,
+     "Gunshot": 0.9333,
+     "Panic Scream": 0.8444,
+     "Aggression": 0.7333,
+     "Person Asking for Help": 0.9556
+    },
+    "confusion_matrix": [
+     [
+      32,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      13
+     ],
+     [
+      1,
+      40,
+      0,
+      0,
+      0,
+      4,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      2,
+      0,
+      33,
+      3,
+      1,
+      1,
+      1,
+      0,
+      2,
+      1,
+      1
+     ],
+     [
+      0,
+      0,
+      1,
+      39,
+      1,
+      1,
+      1,
+      0,
+      0,
+      2,
+      0
+     ],
+     [
+      0,
+      0,
+      2,
+      1,
+      42,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      1,
+      1,
+      0,
+      0,
+      0,
+      42,
+      1,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      38,
+      5,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      1,
+      0,
+      3,
+      0,
+      6,
+      33,
+      2,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      43,
+      1,
+      0
+     ],
+     [
+      2,
+      1,
+      1,
+      2,
+      4,
+      2,
+      1,
+      2,
+      6,
+      29,
+      2
+     ],
+     [
+      11,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      33
+     ]
+    ],
+    "ece": 0.075,
+    "n": 502
+   },
+   "test_segment": {
+    "accuracy": 0.7092,
+    "macro_precision": 0.7129,
+    "macro_recall": 0.7512,
+    "macro_f1": 0.723,
+    "per_class": {
+     "Machinery Fault": {
+      "precision": 0.6654,
+      "recall": 0.7689,
+      "f1": 0.7134,
+      "support": 225
+     },
+     "Glass Breaking": {
+      "precision": 0.75,
+      "recall": 0.76,
+      "f1": 0.755,
+      "support": 75
+     },
+     "Alarm or Siren": {
+      "precision": 0.8621,
+      "recall": 0.6579,
+      "f1": 0.7463,
+      "support": 152
+     },
+     "Vehicle Horn": {
+      "precision": 0.6587,
+      "recall": 0.6336,
+      "f1": 0.6459,
+      "support": 131
+     },
+     "Animal Sound": {
+      "precision": 0.7955,
+      "recall": 0.84,
+      "f1": 0.8171,
+      "support": 125
+     },
+     "Gunshot": {
+      "precision": 0.6574,
+      "recall": 0.9467,
+      "f1": 0.776,
+      "support": 75
+     },
+     "Panic Scream": {
+      "precision": 0.6404,
+      "recall": 0.7849,
+      "f1": 0.7053,
+      "support": 93
+     },
+     "Aggression": {
+      "precision": 0.7368,
+      "recall": 0.732,
+      "f1": 0.7344,
+      "support": 153
+     },
+     "Person Asking for Help": {
+      "precision": 0.6712,
+      "recall": 1.0,
+      "f1": 0.8033,
+      "support": 49
+     },
+     "Background Noise": {
+      "precision": 0.702,
+      "recall": 0.53,
+      "f1": 0.604,
+      "support": 200
+     },
+     "Normal Machinery": {
+      "precision": 0.7026,
+      "recall": 0.6089,
+      "f1": 0.6524,
+      "support": 225
+     }
+    },
+    "critical_recall": {
+     "Glass Breaking": 0.76,
+     "Gunshot": 0.9467,
+     "Panic Scream": 0.7849,
+     "Aggression": 0.732,
+     "Person Asking for Help": 1.0
+    },
+    "confusion_matrix": [
+     [
+      173,
+      3,
+      0,
+      1,
+      0,
+      2,
+      0,
+      0,
+      0,
+      4,
+      42
+     ],
+     [
+      1,
+      57,
+      0,
+      0,
+      0,
+      11,
+      0,
+      4,
+      0,
+      2,
+      0
+     ],
+     [
+      2,
+      2,
+      100,
+      19,
+      4,
+      5,
+      9,
+      1,
+      5,
+      3,
+      2
+     ],
+     [
+      0,
+      1,
+      5,
+      83,
+      5,
+      3,
+      3,
+      7,
+      1,
+      18,
+      5
+     ],
+     [
+      1,
+      0,
+      5,
+      4,
+      105,
+      0,
+      3,
+      2,
+      2,
+      3,
+      0
+     ],
+     [
+      0,
+      2,
+      0,
+      1,
+      1,
+      71,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      4,
+      1,
+      3,
+      1,
+      73,
+      11,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      1,
+      4,
+      3,
+      1,
+      23,
+      112,
+      3,
+      6,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      49,
+      0,
+      0
+     ],
+     [
+      8,
+      10,
+      0,
+      11,
+      11,
+      14,
+      3,
+      15,
+      13,
+      106,
+      9
+     ],
+     [
+      75,
+      1,
+      1,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      9,
+      137
+     ]
+    ],
+    "ece": 0.035,
+    "n": 1503
+   },
+   "per_source_accuracy": {
+    "edge-tts": {
+     "clips": 52,
+     "accuracy": 0.8654
+    },
+    "esc50": {
+     "clips": 19,
+     "accuracy": 0.8421
+    },
+    "freesound": {
+     "clips": 13,
+     "accuracy": 0.9231
+    },
+    "fsd50k": {
+     "clips": 252,
+     "accuracy": 0.7897
+    },
+    "mimii": {
+     "clips": 90,
+     "accuracy": 0.7222
+    },
+    "nonspeech7k": {
+     "clips": 16,
+     "accuracy": 0.8125
+    },
+    "ravdess": {
+     "clips": 2,
+     "accuracy": 1.0
+    },
+    "urbansound8k": {
+     "clips": 58,
+     "accuracy": 0.8966
+    }
+   },
+   "validation_clip_macro_f1": 0.838,
+   "ms_per_window": 5.51,
+   "upload_30s_ms": 717.1,
+   "robustness": {
+    "noise_20dB": {
+     "accuracy": 0.757,
+     "macro_f1": 0.7551,
+     "critical_recall": {
+      "Glass Breaking": 0.9111,
+      "Gunshot": 0.8444,
+      "Panic Scream": 0.8444,
+      "Aggression": 0.6444,
+      "Person Asking for Help": 0.8444
+     }
+    },
+    "noise_10dB": {
+     "accuracy": 0.6932,
+     "macro_f1": 0.6888,
+     "critical_recall": {
+      "Glass Breaking": 0.8667,
+      "Gunshot": 0.8,
+      "Panic Scream": 0.7778,
+      "Aggression": 0.6222,
+      "Person Asking for Help": 0.8222
+     }
+    },
+    "noise_5dB": {
+     "accuracy": 0.6155,
+     "macro_f1": 0.6166,
+     "critical_recall": {
+      "Glass Breaking": 0.7556,
+      "Gunshot": 0.7111,
+      "Panic Scream": 0.7556,
+      "Aggression": 0.4889,
+      "Person Asking for Help": 0.8
+     }
+    },
+    "noise_0dB": {
+     "accuracy": 0.494,
+     "macro_f1": 0.4986,
+     "critical_recall": {
+      "Glass Breaking": 0.5333,
+      "Gunshot": 0.6222,
+      "Panic Scream": 0.5778,
+      "Aggression": 0.3556,
+      "Person Asking for Help": 0.7111
+     }
+    },
+    "echo": {
+     "accuracy": 0.6673,
+     "macro_f1": 0.6562,
+     "critical_recall": {
+      "Glass Breaking": 0.7111,
+      "Gunshot": 0.8667,
+      "Panic Scream": 0.8444,
+      "Aggression": 0.6222,
+      "Person Asking for Help": 0.8222
+     }
+    },
+    "low_volume": {
+     "accuracy": 0.4801,
+     "macro_f1": 0.4837,
+     "critical_recall": {
+      "Glass Breaking": 0.4667,
+      "Gunshot": 0.6889,
+      "Panic Scream": 0.8,
+      "Aggression": 0.3778,
+      "Person Asking for Help": 1.0
+     }
+    },
+    "phone": {
+     "accuracy": 0.6753,
+     "macro_f1": 0.6583,
+     "critical_recall": {
+      "Glass Breaking": 0.6,
+      "Gunshot": 0.8889,
+      "Panic Scream": 0.8667,
+      "Aggression": 0.7111,
+      "Person Asking for Help": 1.0
+     }
+    },
+    "distant": {
+     "accuracy": 0.5339,
+     "macro_f1": 0.5008,
+     "critical_recall": {
+      "Glass Breaking": 0.2667,
+      "Gunshot": 0.8444,
+      "Panic Scream": 0.6,
+      "Aggression": 0.3556,
+      "Person Asking for Help": 0.8889
+     }
+    },
+    "partial": {
+     "accuracy": 0.743,
+     "macro_f1": 0.7443,
+     "critical_recall": {
+      "Glass Breaking": 0.7111,
+      "Gunshot": 0.8444,
+      "Panic Scream": 0.8,
+      "Aggression": 0.7111,
+      "Person Asking for Help": 0.8889
+     }
+    },
+    "mp3_64k": {
+     "accuracy": 0.745,
+     "macro_f1": 0.7305,
+     "critical_recall": {
+      "Glass Breaking": 0.8667,
+      "Gunshot": 0.8889,
+      "Panic Scream": 0.8667,
+      "Aggression": 0.8,
+      "Person Asking for Help": 0.9556
+     }
+    }
+   },
+   "robustness_mean_macro_f1": 0.6333,
+   "robustness_retained": 0.7879,
+   "factory_test": {
+    "clips": 60,
+    "predicted": {
+     "Machinery Fault": 29,
+     "Glass Breaking": 2,
+     "Background Noise": 2,
+     "Normal Machinery": 27
+    },
+    "called_machinery_fault": 0.4833,
+    "flagged": true
+   }
+  },
+  "cnn-20260928-1": {
+   "name": "cnn",
+   "test_clip": {
+    "accuracy": 0.8446,
+    "macro_precision": 0.8521,
+    "macro_recall": 0.8454,
+    "macro_f1": 0.8466,
+    "per_class": {
+     "Machinery Fault": {
+      "precision": 0.9783,
+      "recall": 1.0,
+      "f1": 0.989,
+      "support": 45
+     },
+     "Glass Breaking": {
+      "precision": 0.9111,
+      "recall": 0.9111,
+      "f1": 0.9111,
+      "support": 45
+     },
+     "Alarm or Siren": {
+      "precision": 0.8571,
+      "recall": 0.6667,
+      "f1": 0.75,
+      "support": 45
+     },
+     "Vehicle Horn": {
+      "precision": 0.8462,
+      "recall": 0.7333,
+      "f1": 0.7857,
+      "support": 45
+     },
+     "Animal Sound": {
+      "precision": 0.8261,
+      "recall": 0.8444,
+      "f1": 0.8352,
+      "support": 45
+     },
+     "Gunshot": {
+      "precision": 0.9302,
+      "recall": 0.8889,
+      "f1": 0.9091,
+      "support": 45
+     },
+     "Panic Scream": {
+      "precision": 0.6957,
+      "recall": 0.7111,
+      "f1": 0.7033,
+      "support": 45
+     },
+     "Aggression": {
+      "precision": 0.7,
+      "recall": 0.7778,
+      "f1": 0.7368,
+      "support": 45
+     },
+     "Person Asking for Help": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 45
+     },
+     "Background Noise": {
+      "precision": 0.6721,
+      "recall": 0.7885,
+      "f1": 0.7257,
+      "support": 52
+     },
+     "Normal Machinery": {
+      "precision": 0.9565,
+      "recall": 0.9778,
+      "f1": 0.967,
+      "support": 45
+     }
+    },
+    "critical_recall": {
+     "Glass Breaking": 0.9111,
+     "Gunshot": 0.8889,
+     "Panic Scream": 0.7111,
+     "Aggression": 0.7778,
+     "Person Asking for Help": 1.0
+    },
+    "confusion_matrix": [
+     [
+      45,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      41,
+      0,
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      1,
+      0
+     ],
+     [
+      1,
+      0,
+      30,
+      3,
+      3,
+      0,
+      3,
+      1,
+      0,
+      4,
+      0
+     ],
+     [
+      0,
+      0,
+      3,
+      33,
+      0,
+      0,
+      1,
+      2,
+      0,
+      6,
+      0
+     ],
+     [
+      0,
+      0,
+      2,
+      0,
+      38,
+      0,
+      2,
+      1,
+      0,
+      2,
+      0
+     ],
+     [
+      0,
+      2,
+      0,
+      0,
+      0,
+      40,
+      1,
+      0,
+      0,
+      2,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      1,
+      3,
+      0,
+      32,
+      9,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      5,
+      35,
+      0,
+      4,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      45,
+      0,
+      0
+     ],
+     [
+      0,
+      2,
+      0,
+      2,
+      1,
+      1,
+      2,
+      1,
+      0,
+      41,
+      2
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      44
+     ]
+    ],
+    "ece": 0.025,
+    "n": 502
+   },
+   "test_segment": {
+    "accuracy": 0.7957,
+    "macro_precision": 0.7939,
+    "macro_recall": 0.7912,
+    "macro_f1": 0.7901,
+    "per_class": {
+     "Machinery Fault": {
+      "precision": 0.9643,
+      "recall": 0.96,
+      "f1": 0.9621,
+      "support": 225
+     },
+     "Glass Breaking": {
+      "precision": 0.7763,
+      "recall": 0.7867,
+      "f1": 0.7815,
+      "support": 75
+     },
+     "Alarm or Siren": {
+      "precision": 0.85,
+      "recall": 0.6711,
+      "f1": 0.75,
+      "support": 152
+     },
+     "Vehicle Horn": {
+      "precision": 0.7736,
+      "recall": 0.626,
+      "f1": 0.692,
+      "support": 131
+     },
+     "Animal Sound": {
+      "precision": 0.7109,
+      "recall": 0.728,
+      "f1": 0.7194,
+      "support": 125
+     },
+     "Gunshot": {
+      "precision": 0.7949,
+      "recall": 0.8267,
+      "f1": 0.8105,
+      "support": 75
+     },
+     "Panic Scream": {
+      "precision": 0.66,
+      "recall": 0.7097,
+      "f1": 0.6839,
+      "support": 93
+     },
+     "Aggression": {
+      "precision": 0.675,
+      "recall": 0.7059,
+      "f1": 0.6901,
+      "support": 153
+     },
+     "Person Asking for Help": {
+      "precision": 0.9423,
+      "recall": 1.0,
+      "f1": 0.9703,
+      "support": 49
+     },
+     "Background Noise": {
+      "precision": 0.636,
+      "recall": 0.76,
+      "f1": 0.6925,
+      "support": 200
+     },
+     "Normal Machinery": {
+      "precision": 0.95,
+      "recall": 0.9289,
+      "f1": 0.9393,
+      "support": 225
+     }
+    },
+    "critical_recall": {
+     "Glass Breaking": 0.7867,
+     "Gunshot": 0.8267,
+     "Panic Scream": 0.7097,
+     "Aggression": 0.7059,
+     "Person Asking for Help": 1.0
+    },
+    "confusion_matrix": [
+     [
+      216,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      8
+     ],
+     [
+      0,
+      59,
+      0,
+      0,
+      2,
+      4,
+      2,
+      2,
+      0,
+      6,
+      0
+     ],
+     [
+      0,
+      2,
+      102,
+      6,
+      9,
+      4,
+      7,
+      6,
+      2,
+      14,
+      0
+     ],
+     [
+      0,
+      0,
+      8,
+      82,
+      3,
+      1,
+      2,
+      9,
+      0,
+      26,
+      0
+     ],
+     [
+      0,
+      0,
+      4,
+      6,
+      91,
+      0,
+      3,
+      10,
+      1,
+      10,
+      0
+     ],
+     [
+      0,
+      5,
+      0,
+      1,
+      0,
+      62,
+      1,
+      1,
+      0,
+      5,
+      0
+     ],
+     [
+      0,
+      0,
+      3,
+      3,
+      6,
+      0,
+      66,
+      14,
+      0,
+      1,
+      0
+     ],
+     [
+      0,
+      0,
+      3,
+      1,
+      8,
+      0,
+      16,
+      108,
+      0,
+      17,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      49,
+      0,
+      0
+     ],
+     [
+      1,
+      10,
+      0,
+      7,
+      8,
+      6,
+      3,
+      10,
+      0,
+      152,
+      3
+     ],
+     [
+      7,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      7,
+      209
+     ]
+    ],
+    "ece": 0.021,
+    "n": 1503
+   },
+   "per_source_accuracy": {
+    "edge-tts": {
+     "clips": 52,
+     "accuracy": 1.0
+    },
+    "esc50": {
+     "clips": 19,
+     "accuracy": 0.6842
+    },
+    "freesound": {
+     "clips": 13,
+     "accuracy": 0.7692
+    },
+    "fsd50k": {
+     "clips": 252,
+     "accuracy": 0.7659
+    },
+    "mimii": {
+     "clips": 90,
+     "accuracy": 0.9889
+    },
+    "nonspeech7k": {
+     "clips": 16,
+     "accuracy": 0.8125
+    },
+    "ravdess": {
+     "clips": 2,
+     "accuracy": 1.0
+    },
+    "urbansound8k": {
+     "clips": 58,
+     "accuracy": 0.8966
+    }
+   },
+   "validation_clip_macro_f1": 0.8569,
+   "ms_per_window": 1.73,
+   "upload_30s_ms": 507.5,
+   "robustness": {
+    "noise_20dB": {
+     "accuracy": 0.8108,
+     "macro_f1": 0.8173,
+     "critical_recall": {
+      "Glass Breaking": 0.8,
+      "Gunshot": 0.8222,
+      "Panic Scream": 0.7333,
+      "Aggression": 0.8,
+      "Person Asking for Help": 0.8889
+     }
+    },
+    "noise_10dB": {
+     "accuracy": 0.757,
+     "macro_f1": 0.7667,
+     "critical_recall": {
+      "Glass Breaking": 0.6889,
+      "Gunshot": 0.5556,
+      "Panic Scream": 0.7111,
+      "Aggression": 0.7333,
+      "Person Asking for Help": 0.8667
+     }
+    },
+    "noise_5dB": {
+     "accuracy": 0.6992,
+     "macro_f1": 0.7173,
+     "critical_recall": {
+      "Glass Breaking": 0.5778,
+      "Gunshot": 0.4889,
+      "Panic Scream": 0.6444,
+      "Aggression": 0.6444,
+      "Person Asking for Help": 0.8
+     }
+    },
+    "noise_0dB": {
+     "accuracy": 0.5757,
+     "macro_f1": 0.6067,
+     "critical_recall": {
+      "Glass Breaking": 0.4222,
+      "Gunshot": 0.3556,
+      "Panic Scream": 0.5111,
+      "Aggression": 0.5778,
+      "Person Asking for Help": 0.6444
+     }
+    },
+    "echo": {
+     "accuracy": 0.8147,
+     "macro_f1": 0.816,
+     "critical_recall": {
+      "Glass Breaking": 0.9333,
+      "Gunshot": 0.8,
+      "Panic Scream": 0.7556,
+      "Aggression": 0.6667,
+      "Person Asking for Help": 1.0
+     }
+    },
+    "low_volume": {
+     "accuracy": 0.4801,
+     "macro_f1": 0.4898,
+     "critical_recall": {
+      "Glass Breaking": 0.4444,
+      "Gunshot": 0.4222,
+      "Panic Scream": 0.6889,
+      "Aggression": 0.6,
+      "Person Asking for Help": 0.9556
+     }
+    },
+    "phone": {
+     "accuracy": 0.7829,
+     "macro_f1": 0.7846,
+     "critical_recall": {
+      "Glass Breaking": 0.8667,
+      "Gunshot": 0.8889,
+      "Panic Scream": 0.7556,
+      "Aggression": 0.8,
+      "Person Asking for Help": 1.0
+     }
+    },
+    "distant": {
+     "accuracy": 0.739,
+     "macro_f1": 0.7466,
+     "critical_recall": {
+      "Glass Breaking": 0.7333,
+      "Gunshot": 0.8222,
+      "Panic Scream": 0.6444,
+      "Aggression": 0.6,
+      "Person Asking for Help": 1.0
+     }
+    },
+    "partial": {
+     "accuracy": 0.7888,
+     "macro_f1": 0.7914,
+     "critical_recall": {
+      "Glass Breaking": 0.7111,
+      "Gunshot": 0.8,
+      "Panic Scream": 0.7111,
+      "Aggression": 0.8,
+      "Person Asking for Help": 0.8444
+     }
+    },
+    "mp3_64k": {
+     "accuracy": 0.8406,
+     "macro_f1": 0.842,
+     "critical_recall": {
+      "Glass Breaking": 0.9333,
+      "Gunshot": 0.8889,
+      "Panic Scream": 0.7333,
+      "Aggression": 0.7556,
+      "Person Asking for Help": 1.0
+     }
+    }
+   },
+   "robustness_mean_macro_f1": 0.7378,
+   "robustness_retained": 0.8715,
+   "factory_test": {
+    "clips": 60,
+    "predicted": {
+     "Normal Machinery": 60
+    },
+    "called_machinery_fault": 0.0,
+    "flagged": false
+   }
+  },
+  "ensemble-20260928-1": {
+   "name": "ensemble",
+   "test_clip": {
+    "accuracy": 0.8765,
+    "macro_precision": 0.8795,
+    "macro_recall": 0.8786,
+    "macro_f1": 0.8769,
+    "per_class": {
+     "Machinery Fault": {
+      "precision": 0.9375,
+      "recall": 1.0,
+      "f1": 0.9677,
+      "support": 45
+     },
+     "Glass Breaking": {
+      "precision": 0.8913,
+      "recall": 0.9111,
+      "f1": 0.9011,
+      "support": 45
+     },
+     "Alarm or Siren": {
+      "precision": 0.9143,
+      "recall": 0.7111,
+      "f1": 0.8,
+      "support": 45
+     },
+     "Vehicle Horn": {
+      "precision": 0.878,
+      "recall": 0.8,
+      "f1": 0.8372,
+      "support": 45
+     },
+     "Animal Sound": {
+      "precision": 0.8571,
+      "recall": 0.9333,
+      "f1": 0.8936,
+      "support": 45
+     },
+     "Gunshot": {
+      "precision": 0.8936,
+      "recall": 0.9333,
+      "f1": 0.913,
+      "support": 45
+     },
+     "Panic Scream": {
+      "precision": 0.7692,
+      "recall": 0.8889,
+      "f1": 0.8247,
+      "support": 45
+     },
+     "Aggression": {
+      "precision": 0.8,
+      "recall": 0.8,
+      "f1": 0.8,
+      "support": 45
+     },
+     "Person Asking for Help": {
+      "precision": 0.9574,
+      "recall": 1.0,
+      "f1": 0.9783,
+      "support": 45
+     },
+     "Background Noise": {
+      "precision": 0.7755,
+      "recall": 0.7308,
+      "f1": 0.7525,
+      "support": 52
+     },
+     "Normal Machinery": {
+      "precision": 1.0,
+      "recall": 0.9556,
+      "f1": 0.9773,
+      "support": 45
+     }
+    },
+    "critical_recall": {
+     "Glass Breaking": 0.9111,
+     "Gunshot": 0.9333,
+     "Panic Scream": 0.8889,
+     "Aggression": 0.8,
+     "Person Asking for Help": 1.0
+    },
+    "confusion_matrix": [
+     [
+      45,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      41,
+      0,
+      0,
+      0,
+      3,
+      0,
+      1,
+      0,
+      0,
+      0
+     ],
+     [
+      1,
+      0,
+      32,
+      3,
+      1,
+      0,
+      3,
+      0,
+      2,
+      3,
+      0
+     ],
+     [
+      0,
+      0,
+      1,
+      36,
+      0,
+      1,
+      0,
+      2,
+      0,
+      5,
+      0
+     ],
+     [
+      0,
+      0,
+      1,
+      0,
+      42,
+      0,
+      1,
+      0,
+      0,
+      1,
+      0
+     ],
+     [
+      0,
+      2,
+      0,
+      0,
+      0,
+      42,
+      1,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      40,
+      4,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      6,
+      36,
+      0,
+      1,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      45,
+      0,
+      0
+     ],
+     [
+      1,
+      3,
+      1,
+      2,
+      3,
+      1,
+      1,
+      2,
+      0,
+      38,
+      0
+     ],
+     [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      43
+     ]
+    ],
+    "ece": 0.0366,
+    "n": 502
+   },
+   "test_segment": {
+    "accuracy": 0.825,
+    "macro_precision": 0.814,
+    "macro_recall": 0.8272,
+    "macro_f1": 0.8182,
+    "per_class": {
+     "Machinery Fault": {
+      "precision": 0.9641,
+      "recall": 0.9556,
+      "f1": 0.9598,
+      "support": 225
+     },
+     "Glass Breaking": {
+      "precision": 0.8026,
+      "recall": 0.8133,
+      "f1": 0.8079,
+      "support": 75
+     },
+     "Alarm or Siren": {
+      "precision": 0.9008,
+      "recall": 0.7171,
+      "f1": 0.7985,
+      "support": 152
+     },
+     "Vehicle Horn": {
+      "precision": 0.7355,
+      "recall": 0.6794,
+      "f1": 0.7063,
+      "support": 131
+     },
+     "Animal Sound": {
+      "precision": 0.85,
+      "recall": 0.816,
+      "f1": 0.8327,
+      "support": 125
+     },
+     "Gunshot": {
+      "precision": 0.7556,
+      "recall": 0.9067,
+      "f1": 0.8242,
+      "support": 75
+     },
+     "Panic Scream": {
+      "precision": 0.6857,
+      "recall": 0.7742,
+      "f1": 0.7273,
+      "support": 93
+     },
+     "Aggression": {
+      "precision": 0.7421,
+      "recall": 0.7712,
+      "f1": 0.7564,
+      "support": 153
+     },
+     "Person Asking for Help": {
+      "precision": 0.875,
+      "recall": 1.0,
+      "f1": 0.9333,
+      "support": 49
+     },
+     "Background Noise": {
+      "precision": 0.6908,
+      "recall": 0.715,
+      "f1": 0.7027,
+      "support": 200
+     },
+     "Normal Machinery": {
+      "precision": 0.9511,
+      "recall": 0.9511,
+      "f1": 0.9511,
+      "support": 225
+     }
+    },
+    "critical_recall": {
+     "Glass Breaking": 0.8133,
+     "Gunshot": 0.9067,
+     "Panic Scream": 0.7742,
+     "Aggression": 0.7712,
+     "Person Asking for Help": 1.0
+    },
+    "confusion_matrix": [
+     [
+      215,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      7
+     ],
+     [
+      0,
+      61,
+      0,
+      0,
+      1,
+      3,
+      1,
+      4,
+      0,
+      5,
+      0
+     ],
+     [
+      0,
+      2,
+      109,
+      13,
+      3,
+      5,
+      6,
+      0,
+      5,
+      9,
+      0
+     ],
+     [
+      0,
+      0,
+      4,
+      89,
+      3,
+      1,
+      0,
+      7,
+      0,
+      26,
+      1
+     ],
+     [
+      0,
+      0,
+      6,
+      5,
+      102,
+      0,
+      3,
+      4,
+      0,
+      5,
+      0
+     ],
+     [
+      0,
+      3,
+      0,
+      0,
+      0,
+      68,
+      0,
+      1,
+      0,
+      3,
+      0
+     ],
+     [
+      0,
+      0,
+      1,
+      3,
+      3,
+      0,
+      72,
+      14,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      1,
+      4,
+      1,
+      0,
+      20,
+      118,
+      1,
+      8,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      49,
+      0,
+      0
+     ],
+     [
+      4,
+      9,
+      0,
+      7,
+      7,
+      12,
+      3,
+      11,
+      1,
+      143,
+      3
+     ],
+     [
+      4,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      6,
+      214
+     ]
+    ],
+    "ece": 0.0438,
+    "n": 1503
+   },
+   "per_source_accuracy": {
+    "edge-tts": {
+     "clips": 52,
+     "accuracy": 1.0
+    },
+    "esc50": {
+     "clips": 19,
+     "accuracy": 0.8421
+    },
+    "freesound": {
+     "clips": 13,
+     "accuracy": 0.8462
+    },
+    "fsd50k": {
+     "clips": 252,
+     "accuracy": 0.8056
+    },
+    "mimii": {
+     "clips": 90,
+     "accuracy": 0.9778
+    },
+    "nonspeech7k": {
+     "clips": 16,
+     "accuracy": 0.9375
+    },
+    "ravdess": {
+     "clips": 2,
+     "accuracy": 1.0
+    },
+    "urbansound8k": {
+     "clips": 58,
+     "accuracy": 0.9138
+    }
+   },
+   "validation_clip_macro_f1": 0.8625,
+   "ms_per_window": 8.07,
+   "upload_30s_ms": 787.4,
+   "robustness": {
+    "noise_20dB": {
+     "accuracy": 0.8347,
+     "macro_f1": 0.8399,
+     "critical_recall": {
+      "Glass Breaking": 0.9111,
+      "Gunshot": 0.8222,
+      "Panic Scream": 0.8,
+      "Aggression": 0.7778,
+      "Person Asking for Help": 0.8667
+     }
+    },
+    "noise_10dB": {
+     "accuracy": 0.7849,
+     "macro_f1": 0.794,
+     "critical_recall": {
+      "Glass Breaking": 0.7333,
+      "Gunshot": 0.7778,
+      "Panic Scream": 0.7778,
+      "Aggression": 0.7556,
+      "Person Asking for Help": 0.8222
+     }
+    },
+    "noise_5dB": {
+     "accuracy": 0.7171,
+     "macro_f1": 0.735,
+     "critical_recall": {
+      "Glass Breaking": 0.6222,
+      "Gunshot": 0.6889,
+      "Panic Scream": 0.7556,
+      "Aggression": 0.6667,
+      "Person Asking for Help": 0.6444
+     }
+    },
+    "noise_0dB": {
+     "accuracy": 0.5916,
+     "macro_f1": 0.6238,
+     "critical_recall": {
+      "Glass Breaking": 0.5111,
+      "Gunshot": 0.5333,
+      "Panic Scream": 0.6,
+      "Aggression": 0.5778,
+      "Person Asking for Help": 0.5778
+     }
+    },
+    "echo": {
+     "accuracy": 0.8307,
+     "macro_f1": 0.8292,
+     "critical_recall": {
+      "Glass Breaking": 0.9333,
+      "Gunshot": 0.8889,
+      "Panic Scream": 0.8667,
+      "Aggression": 0.6889,
+      "Person Asking for Help": 0.9778
+     }
+    },
+    "low_volume": {
+     "accuracy": 0.4721,
+     "macro_f1": 0.4917,
+     "critical_recall": {
+      "Glass Breaking": 0.4667,
+      "Gunshot": 0.5333,
+      "Panic Scream": 0.7556,
+      "Aggression": 0.4444,
+      "Person Asking for Help": 0.8667
+     }
+    },
+    "phone": {
+     "accuracy": 0.8028,
+     "macro_f1": 0.8032,
+     "critical_recall": {
+      "Glass Breaking": 0.8222,
+      "Gunshot": 0.9111,
+      "Panic Scream": 0.8667,
+      "Aggression": 0.7778,
+      "Person Asking for Help": 1.0
+     }
+    },
+    "distant": {
+     "accuracy": 0.7072,
+     "macro_f1": 0.7072,
+     "critical_recall": {
+      "Glass Breaking": 0.4889,
+      "Gunshot": 0.9333,
+      "Panic Scream": 0.7111,
+      "Aggression": 0.5778,
+      "Person Asking for Help": 1.0
+     }
+    },
+    "partial": {
+     "accuracy": 0.8207,
+     "macro_f1": 0.821,
+     "critical_recall": {
+      "Glass Breaking": 0.7111,
+      "Gunshot": 0.8222,
+      "Panic Scream": 0.7111,
+      "Aggression": 0.7778,
+      "Person Asking for Help": 0.9111
+     }
+    },
+    "mp3_64k": {
+     "accuracy": 0.8725,
+     "macro_f1": 0.873,
+     "critical_recall": {
+      "Glass Breaking": 0.9333,
+      "Gunshot": 0.9556,
+      "Panic Scream": 0.9111,
+      "Aggression": 0.7778,
+      "Person Asking for Help": 0.9778
+     }
+    }
+   },
+   "robustness_mean_macro_f1": 0.7518,
+   "robustness_retained": 0.8573,
+   "factory_test": {
+    "clips": 60,
+    "predicted": {
+     "Normal Machinery": 60
+    },
+    "called_machinery_fault": 0.0,
+    "flagged": false
+   }
+  }
+ },
+ "conditions": {
+  "noise_20dB": "background noise at 20 dB SNR",
+  "noise_10dB": "background noise at 10 dB SNR",
+  "noise_5dB": "background noise at 5 dB SNR",
+  "noise_0dB": "background noise at 0 dB SNR (as loud as the event)",
+  "echo": "strong reverb (RT60 0.8 s, 50 % wet)",
+  "low_volume": "-30 dB quieter over a -60 dBFS microphone hiss",
+  "phone": "phone microphone (300-3400 Hz) with clipping",
+  "distant": "far-away source (low-pass 2.5 kHz, reverb)",
+  "partial": "only 40-60 % of the recording",
+  "mp3_64k": "re-encoded as low-bitrate MP3"
+ }
+}

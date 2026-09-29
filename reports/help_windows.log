@@ -1,0 +1,2 @@
+validation: 502 clips, 5741 windows (median 7 per clip, max 56, clips with no audible window: 0)
+test: 502 clips, 5556 windows (median 7 per clip, max 59, clips with no audible window: 1)

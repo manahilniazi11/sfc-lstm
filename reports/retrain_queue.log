@@ -1,0 +1,12 @@
+=== train svm start 12:33
+=== train svm done 12:37
+=== train xgboost start 12:37
+=== train xgboost done 12:43
+=== train yamnet start 12:43
+=== train yamnet done 12:49
+=== train cnn start 12:49
+=== train cnn done 13:57
+=== train ensemble start 13:57
+=== train ensemble done 13:58
+=== compare start 13:58
+=== compare done 14:29

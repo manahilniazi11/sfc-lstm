@@ -1,0 +1,66 @@
+[
+ {
+  "hidden": 256,
+  "dropout": 0.5,
+  "lr": 0.001,
+  "epochs": 14,
+  "val_segment_macro_f1": 0.7379,
+  "seconds": 7.7
+ },
+ {
+  "hidden": 256,
+  "dropout": 0.5,
+  "lr": 0.0003,
+  "epochs": 37,
+  "val_segment_macro_f1": 0.7335,
+  "seconds": 17.9
+ },
+ {
+  "hidden": 256,
+  "dropout": 0.3,
+  "lr": 0.001,
+  "epochs": 15,
+  "val_segment_macro_f1": 0.7302,
+  "seconds": 8.0
+ },
+ {
+  "hidden": 512,
+  "dropout": 0.5,
+  "lr": 0.0003,
+  "epochs": 24,
+  "val_segment_macro_f1": 0.7297,
+  "seconds": 18.9
+ },
+ {
+  "hidden": 256,
+  "dropout": 0.3,
+  "lr": 0.0003,
+  "epochs": 24,
+  "val_segment_macro_f1": 0.7293,
+  "seconds": 12.1
+ },
+ {
+  "hidden": 512,
+  "dropout": 0.5,
+  "lr": 0.001,
+  "epochs": 18,
+  "val_segment_macro_f1": 0.7278,
+  "seconds": 14.1
+ },
+ {
+  "hidden": 512,
+  "dropout": 0.3,
+  "lr": 0.001,
+  "epochs": 12,
+  "val_segment_macro_f1": 0.7218,
+  "seconds": 9.2
+ },
+ {
+  "hidden": 512,
+  "dropout": 0.3,
+  "lr": 0.0003,
+  "epochs": 25,
+  "val_segment_macro_f1": 0.7211,
+  "seconds": 18.9
+ }
+]

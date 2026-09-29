@@ -1,0 +1,39 @@
+[svm] 10 classes, 15000 training / 1465 validation segments
+  grid search: 20 settings on 15000 training segments (4 in parallel)
+    C=3     gamma=scale  val macro F1 0.730  (20.0 s)
+    C=1     gamma=0.01   val macro F1 0.728  (25.0 s)
+    C=3     gamma=0.01   val macro F1 0.723  (21.1 s)
+    C=1     gamma=scale  val macro F1 0.722  (24.3 s)
+    C=10    gamma=0.003  val macro F1 0.717  (18.1 s)
+  refitting best {'C': 3, 'gamma': 'scale'} with probability outputs
+
+[svm] svm-20260925-2
+  parameters: {'C': 3, 'gamma': 'scale'}
+  temperature: window 0.81, clip 0.63; clip aggregation: mean (mean 0.759, max 0.659, top3 0.689)
+  inference: 1.8 ms per 1 s window
+
+Validation, per 1 s segment: accuracy 75.0%, macro F1 0.730, ECE 0.177 (n=1465)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.92    0.91   0.91   225
+  Glass Breaking             0.80    0.88   0.84    85  critical OK
+  Alarm or Siren             0.69    0.63   0.66   157
+  Vehicle Horn               0.64    0.64   0.64   122
+  Animal Sound               0.63    0.58   0.61   131
+  Gunshot                    0.68    0.86   0.76    78  critical OK
+  Panic Scream               0.55    0.64   0.59    88  critical BELOW 85%
+  Aggression                 0.68    0.72   0.70   152  critical BELOW 85%
+  Background Noise           0.75    0.66   0.70   202
+  Normal Machinery           0.89    0.90   0.90   225
+
+Validation, per clip (as in the app): accuracy 76.0%, macro F1 0.759, ECE 0.111 (n=450)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.86    0.96   0.91    45
+  Glass Breaking             0.85    0.91   0.88    45  critical OK
+  Alarm or Siren             0.64    0.62   0.63    45
+  Vehicle Horn               0.70    0.71   0.70    45
+  Animal Sound               0.67    0.69   0.68    45
+  Gunshot                    0.85    0.87   0.86    45  critical OK
+  Panic Scream               0.71    0.67   0.69    45  critical BELOW 85%
+  Aggression                 0.71    0.71   0.71    45  critical BELOW 85%
+  Background Noise           0.67    0.62   0.64    45
+  Normal Machinery           0.93    0.84   0.88    45

@@ -1,0 +1,42 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790585475.444766   14248 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790585477.625591   14248 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1790585478.410477   14248 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+[ensemble] 11 classes, 16410 training / 1523 validation segments
+  members: yamnet-20260928-1, cnn-20260928-1
+
+[ensemble] ensemble-20260928-1
+  parameters: {'members': ['yamnet-20260928-1', 'cnn-20260928-1'], 'combination': 'mean of calibrated window probabilities'}
+  temperature: window 0.78, clip 1.06; clip aggregation: top3 (mean 0.853, max 0.861, top3 0.863)
+  inference: 8.1 ms per 1 s window
+
+Validation, per 1 s segment: accuracy 82.5%, macro F1 0.818, ECE 0.047 (n=1523)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.98    0.97   0.98   225
+  Glass Breaking             0.84    0.91   0.87    85  critical OK
+  Alarm or Siren             0.83    0.71   0.77   157
+  Vehicle Horn               0.78    0.68   0.73   122
+  Animal Sound               0.74    0.79   0.76   131
+  Gunshot                    0.76    0.85   0.80    78  critical BELOW 85%
+  Panic Scream               0.65    0.77   0.71    88  critical BELOW 85%
+  Aggression                 0.74    0.74   0.74   152  critical BELOW 85%
+  Person Asking for Help     0.94    0.98   0.96    50  critical OK
+  Background Noise           0.72    0.70   0.71   210
+  Normal Machinery           0.97    0.98   0.98   225
+
+Validation, per clip (as in the app): accuracy 86.2%, macro F1 0.863, ECE 0.044 (n=502)
+  class                      prec  recall     f1     n
+  Machinery Fault            1.00    1.00   1.00    45
+  Glass Breaking             0.92    1.00   0.96    45  critical OK
+  Alarm or Siren             0.81    0.67   0.73    45
+  Vehicle Horn               0.86    0.80   0.83    45
+  Animal Sound               0.77    0.82   0.80    45
+  Gunshot                    0.91    0.96   0.93    45  critical OK
+  Panic Scream               0.77    0.82   0.80    45  critical BELOW 85%
+  Aggression                 0.72    0.73   0.73    45  critical BELOW 85%
+  Person Asking for Help     0.96    0.98   0.97    45  critical OK
+  Background Noise           0.78    0.73   0.75    52
+  Normal Machinery           1.00    1.00   1.00    45

@@ -1,0 +1,21 @@
+  250/3347 clips -> 1250 segments  500/3347 clips -> 1868 segments  750/3347 clips -> 2591 segments  1000/3347 clips -> 3386 segments  1250/3347 clips -> 4084 segments  1500/3347 clips -> 4730 segments  1750/3347 clips -> 5179 segments  2000/3347 clips -> 5679 segments  2250/3347 clips -> 6367 segments  2500/3347 clips -> 7292 segments  2750/3347 clips -> 8400 segments  3000/3347 clips -> 9650 segments  3250/3347 clips -> 9945 segments  3347/3347 clips -> 10053 segments
+16000 Hz mono, 1.0 s segments, noise reduction off
+
+Class                     train   val  test  total
+Aggression                  669   152   153    974
+Alarm or Siren              751   157   152   1060
+Animal Sound                549   131   125    805
+Background Noise            955   210   200   1365
+Glass Breaking              383    85    75    543
+Gunshot                     376    78    75    529
+Machinery Fault            1050   225   225   1500
+Normal Machinery           1050   225   225   1500
+Panic Scream                440    88    93    621
+Person Asking for Help      235    50    49    334
+Vehicle Horn                569   122   131    822
+
+10053 segments written to E:\sonic_data\segments
+
+2 clips produced no segment:
+  ALM-00300: no usable segment
+  BGN-00107: no usable segment

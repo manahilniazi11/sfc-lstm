@@ -1,0 +1,17 @@
+  noise bank: 2005 background segments
+  500/9383 augmented segments  1000/9383 augmented segments  1500/9383 augmented segments  2000/9383 augmented segments  2500/9383 augmented segments  3000/9383 augmented segments  3500/9383 augmented segments  4000/9383 augmented segments  4500/9383 augmented segments  5000/9383 augmented segments  5500/9383 augmented segments  6000/9383 augmented segments  6500/9383 augmented segments  7000/9383 augmented segments  7500/9383 augmented segments  8000/9383 augmented segments  8500/9383 augmented segments  9000/9383 augmented segments  9383/9383 augmented segments
+
+Class                    original augmented  total
+Aggression                    669       831   1500
+Alarm or Siren                751       749   1500
+Animal Sound                  549       951   1500
+Background Noise              955       545   1500
+Glass Breaking                383      1117   1500
+Gunshot                       376      1124   1500
+Machinery Fault              1050       450   1500
+Normal Machinery             1050       450   1500
+Panic Scream                  440      1060   1500
+Person Asking for Help        235      1175   1410
+Vehicle Horn                  569       931   1500
+
+Written to E:\sonic_data\augmented

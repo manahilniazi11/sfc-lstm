@@ -1,0 +1,41 @@
+[svm] 11 classes, 16410 training / 1523 validation segments
+  grid search: 20 settings on 16410 training segments (4 in parallel)
+    C=3     gamma=scale  val macro F1 0.736  (20.6 s)
+    C=3     gamma=0.01   val macro F1 0.732  (21.8 s)
+    C=1     gamma=0.01   val macro F1 0.731  (23.9 s)
+    C=1     gamma=scale  val macro F1 0.730  (22.9 s)
+    C=10    gamma=0.01   val macro F1 0.727  (22.3 s)
+  refitting best {'C': 3, 'gamma': 'scale'} with probability outputs
+
+[svm] svm-20260928-1
+  parameters: {'C': 3, 'gamma': 'scale'}
+  temperature: window 0.79, clip 0.62; clip aggregation: mean (mean 0.756, max 0.657, top3 0.684)
+  inference: 1.9 ms per 1 s window
+
+Validation, per 1 s segment: accuracy 72.5%, macro F1 0.700, ECE 0.151 (n=1523)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.93    0.91   0.92   225
+  Glass Breaking             0.78    0.88   0.83    85  critical OK
+  Alarm or Siren             0.67    0.61   0.64   157
+  Vehicle Horn               0.58    0.64   0.61   122
+  Animal Sound               0.65    0.48   0.55   131
+  Gunshot                    0.73    0.85   0.78    78  critical BELOW 85%
+  Panic Scream               0.49    0.62   0.55    88  critical BELOW 85%
+  Aggression                 0.64    0.53   0.58   152  critical BELOW 85%
+  Person Asking for Help     0.48    1.00   0.65    50  critical OK
+  Background Noise           0.75    0.64   0.69   210
+  Normal Machinery           0.91    0.90   0.91   225
+
+Validation, per clip (as in the app): accuracy 75.9%, macro F1 0.756, ECE 0.095 (n=502)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.88    0.96   0.91    45
+  Glass Breaking             0.88    0.96   0.91    45  critical OK
+  Alarm or Siren             0.67    0.62   0.64    45
+  Vehicle Horn               0.64    0.64   0.64    45
+  Animal Sound               0.68    0.58   0.63    45
+  Gunshot                    0.87    0.89   0.88    45  critical OK
+  Panic Scream               0.67    0.71   0.69    45  critical BELOW 85%
+  Aggression                 0.67    0.58   0.62    45  critical BELOW 85%
+  Person Asking for Help     0.76    0.98   0.85    45  critical OK
+  Background Noise           0.66    0.60   0.63    52
+  Normal Machinery           0.95    0.87   0.91    45

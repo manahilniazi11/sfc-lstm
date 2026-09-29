@@ -1,0 +1,64 @@
+[yamnet] 9 classes, 13500 training / 1240 validation segments
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790314586.508161   14972 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790314588.597616   14972 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+  computing YAMNet embeddings for 15957 segments (once, then cached)
+I0000 00:00:1790314589.770266   14972 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+    1000/15957 (69/s, ~4 min left)
+    2000/15957 (77/s, ~3 min left)
+    3000/15957 (80/s, ~3 min left)
+    4000/15957 (82/s, ~2 min left)
+    5000/15957 (83/s, ~2 min left)
+    6000/15957 (83/s, ~2 min left)
+    7000/15957 (83/s, ~2 min left)
+    8000/15957 (83/s, ~2 min left)
+    9000/15957 (83/s, ~1 min left)
+    10000/15957 (83/s, ~1 min left)
+    11000/15957 (83/s, ~1 min left)
+    12000/15957 (83/s, ~1 min left)
+    13000/15957 (83/s, ~1 min left)
+    14000/15957 (83/s, ~0 min left)
+    15000/15957 (83/s, ~0 min left)
+  grid search: 8 classifier settings on frozen YAMNet embeddings
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+    hidden 256  dropout 0.3  lr 1e-03  epochs  13  val macro F1 0.746
+    hidden 256  dropout 0.3  lr 3e-04  epochs  23  val macro F1 0.757
+    hidden 256  dropout 0.5  lr 1e-03  epochs  16  val macro F1 0.754
+    hidden 256  dropout 0.5  lr 3e-04  epochs  24  val macro F1 0.759
+    hidden 512  dropout 0.3  lr 1e-03  epochs  13  val macro F1 0.757
+    hidden 512  dropout 0.3  lr 3e-04  epochs  22  val macro F1 0.759
+    hidden 512  dropout 0.5  lr 1e-03  epochs  11  val macro F1 0.746
+    hidden 512  dropout 0.5  lr 3e-04  epochs  17  val macro F1 0.755
+
+[yamnet] yamnet-20260925-1
+  parameters: {'hidden': 256, 'dropout': 0.5, 'lr': 0.0003}
+  temperature: window 0.99, clip 0.50; clip aggregation: max (mean 0.821, max 0.831, top3 0.826)
+  inference: 10.4 ms per 1 s window
+
+Validation, per 1 s segment: accuracy 77.5%, macro F1 0.759, ECE 0.041 (n=1240)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.98    0.97   0.97   225
+  Glass Breaking             0.80    0.86   0.83    85  critical OK
+  Alarm or Siren             0.78    0.71   0.75   157
+  Vehicle Horn               0.76    0.61   0.68   122
+  Animal Sound               0.71    0.72   0.71   131
+  Gunshot                    0.65    0.86   0.74    78  critical OK
+  Panic Scream               0.58    0.78   0.67    88  critical BELOW 85%
+  Aggression                 0.74    0.78   0.76   152  critical BELOW 85%
+  Background Noise           0.79    0.67   0.73   202
+
+Validation, per clip (as in the app): accuracy 83.2%, macro F1 0.831, ECE 0.090 (n=405)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.98    0.98   0.98    45
+  Glass Breaking             0.87    0.89   0.88    45  critical OK
+  Alarm or Siren             0.84    0.71   0.77    45
+  Vehicle Horn               0.84    0.84   0.84    45
+  Animal Sound               0.77    0.89   0.82    45
+  Gunshot                    0.91    0.91   0.91    45  critical OK
+  Panic Scream               0.73    0.82   0.77    45  critical BELOW 85%
+  Aggression                 0.74    0.76   0.75    45  critical BELOW 85%
+  Background Noise           0.84    0.69   0.76    45
+exit 0

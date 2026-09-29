@@ -1,0 +1,71 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790579930.093470   16320 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790579933.363441   16320 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1790579935.009873   16320 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+[yamnet] 11 classes, 16410 training / 1523 validation segments
+  computing YAMNet embeddings for 19436 segments (once, then cached)
+    1000/19436 (69/s, ~4 min left)
+    2000/19436 (78/s, ~4 min left)
+    3000/19436 (82/s, ~3 min left)
+    4000/19436 (84/s, ~3 min left)
+    5000/19436 (85/s, ~3 min left)
+    6000/19436 (86/s, ~3 min left)
+    7000/19436 (87/s, ~2 min left)
+    8000/19436 (87/s, ~2 min left)
+    9000/19436 (88/s, ~2 min left)
+    10000/19436 (88/s, ~2 min left)
+    11000/19436 (88/s, ~2 min left)
+    12000/19436 (88/s, ~1 min left)
+    13000/19436 (88/s, ~1 min left)
+    14000/19436 (89/s, ~1 min left)
+    15000/19436 (89/s, ~1 min left)
+    16000/19436 (89/s, ~1 min left)
+    17000/19436 (89/s, ~0 min left)
+    18000/19436 (89/s, ~0 min left)
+    19000/19436 (89/s, ~0 min left)
+  grid search: 8 classifier settings on frozen YAMNet embeddings
+    hidden 256  dropout 0.3  lr 1e-03  epochs  18  val macro F1 0.716
+    hidden 256  dropout 0.3  lr 3e-04  epochs  32  val macro F1 0.730
+    hidden 256  dropout 0.5  lr 1e-03  epochs  18  val macro F1 0.721
+    hidden 256  dropout 0.5  lr 3e-04  epochs  31  val macro F1 0.737
+    hidden 512  dropout 0.3  lr 1e-03  epochs  13  val macro F1 0.723
+    hidden 512  dropout 0.3  lr 3e-04  epochs  22  val macro F1 0.727
+    hidden 512  dropout 0.5  lr 1e-03  epochs  15  val macro F1 0.721
+    hidden 512  dropout 0.5  lr 3e-04  epochs  23  val macro F1 0.734
+
+[yamnet] yamnet-20260928-1
+  parameters: {'hidden': 256, 'dropout': 0.5, 'lr': 0.0003}
+  temperature: window 0.99, clip 0.47; clip aggregation: max (mean 0.832, max 0.838, top3 0.820)
+  inference: 5.5 ms per 1 s window
+
+Validation, per 1 s segment: accuracy 73.2%, macro F1 0.737, ECE 0.041 (n=1523)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.72    0.84   0.78   225
+  Glass Breaking             0.80    0.87   0.83    85  critical OK
+  Alarm or Siren             0.79    0.71   0.75   157
+  Vehicle Horn               0.75    0.63   0.69   122
+  Animal Sound               0.74    0.74   0.74   131
+  Gunshot                    0.65    0.86   0.74    78  critical OK
+  Panic Scream               0.55    0.81   0.66    88  critical BELOW 85%
+  Aggression                 0.70    0.66   0.68   152  critical BELOW 85%
+  Person Asking for Help     0.72    0.94   0.82    50  critical OK
+  Background Noise           0.79    0.62   0.70   210
+  Normal Machinery           0.80    0.67   0.73   225
+
+Validation, per clip (as in the app): accuracy 83.9%, macro F1 0.838, ECE 0.100 (n=502)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.76    0.87   0.81    45
+  Glass Breaking             0.88    0.96   0.91    45  critical OK
+  Alarm or Siren             0.85    0.73   0.79    45
+  Vehicle Horn               0.88    0.84   0.86    45
+  Animal Sound               0.79    0.93   0.86    45
+  Gunshot                    0.93    0.91   0.92    45  critical OK
+  Panic Scream               0.78    0.84   0.81    45  critical BELOW 85%
+  Aggression                 0.73    0.73   0.73    45  critical BELOW 85%
+  Person Asking for Help     0.92    0.98   0.95    45  critical OK
+  Background Noise           0.88    0.69   0.77    52
+  Normal Machinery           0.85    0.76   0.80    45

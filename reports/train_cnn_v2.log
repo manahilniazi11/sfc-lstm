@@ -1,0 +1,73 @@
+[cnn] 10 classes, 15000 training / 1465 validation segments
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790322572.841012   16920 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790322575.026680   16920 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+  variant 1/1: {'width': 32, 'dropout': 0.1, 'mixup': 0.2}
+I0000 00:00:1790322576.477416   16920 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+      epoch  1/40  loss 2.129  val macro F1 0.227  (133 s)
+      epoch  2/40  loss 1.927  val macro F1 0.450  (126 s)
+      epoch  3/40  loss 1.853  val macro F1 0.492  (127 s)
+      epoch  4/40  loss 1.795  val macro F1 0.519  (126 s)
+      epoch  5/40  loss 1.746  val macro F1 0.428  (126 s)
+      epoch  6/40  loss 1.718  val macro F1 0.553  (126 s)
+      epoch  7/40  loss 1.687  val macro F1 0.533  (125 s)
+      epoch  8/40  loss 1.643  val macro F1 0.625  (127 s)
+      epoch  9/40  loss 1.615  val macro F1 0.643  (126 s)
+      epoch 10/40  loss 1.587  val macro F1 0.649  (126 s)
+      epoch 11/40  loss 1.555  val macro F1 0.651  (125 s)
+      epoch 12/40  loss 1.534  val macro F1 0.704  (126 s)
+      epoch 13/40  loss 1.516  val macro F1 0.709  (126 s)
+      epoch 14/40  loss 1.481  val macro F1 0.703  (125 s)
+      epoch 15/40  loss 1.468  val macro F1 0.673  (125 s)
+      epoch 16/40  loss 1.440  val macro F1 0.714  (126 s)
+      epoch 17/40  loss 1.435  val macro F1 0.715  (126 s)
+      epoch 18/40  loss 1.404  val macro F1 0.657  (126 s)
+      epoch 19/40  loss 1.401  val macro F1 0.721  (127 s)
+      epoch 20/40  loss 1.365  val macro F1 0.758  (126 s)
+      epoch 21/40  loss 1.359  val macro F1 0.750  (127 s)
+      epoch 22/40  loss 1.338  val macro F1 0.753  (128 s)
+      epoch 23/40  loss 1.318  val macro F1 0.747  (126 s)
+      epoch 24/40  loss 1.304  val macro F1 0.775  (126 s)
+      epoch 25/40  loss 1.290  val macro F1 0.740  (126 s)
+      epoch 26/40  loss 1.273  val macro F1 0.753  (126 s)
+      epoch 27/40  loss 1.257  val macro F1 0.755  (126 s)
+      epoch 28/40  loss 1.250  val macro F1 0.766  (126 s)
+      epoch 29/40  loss 1.242  val macro F1 0.773  (125 s)
+      epoch 30/40  loss 1.232  val macro F1 0.768  (126 s)
+      epoch 31/40  loss 1.209  val macro F1 0.755  (126 s)
+      epoch 32/40  loss 1.204  val macro F1 0.766  (125 s)
+    best val macro F1 0.775
+
+[cnn] cnn-20260925-2
+  parameters: {'width': 32, 'dropout': 0.1, 'mixup': 0.2, 'epochs_max': 40, 'batch': 64, 'parameters': 1241514}
+  temperature: window 0.65, clip 0.61; clip aggregation: max (mean 0.811, max 0.821, top3 0.819)
+  inference: 1.7 ms per 1 s window
+
+Validation, per 1 s segment: accuracy 79.2%, macro F1 0.774, ECE 0.019 (n=1465)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.94    0.98   0.96   225
+  Glass Breaking             0.93    0.82   0.88    85  critical BELOW 85%
+  Alarm or Siren             0.86    0.70   0.77   157
+  Vehicle Horn               0.75    0.68   0.72   122
+  Animal Sound               0.56    0.74   0.64   131
+  Gunshot                    0.69    0.90   0.78    78  critical OK
+  Panic Scream               0.64    0.67   0.66    88  critical BELOW 85%
+  Aggression                 0.77    0.64   0.70   152  critical BELOW 85%
+  Background Noise           0.68    0.71   0.70   202
+  Normal Machinery           0.99    0.93   0.96   225
+
+Validation, per clip (as in the app): accuracy 82.0%, macro F1 0.821, ECE 0.107 (n=450)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.96    1.00   0.98    45
+  Glass Breaking             0.98    0.93   0.95    45  critical OK
+  Alarm or Siren             0.84    0.71   0.77    45
+  Vehicle Horn               0.84    0.80   0.82    45
+  Animal Sound               0.55    0.82   0.66    45
+  Gunshot                    0.81    0.98   0.89    45  critical OK
+  Panic Scream               0.79    0.69   0.74    45  critical BELOW 85%
+  Aggression                 0.82    0.71   0.76    45  critical BELOW 85%
+  Background Noise           0.73    0.60   0.66    45
+  Normal Machinery           1.00    0.96   0.98    45

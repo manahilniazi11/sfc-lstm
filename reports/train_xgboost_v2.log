@@ -1,0 +1,45 @@
+[xgboost] 10 classes, 15000 training / 1465 validation segments
+  random search: 12 settings, early stopping after 30 rounds without improvement
+     1/12  depth  8  lr 0.114  rounds  258  val macro F1 0.707  (best 0.707)
+     2/12  depth  7  lr 0.210  rounds   83  val macro F1 0.695  (best 0.707)
+     3/12  depth  6  lr 0.210  rounds  115  val macro F1 0.693  (best 0.707)
+     4/12  depth  4  lr 0.083  rounds  532  val macro F1 0.712  (best 0.712)
+     5/12  depth  6  lr 0.292  rounds  110  val macro F1 0.693  (best 0.712)
+     6/12  depth  8  lr 0.208  rounds  128  val macro F1 0.697  (best 0.712)
+     7/12  depth  6  lr 0.170  rounds  151  val macro F1 0.699  (best 0.712)
+     8/12  depth  5  lr 0.108  rounds  340  val macro F1 0.703  (best 0.712)
+     9/12  depth  7  lr 0.086  rounds  285  val macro F1 0.712  (best 0.712)
+    10/12  depth  8  lr 0.086  rounds  226  val macro F1 0.713  (best 0.713)
+    11/12  depth  8  lr 0.104  rounds  163  val macro F1 0.712  (best 0.713)
+    12/12  depth  7  lr 0.143  rounds  144  val macro F1 0.713  (best 0.713)
+
+[xgboost] xgboost-20260925-2
+  parameters: {'max_depth': 7, 'learning_rate': 0.1432, 'subsample': 0.9818, 'colsample_bytree': 0.7499, 'min_child_weight': 4.8271, 'reg_lambda': 3.2054, 'reg_alpha': 0.9951, 'rounds': 144}
+  temperature: window 1.03, clip 0.74; clip aggregation: mean (mean 0.779, max 0.778, top3 0.779)
+  inference: 0.0 ms per 1 s window
+
+Validation, per 1 s segment: accuracy 73.7%, macro F1 0.713, ECE 0.021 (n=1465)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.93    0.93   0.93   225
+  Glass Breaking             0.71    0.91   0.79    85  critical OK
+  Alarm or Siren             0.68    0.55   0.61   157
+  Vehicle Horn               0.64    0.65   0.64   122
+  Animal Sound               0.63    0.53   0.57   131
+  Gunshot                    0.68    0.81   0.74    78  critical BELOW 85%
+  Panic Scream               0.52    0.74   0.61    88  critical BELOW 85%
+  Aggression                 0.65    0.64   0.64   152  critical BELOW 85%
+  Background Noise           0.71    0.64   0.67   202
+  Normal Machinery           0.94    0.90   0.92   225
+
+Validation, per clip (as in the app): accuracy 78.2%, macro F1 0.779, ECE 0.045 (n=450)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.98    0.98   0.98    45
+  Glass Breaking             0.80    0.98   0.88    45  critical OK
+  Alarm or Siren             0.69    0.56   0.62    45
+  Vehicle Horn               0.75    0.73   0.74    45
+  Animal Sound               0.69    0.64   0.67    45
+  Gunshot                    0.89    0.87   0.88    45  critical OK
+  Panic Scream               0.68    0.76   0.72    45  critical BELOW 85%
+  Aggression                 0.66    0.64   0.65    45  critical BELOW 85%
+  Background Noise           0.69    0.69   0.69    45
+  Normal Machinery           0.98    0.98   0.98    45

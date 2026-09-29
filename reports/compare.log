@@ -1,0 +1,90 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790326717.131095    8872 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790326719.193497    8872 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1790326720.042989    8872 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+[svm-20260925-2] test set
+[xgboost-20260925-2] test set
+[yamnet-20260925-2] test set
+[cnn-20260925-2] test set
+[ensemble-20260925-1] test set
+hidden-test simulator:
+  noise_20dB  svm 0.710  xgboost 0.699  yamnet 0.733  cnn 0.809  ensemble 0.830
+  noise_10dB  svm 0.608  xgboost 0.647  yamnet 0.677  cnn 0.767  ensemble 0.784
+  noise_5dB   svm 0.558  xgboost 0.582  yamnet 0.627  cnn 0.727  ensemble 0.751
+  noise_0dB   svm 0.482  xgboost 0.477  yamnet 0.519  cnn 0.666  ensemble 0.637
+  echo        svm 0.719  xgboost 0.750  yamnet 0.675  cnn 0.754  ensemble 0.786
+  low_volume  svm 0.340  xgboost 0.395  yamnet 0.438  cnn 0.552  ensemble 0.530
+  phone       svm 0.611  xgboost 0.642  yamnet 0.648  cnn 0.719  ensemble 0.761
+  distant     svm 0.495  xgboost 0.391  yamnet 0.443  cnn 0.602  ensemble 0.595
+  partial     svm 0.676  xgboost 0.689  yamnet 0.739  cnn 0.758  ensemble 0.813
+  mp3_64k     svm 0.605  xgboost 0.598  yamnet 0.722  cnn 0.787  ensemble 0.846
+
+svm-20260925-2: TEST, per clip: accuracy 75.3%, macro F1 0.753, ECE 0.100 (n=450)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.79    0.93   0.86    45
+  Glass Breaking             0.85    0.87   0.86    45  critical OK
+  Alarm or Siren             0.77    0.60   0.68    45
+  Vehicle Horn               0.64    0.71   0.67    45
+  Animal Sound               0.70    0.69   0.70    45
+  Gunshot                    0.86    0.80   0.83    45  critical BELOW 85%
+  Panic Scream               0.78    0.78   0.78    45  critical BELOW 85%
+  Aggression                 0.60    0.73   0.66    45  critical BELOW 85%
+  Background Noise           0.69    0.64   0.67    45
+  Normal Machinery           0.92    0.78   0.84    45
+
+xgboost-20260925-2: TEST, per clip: accuracy 77.1%, macro F1 0.769, ECE 0.038 (n=450)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.93    0.91   0.92    45
+  Glass Breaking             0.74    0.89   0.81    45  critical OK
+  Alarm or Siren             0.74    0.64   0.69    45
+  Vehicle Horn               0.66    0.60   0.63    45
+  Animal Sound               0.69    0.76   0.72    45
+  Gunshot                    0.77    0.82   0.80    45  critical BELOW 85%
+  Panic Scream               0.78    0.71   0.74    45  critical BELOW 85%
+  Aggression                 0.71    0.80   0.75    45  critical BELOW 85%
+  Background Noise           0.78    0.62   0.69    45
+  Normal Machinery           0.91    0.96   0.93    45
+
+yamnet-20260925-2: TEST, per clip: accuracy 78.2%, macro F1 0.780, ECE 0.077 (n=450)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.64    0.71   0.67    45
+  Glass Breaking             0.93    0.87   0.90    45  critical OK
+  Alarm or Siren             0.80    0.78   0.79    45
+  Vehicle Horn               0.88    0.78   0.82    45
+  Animal Sound               0.86    0.93   0.89    45
+  Gunshot                    0.86    0.93   0.89    45  critical OK
+  Panic Scream               0.80    0.87   0.83    45  critical OK
+  Aggression                 0.74    0.78   0.76    45  critical BELOW 85%
+  Background Noise           0.65    0.58   0.61    45
+  Normal Machinery           0.68    0.60   0.64    45
+
+cnn-20260925-2: TEST, per clip: accuracy 81.6%, macro F1 0.814, ECE 0.102 (n=450)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.92    1.00   0.96    45
+  Glass Breaking             0.97    0.80   0.88    45  critical BELOW 85%
+  Alarm or Siren             0.86    0.69   0.77    45
+  Vehicle Horn               0.76    0.82   0.79    45
+  Animal Sound               0.65    0.89   0.75    45
+  Gunshot                    0.81    0.98   0.89    45  critical OK
+  Panic Scream               0.79    0.69   0.74    45  critical BELOW 85%
+  Aggression                 0.76    0.69   0.72    45  critical BELOW 85%
+  Background Noise           0.72    0.64   0.68    45
+  Normal Machinery           1.00    0.96   0.98    45
+
+ensemble-20260925-1: TEST, per clip: accuracy 86.2%, macro F1 0.861, ECE 0.107 (n=450)
+  class                      prec  recall     f1     n
+  Machinery Fault            0.86    0.98   0.92    45
+  Glass Breaking             0.98    0.89   0.93    45  critical OK
+  Alarm or Siren             0.83    0.78   0.80    45
+  Vehicle Horn               0.87    0.87   0.87    45
+  Animal Sound               0.86    0.93   0.89    45
+  Gunshot                    0.88    0.96   0.91    45  critical OK
+  Panic Scream               0.82    0.82   0.82    45  critical BELOW 85%
+  Aggression                 0.77    0.82   0.80    45  critical BELOW 85%
+  Background Noise           0.79    0.67   0.72    45
+  Normal Machinery           0.98    0.91   0.94    45
+
+selected: ensemble-20260925-1 (no model reached 85 % on every critical class, so all were eligible)
